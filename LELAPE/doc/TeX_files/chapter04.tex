@@ -1,0 +1,57 @@
+\chapter{How to use LELAPE}
+\section{Formatting input data}
+%
+You are supposed to have performed experiments on some memory element. Tests were performed as:
+\begin{itemize}
+	\item \textbf{Static}: The device was written, sent to standby mode, irradiated and eventually read. The content after the irradiation was compared to the initially writing.
+	\item \textbf{Pseudostatic}: Similar to static ones, but standby intervals are shorter than the irradiation time and the memory is read several times during the irradiation. Usually, flipped bits are corrected on the flight.
+\end{itemize}
+
+In both cases, the researcher saves information about the bitfilps: Word address, read content, 
+In order to use LELAPE, radiation test data must be converted to a matrix with three or four columns. The meaning of the columns is the following:
+\begin{itemize}
+	\item First Column: Word Address where bitflips were observed.
+	\item Second Column: Content in the word address after the radiation tests.
+	\item Third Column: Content in the word address before the irradiation.
+	\item Fourth Column: In pseudostatic tests, cycle in which the bitflip was observed. This column can be omitted in the static tests or replaced by a column full of ones. 
+\end{itemize} 
+
+LELAPE needs this elements to be converted to a UInt32 matrix\footnote{In Julia, typing variable is optional but encouraged to speed up calculations.} so it is important that all the elements of the matrix, including the cycle label, are in this format or, at least, in some kind of integer. This makes dangerous labelling the fourth column with words or letters. 
+
+A simple solution consists in grouping the data results in CSV format and read this text file with \texttt{readdlm}, included in the \text{DelimitedFiles} package. In the Jupyter folder, you can see some examples that can guide you to adapt your own data. One advantage of this function is that it can automatically convert the data to the required format, as shown in the Jupyter notebooks.
+
+\section{Setting up the analysis}
+%
+Before starting the analysis, we must define some additional variables to indicate the software how to proceed. These variables are the followong:
+%
+\begin{itemize}
+	\item \textbf{LA}: Variable in integer format. It indicates the memory size in words (not in bits!). It is often a power of 2.
+	\item \textbf{WordWidth}: Also an integer, it indicates the number of bits per word. Typically 8, 16, 32 but other values are possible.
+	\item \textbf{Operation}: A string variable to indicate the mathematical operation used to create the DV set. So far, only two options are implemented:
+	\begin{itemize}
+		\item \textit{XOR}: Addresses are xored bit to bit. This mode is set with the \texttt{``XOR''} value.
+		\item \textit{Positive subtraction}: The absolute value of the difference of addresses is returned. It is marked with \texttt{"POS"}. 
+	\end{itemize}
+	In practice, we have observed that the former is appropriate for SRAMs and the latter for FPGAs. However, this idea may be erroneous due to the use of few and partial radiation test data.
+	%
+	\item \textbf{UsePseudoAddress}: The pseudoaddress is defined as follows: let us suppose that we have observed a bitflip in the $k$-th position of the $NWA$-th word address, The word width is $W$ and $k=0$ corresponds to the least significant bit, $W-1$ to the most significant one. Hence, the pseudoaddress of the bitflip is:
+	\[
+		PSA = NWA\cdot W + k
+	\]
+	This value is full of meaning in FPGAs since just returns the position of the cell in the bitflips. It is completly artificial in some SRAMs but somehow analysis using the pseudoaddress instead of the word address are more accurate and efficient. 
+	
+	The researcher can set this variable to \texttt{true} or \texttt{false} at will.
+	%
+	\item \textbf{KeepCycles}: In pseudostatic tests, this boolean variable indicates that the system must use the information about the cycles (fourth column) or just using the set of data as a whole. 
+	%
+	\item \textbf{TraceRuleLength}: This an integer variable with 1,2 or 3 as allowed values. LELAPE looks for anomalously repeated elements in the DV set with very few ones in binary representation. The user can decide if looks for elements with 1, 2 or 3 ones or less and include them as candidates to detect pairs. 
+	%
+	\item \textbf{$\varepsilon$}: A float number always positive but close to 0. If the expected number of elements repeated $k$ times in the DV set is lower than $\varepsilon$, we must consider this number of repetitions impossible. If higher, we determine than at least an element can appear $k$ times just due to randomness. Default value is 0.05.
+	
+	A very low value of $\varepsilon$ will exclude false positive but also genuine values relating pair of addresses in an MCU. On the contrary, if it is chosen too low, false positives might be taken as good ones.
+	%
+	\item \textbf{LargestMCUSize}: During the search of critical DV values, LELAPE starts to group addresses in provisional MCUs that grow large and large as new possible critical DV values are tested. Unfortunately, sometimes this process does not find a stable solution and goes on looking for it despite being unrealistic. This parameter is used to stop the calculation since it informs the software of not considering MCUs with more than \textit{LargestMCUSize} addresses. By default, it is set to 200.
+\end{itemize}
+
+ \section{Functions in the module}
+ TBD

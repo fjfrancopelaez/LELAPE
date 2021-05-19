@@ -1,0 +1,11 @@
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Theoretical Background}{3}{chapter.2}%
+\contentsline {chapter}{\numberline {3}How to install LELAPE}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Why Julia?}{5}{section.3.1}%
+\contentsline {section}{\numberline {3.2}How to install Julia}{5}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Installing LELAPE}{6}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Recommended packages}{6}{section.3.4}%
+\contentsline {chapter}{\numberline {4}How to use LELAPE}{7}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Formatting input data}{7}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Setting up the analysis}{8}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Functions in the module}{9}{section.4.3}%
