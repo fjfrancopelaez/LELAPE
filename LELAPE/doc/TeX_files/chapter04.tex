@@ -54,4 +54,104 @@ Before starting the analysis, we must define some additional variables to indica
 \end{itemize}
 
  \section{Functions in the module}
+ 
+ \subsection*{ConvertToPseudoADD}
+ \begin{itemize}
+ 	\item \textbf{Arguments}: 
+ 		\begin{itemize}
+ 			\item \textit{Method 1: }\textbf{DATA}::Array\{UInt32\}, \textbf{WordWidth}::Int
+ 			\item \textit{Method 2: }\textbf{DATA}::Array\{UInt32\}, \textbf{WordWidth}::Int, \textbf{KeepCycle}::Bool
+ 		\end{itemize}
+ 	\item   \textbf{Output}: Array\{UInt32, 2\}, or Matrix\{UInt32\}.
+ 	\item  This function looks for the flipped bits between words in the same row but in the second
+ 	 and third columns of the DATA matrix. It does not matter if there are several bitflips, since they are independently coundted. 
+ 	 The pseudoaddress  of each bitflip, defined as \[\text{WORDADDRESS}\times\text{Wordwith}+\text{Bitposition}\] is returned as the first column of the output.
+ 	
+ 	 If there is information about the different cycles, it can be kept in the optional second column in the output with the condition of declaring \textbf{KeepCycle} true. If cycle information is absent, the second column is filled with 1s.
+ 	
+ \end{itemize}
+
+\subsection*{ExtractFlippedBits}
+\begin {itemize}
+	\item \textbf{Arguments}:
+		\begin{itemize}
+			\item \textit{Method 1: }\textbf{WORD}::UInt32, \textbf{PATTERN}::UInt32, \textbf{Wordwidth}::Int
+			\item \textit{Method 2: }\textbf{WORD}::UInt16, \textbf{PATTERN}::UInt16, \textbf{Wordwidth}::Int
+			\item \textit{Method 3: }\textbf{WORD}::UInt8, \textbf{PATTERN}::UInt8, \textbf{Wordwidth}::Int
+		\end{itemize}
+	\item \textbf{Output}: :Array\{Int,1\}, or Vector\{Int\}
+	\item This function allows discovering the position of different bits between WORD
+	 and PATTERN. It also verifies that both values are coherent with the \textbf{Wordwidth},
+	 meaning that neither of them are higher than \(2^{Wordwidth}-1\). A vector, never larger than \textbf{Wordwidth} is returned. If \textbf{WORD} and \textbf{PATTERN} are equal, the output is a void vector.
+\end{itemize}
+
+\subsection*{CheckMBUs}
+
+TBD
+
+\subsection*{DetectAnomalies\_SelfConsis}
+\begin{itemize}
+	\item \textbf{Arguments}:
+	\begin{itemize}
+		\item  \textit{Method 1: }\textbf{DATA}::Array\{UInt32, 2\}, 
+		\textbf{WordWidth}::Int,
+		\textbf{LN0}::Int,
+		\textbf{Operation}::String,
+		\textbf{UsePseudoADD}::Bool,
+		\textbf{KeepCycle}::Bool,
+		\textbf{\(\varepsilon\)}::AbstractFloat,
+		\textbf{LargestMCUSize}::Int
+		%
+		\item  \textit{Method 2: }\textbf{DATA}::Array\{UInt32, 2\}, 
+		\textbf{WordWidth}::Int,
+		\textbf{LN0}::Int,
+		\textbf{Operation}::String,
+		\textbf{UsePseudoADD}::Bool,
+		\textbf{KeepCycle}::Bool,
+		\textbf{\(\varepsilon\)}::AbstractFloat
+		%
+		\item  \textit{Method 3: }\textbf{DATA}::Array{UInt32, 2}, 
+		\textbf{WordWidth}::Int,
+		\textbf{LN0}::Int,
+		\textbf{Operation}::String,
+		\textbf{UsePseudoADD}::Bool,
+		\textbf{KeepCycle}::Bool
+	\end{itemize}
+	%
+	\item \textbf{Output: } Array\{UInt32, 2\}	
+	%
+	\item This function will calculate the anomalies in the set of addresses using the SelfConsistency principle.
+
+	 First of all, let us know the inputs:
+	 \begin{itemize}
+	
+		\item   \textbf{DATA}: A matrix with 3 or 4 columns. 
+			 \begin{itemize}
+			 	\item The first one contains the word addresses in UInt32 format.
+			 	\item The second one shows the content read in the memory after the irradiation.
+			 	\item The third one, the pattern that should be inside.
+			 	\item  The fourth one is optional and shows the namber of the read cycle if the   memory was read and corrected several times during the irradiation.
+			 \end{itemize}
+		\item   \textbf{WordWidth}: The size of each word in bits, usually 8, 16. 32, etc.
+		\item   \textbf{LN0}: The memory size in words (not in bits!!!). In many cases, \(2^N\).
+		\item   \textbf{Operation}: A string variable to indicate the preferred operation to calculate
+	    the DVSET. Only two operations are allowed: 
+	    \begin{itemize}
+	    	\item "XOR": XORing bit to bit.
+	    	\item "POS": abs(a-b)
+	    \end{itemize}
+		\item  \textbf{UsePseudoADD}: A boolean variable. It allows to indicate that the user wants to user word addresses (false). If true, a pseudoaddress is assigned to each bit and calculated
+	    as \(\text{WORADDRESS}\times\text{WordWidth} + \text{BitPosition}\). Full of sense in FPGA since it is just the position   of the bit in the bitstream, it has not physical interpretation in memories BUT works!!!!
+		\item   \textbf{KeepCycle}: If true, the function looks for the fourth column and uses it to calculate the DVSet.
+		\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.05 if not provided among the input arguments.
+		\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not physical sense  and is only used to stop the program if unreallistic events occur. Set to 200 if not given as an input.
+	
+	   The funcion return an \(N\times 2\) UInt32 matrix. The first column contains the anomalously repeated values of the DV SET compatible with the SelfConsistency test. The second one contains the number of times they appear in the DV set. Due to format integrity reasons, this column is expressed in unnatural UInt32 format. 
+	  
+	  It is advisable a latter conversion into Int to make this column more readable.
+	\end{itemize}
+\end{itemize}
+\subsection*{DetectAnomalies\_Shuffle\_Rule}
  TBD
+ %
+ 
