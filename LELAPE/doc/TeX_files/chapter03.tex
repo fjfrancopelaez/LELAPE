@@ -8,8 +8,12 @@ Julia, an open software released with MIT license, can be downloaded and install
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.65\textwidth]{fig/Julia_REPL}
-	\caption{Example of the REPL's welcome screen for Julia on a machine running Ubuntu Budgie.}
+	\includegraphics[width=0.65\textwidth]{fig/Julia_REPL} 
+	\\(a)\\
+	\vspace{1cm}
+	\includegraphics[width=0.65\textwidth]{fig/julia_in_windows}
+	\\(b)\\
+	\caption{Example of the REPL's welcome screen for Julia on a machine running Ubuntu Budgie (a) and Microsoft Windows (b).}
 	\label{Fig;JuliaREPL}
 \end{figure}
 %
@@ -33,23 +37,38 @@ Atom, Jupyter and Pluto require the installation of additional packages. As Jupy
 \end{center}
 \vspace{1mm}
 
-This adds the software, which is launched as follows:
+This adds the package. However, a previous step is to search for Jupyter on your computer. In the case of not finding it, Julia suggests to dowinload a minimal version of Conda, thus installing Jupyter, as shown in Fig. \ref{Fig:Installling_Conda_with_julia}.Finally, Jupyter inside Julia is launched as follows:
+%
+\begin{figure}
+	\centering
+	\includegraphics[width=0.65\textwidth]{fig/Julia_using_miniconda}
+	\caption{If Jupyter is not detected, Julia installs a minimal version the first time IJulia is used.}
+	\label{Fig:Installling_Conda_with_julia}
+\end{figure}
+
+\vspace{1mm}
+	\begin{center}
+		\texttt{using IJulia; notebook()} 
+	\end{center}
+\vspace{1mm}
+
+Pluto package is installed following a similar procedure. 
 
 \vspace{1mm}
 \begin{center}
-	\texttt{using IJulia; notebook()} 
+	\texttt{using Pkg; Pkg.add("Pluto");}
 \end{center}
 \vspace{1mm}
 
-The other packages are installed following a similar procedure. 
+and launched with:
 
 \vspace{1mm}
 \begin{center}
-	\texttt{Using Pkg; Pkg.add("Pluto"); using Pluto; Pluto.run()}
+	\texttt{using Pluto; Pluto.run()}
 \end{center}
 \vspace{1mm}
 
-There are other options if you prefer cloud computing. For  example, in spite of the fact that its primary use is running Python code, Google Colab is compatible with Julia language. For further information (and also learning a little Julia), you can read \href{https://colab.research.google.com/github/ageron/julia_notebooks/blob/master/Julia_for_Pythonistas.ipynb#scrollTo=GIeFXS0F0zww}{Julia for Pythonists} and use the \href{https://colab.research.google.com/github/ageron/julia_notebooks/blob/master/Julia_Colab_Notebook_Template.ipynb}{Julia Colab Template}. However, this solution is not recommended due to some problems at installing external packages as well as at loading data files. 
+There are other options if you prefer cloud computing. For  example, in spite of the fact that its primary use is running Python code, Google Colab is compatible with Julia language. For further information (and also learning a little Julia), you can read \href{https://colab.research.google.com/github/ageron/julia_notebooks/blob/master/Julia_for_Pythonistas.ipynb#scrollTo=GIeFXS0F0zww}{Julia for Pythonists} and use the \href{https://colab.research.google.com/github/ageron/julia_notebooks/blob/master/Julia_Colab_Notebook_Template.ipynb}{Julia Colab Template}. However, this solution is not recommended due to some problems at installing external packages as well as at loading data files. Perhaps this flaw can be fixed in the future, but, nowadays, the tool is not as powerful as the others.
 
 \section{Installing LELAPE}
 LELAPE is built as a module. In Julia, a module is a set of elements such as variables, functions, etc. that can be loaded at will. The procedure is the following:
@@ -73,8 +92,31 @@ LELAPE is built as a module. In Julia, a module is a set of elements such as var
 	\end{center}
 	\vspace{1mm}	
 	
-	Thus, Julia knows where to find the module. \texttt{LOAD\_PATH} is a string vector that contains the list of folder where Julia must look up external libraries. \texttt{push!} is a function that adds a new element at the end of any vector, keeping the name. Therefore, we have just added a new entry to the original list.
+	Thus, Julia knows where to find the module. \texttt{LOAD\_PATH} is a string vector that contains the list of folder where Julia must look up external libraries. \texttt{push!} is a function that adds a new element at the end of any vector, keeping the name. Therefore, we have just added a new entry to the original list.	Fig. \ref{Fig:Loading_LELAPE} is a snapshot of the Julia terminal in GNU/Linux.
 	%
+	\begin{figure}
+		\centering
+		
+		\includegraphics[width=0.65\textwidth]{fig/Loading_LELAP.png}
+		\caption{How to indicate Julia where LELAPE is installed, and how to load it.}
+		\label{Fig:Loading_LELAPE}
+	\end{figure}
+	
+	A warning for users of Microsoft Windows: in this operating system, folders in the path are marked with the symbol \texttt{$\backslash$}. For technical reasons, this is not recognized in Julia, so the path to LELAPE must be modified with one of the following tips:
+	%
+	\begin{itemize}
+		\item Replacing  \texttt{$\backslash$} with \texttt{/}, emulating the Unix style (GNU/Linux and Mac OS X).
+		\item Replacing \texttt{$\backslash$} with \texttt{$\backslash\backslash$}.
+	\end{itemize}
+	%
+	Fig. \ref{Fig:LELAPE_PATH_Windows} shows how to sucessfully add a new element to \texttt{LOAD\_PATH} with the first option. 
+	%
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.65\textwidth]{fig/Julia_loading_LELAPE}
+		\caption{The folder containing LELAPE is added to the admitted paths in Microsoft Windows.}
+		\label{Fig:LELAPE_PATH_Windows}
+	\end{figure} 
 	\item Now, just launch LELAPE with the following instruction:
 		
 	\vspace{1mm}
@@ -86,13 +128,7 @@ LELAPE is built as a module. In Julia, a module is a set of elements such as var
 	After a few seconds to precompile the library, the functions are loaded. Fig. \ref{Fig:Loading_LELAPE} shows a practical example.
 \end{enumerate}
 
-\begin{figure}
-	\centering
-
-	\includegraphics[width=0.65\textwidth]{fig/Loading_LELAP.png}
-	\caption{How to indicate Julia where LELAPE is installed, and how to load it.}
-	\label{Fig:Loading_LELAPE}
-\end{figure}
+Jupyter users should be aware of a detail. Even if it is loaded on the terminal, it does not inherit loaded packages or modules, so they must be loaded again and independently in Jupyter. Even more, the \texttt{LOAD\_PATH} variable is initialized with its default value, with only three elements, so the instruction \texttt{push!(LOAD\_PATH, "PATH\_TO\_FOLDER")} must be executed again before loading LELAPE.
 
 \section{Recommended packages}
 %
@@ -104,13 +140,28 @@ There are many Julia packages at the user's disposal that can be found on \href{
 
 Both are installed with \texttt{Pkg.add()}. 
 
-
-Another interesting package to have is \textbf{DelimitedFiles}, which allows reading and writing CSV files. It is installed through:
+Another interesting package to have is \textbf{DelimitedFiles}, which allows reading and writing CSV files. It is an essential package in Julia, available in a fresh installation, but not loaded by default. It is not necessary to fetch it and it is loaded as:
 	
 \vspace{1mm}
 \begin{center}
-	\texttt{using Pkg; Pkg.add("DelimitedFiles")}
+	\texttt{using DelimitedFiles}
 \end{center}
 \vspace{1mm}	
 
 This package is necessary to use the illustrative Jupyter notebooks that are provided along with LELAPE.
+
+\textbf{A tip for new users}: after working with Julia for a long time, you may eventually discover that only a few packages are frequently used and  you may get bored of loading them every time you start a new session. Thus, the typical solution is to create the following folder and text file in your home directory:
+%
+\begin{itemize}
+	\item In GNU/Linux \& Mac OS X: \texttt{/home/<USER>/.julia/config/startup.jl}
+	\item In Microsoft Windows: \texttt{C:{\textbackslash}Users{\textbackslash}<USER>{\textbackslash}.julia{\textbackslash}config{\textbackslash}startup.jl}
+\end{itemize}  
+%
+Fig. \ref{Fig:startup.jl} is an example of the \texttt{startup.jl}. In this file, one can see that LELAPE placement is automatically loaded when the session begins. However, if you wish to load these packages in Jupyter, it is necessary to create a new file, \texttt{startup\_ijulia.jl}, with identical information. However, a soft link to \texttt{startup.jl} is enough.
+%
+\begin{figure}
+	\centering
+	\includegraphics[width=0.65\textwidth]{fig/startup.jl}
+	\caption{Example of \texttt{startup.jl} file in GNU/Linux.}
+	\label{Fig:startup.jl}
+\end{figure} 
