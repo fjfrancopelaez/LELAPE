@@ -151,7 +151,326 @@ TBD
 	  It is advisable a latter conversion into Int to make this column more readable.
 	\end{itemize}
 \end{itemize}
+%
 \subsection*{DetectAnomalies\_Shuffle\_Rule}
  TBD
  %
+ \subsection*{DetectAnomalies\_Trace\_Rule}
+ %
+ TBD
+ %
+ \subsection*{DetectAnomalies\_MCU\_Rule}
+ %
+ TBD
+ %
+ \subsection*{DetectAnomalies\_FullCheck}
+ %
+ TBD
+ %
+ \subsection*{MCU\_Indexes}
+ %
+ \begin{itemize}
+ 	\item \textbf{Arguments}: 
+ 		\begin{itemize}
+ 			\item \textit{Method 1: } \textbf{DATA}::Matrix\{UInt32\}, 
+ 			\textbf{OPERATION}::String,
+ 			\textbf{Markers}:: Vector\{UInt32\}, 
+ 			\textbf{UsePseudoADD}::Bool, 
+ 			\textbf{WordWidth}::Int,
+ 			\textbf{LimitMCUSize}:: Int
+ 			%
+ 			\item \textit{Method 2: } \textbf{DATA}::Matrix\{UInt32\}, 
+ 			\textbf{OPERATION}::String,
+ 			\textbf{Markers}:: Vector\{UInt32\}, 
+ 			\textbf{UsePseudoADD}::Bool, 
+ 			\textbf{WordWidth}::Int
+ 			%
+ 			\item \textit{Method 3: } \textbf{DATA}:Matrix\{UInt32\}, 
+ 			\textbf{OPERATION}::String,
+ 			\textbf{Markers}:: Vector\{UInt32\}, 
+ 			\textbf{UsePseudoADD}::Bool
+ 			%
+ 			\item \textit{Method 4: } \textbf{DATA}::Matrix\{UInt32\}, 
+ 			\textbf{OPERATION}::String,
+ 			\textbf{Markers}:: Vector\{UInt32\}, 
+ 		\end{itemize}
+ 	\item \textbf{Output}: Matrix\{Int\}
+ 	%
+ 	\item This functions uses the \textbf{DATA} set to look for pairs of addresses which treated with 	 \textbf{OPERATION} yield one of the \textbf{MARKERS}. If an \textbf{ADDRESS} is related to other two addresses, 	 a 3--bit MCU appears (and so on.) The rest of parameters are used to provide necessary  information to use the \textbf{PSEUDOADDRESS} instead of the \textbf{WORD ADDRESS}. 
+	 
+	 More information about the inputs:
+	 
+	 \begin{itemize}
+	 	\item DATA: A matrix with 3 or 4 columns. 
+	 		\begin{itemize}
+	 			\item  The first one contains the word addresses in UInt32 formata.
+	 			\item        The second one shows the content read in the memory after the irradiation.
+	 			\item        The third one, the pattern that should be inside.
+	 			\item        The fourth one is optional and shows the namber of the read cycle if the  memory was read and corrected several times during the irradiation.
+	 		\end{itemize}
+	 	%       
+	 	\item \textbf{OPERATION}: A string variable to indicate the preferred operation to calculate
+	 	the DVSET. Only two operations are allowed: 
+	 	\begin{itemize}
+	 		\item "XOR": XORing bit to bit.
+	 		\item "POS": abs(a-b)
+	 	\end{itemize}
+	 	%
+	 	\item \textbf{UsePseudoADD}: A boolean variable. It allows to indicate that the user wants to user
+	 	word addresses (false). If true, a pseudoaddress is assigned to each bit and calculated
+	 	as \[\text{WORDADDRESS}\times\text{WordWidth} + \text{BitPosition.}\] Full of sense in FPGA since it is just the position
+	 	of the bit in the bitstream, it has not physical interpretation in memories BUT works!!!!
+	 	%
+	 	\item \textbf{WordWidth}: The size of each word in bits, usually 8, 16. 32, etc.
+	 	%
+	 	\item \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not physical sense
+	 	and is only used to stop the program if unreallistic events occur. Initially set to 200.
+	 \end{itemize}
+  
+	 Concerning the OUTPUT: It provides an integer NMCU\(\times\)LMCU matrix, NMCU being the number of detected MCUs and
+	 LMCU the size of the largest reconstructed MCU. Every value different than 0 must be determined as follows:
+	 \begin{enumerate}
+	 	\item UsePseudoADD = false: The index indicates the row in DATA with the address in the MCU.
+	 	\item UsePseudoADD = true: It provides the index in the PSEUDOADDRESS derived SET. If the exact position of
+	 	the bitcell is required, DATA should be treated with ConvertToPseudoADD() and
+	 	the index used in the resulting matrix.
+	 \end{enumerate}
  
+     In both cases, if the size of the MCU is smaller than LMCU, the row will be filled with zeros until
+     reaching the desired length. For example, if the content of a row is [5 7 9 0 0], it must be interpreted
+     as a 3-bit MCU involving addresses indexed with 5, 7 \& 9 in an experiment in which at least a 5-bit 
+     MCU (and nothing larger) was observed.
+     
+ 	Finally, if the index of an address does not appear in the returned matrix, it should be interpreted as  isolated and belonging to an SBU.
+ 	
+ \end{itemize}
+%
+\subsection*{Classify\_Addresses\_in\_MCU}
+%
+\begin{itemize}
+	\item \textbf{Arguments}: 
+		\begin{itemize}
+			\item \textit{Method 1}: \textbf{DATA}:: Matrix\{UInt32\}, 
+			\textbf{Indexes}:: Matrix\{Int\}, 
+			\textbf{UsePseudoADD}:: Bool, 
+			\textbf{WordWidth}:: Int
+			%
+			\item \textit{Method 2}: \textbf{DATA}:: Matrix\{UInt32\}, 
+			\textbf{Indexes}:: Matrix\{Int\}, 
+			\textbf{UsePseudoADD}:: Bool 
+			%
+			\item \textit{Method 3}: \textbf{DATA}:: Matrix\{UInt32\}, 
+			\textbf{Indexes}:: Matrix\{Int\}
+		\end{itemize}
+	%
+	\item \textbf{Output}: Vector:: \{Any\}
+	%
+	\item The purpose of this function is to classify the addresses (or pseudoaddresses) with bitflips transform the matrix of INDEXES got from MCU\_Indexes() into a Vector of matrices, called SOLUTION, which is eventually returned as OUTPUT.
+	 
+	The length of SOLUTION is the size of the largest observed MCU(s), NLMCU. Thus, SOLUTION[1] is 	a N x NLMCU matrix in which every row contains the addresses or pseudoaddresses of the NLMCU 	bitflips involved in this MCU. N is the number of observdd NLMCU-bit MCUs.
+	
+	SOLUTION[2] is devoted to events with M = NLMCU-1 bits. As before, it is a matrix with NLMCU-1 	rows and an undetermined number of rows.
+	
+	Finally, SOLUTION[NLMCU] is just a simple vector with the addresses not involved in MCUs. Obviously, these are the SBUs.
+\end{itemize}
+
+\subsection*{TheoAbundance\_XOR}
+%
+\begin{itemize}
+	\item \textbf{Arguments:}
+	%
+		\begin{itemize}
+			\item \textit{Method 1}: \textbf{NR}: :Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{UsingDV}::Bool
+			\item \textit{Method 2}: \textbf{NR}: :Int, \textbf{NB}::Int, \textbf{LN}::Int
+		\end{itemize}
+	\item \textbf{Output:} AbstractFloat
+	%
+	\item This function allows calculating the expected number of values repeated 	 \textbf{NR} times after \textbf{NB} bitflips in a memory with \textbf{LA} words with \textbf{W} bits per word
+	 with XOR operation.
+	
+	 \textbf{NR} must be an integer number higher or equal than 0; 
+	 \textbf{NB} is an integer number supposed to be higher than 1.
+	 \textbf{LN} is an integer number, and indicates the size of the elements in the set
+	 where elements are chosen.
+	
+	 Sometimes, the user provides directly the DV set so an additional boolean
+	 input is provided to take into account this fact. It is usually disabled. In this
+	 case, NB PLAYS THE ROLE OF NDV.
+	 
+	 Equations were got from Eq.12 of the Appendix.C in 
+	 F. J. Franco et al., "\textit{Statistical Deviations From the Theoretical Only-SBU
+	 Model to Estimate MCU Rates in SRAMs,}" in IEEE Transactions on Nuclear
+	 Science, vol. 64, no. 8, pp. 2152-2160, Aug. 2017,
+	 doi: 10.1109/TNS.2017.2726938. 
+	
+	 Lawfully avalaible for free on https://eprints.ucm.es/id/eprint/43874/
+\end{itemize}
+%
+\subsection*{TheoAbundance\_POS}
+%
+\begin{itemize}
+	\item \textbf{Arguments}:
+		%
+	\begin{itemize}
+		\item \textit{Method 1}: \textbf{NR}: :Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{UsingDV}::Bool
+		\item \textit{Method 2}: \textbf{NR}: :Int, \textbf{NB}::Int, \textbf{LN}::Int
+	\end{itemize}
+	\item \textbf{Output:} AbstractFloat
+	%
+	\item This function allows calculating the expected number of values repeated 	 NR times after NB bitflip in a memory with LA words with W bits per word   	supposing to have used the POSITIVE subtraction.
+ 
+  \textbf{NR} must be an integer number higher or equeal than 0
+  \textbf{NB} is an integer number supposed to be higher than 1.
+  \textbf{LN} is an integer number, and indicates the size of the elements in the set
+  where elements are chosen.
+ 
+  Sometimes, the user provides directly the DV set so an additional boolean
+  input is provided to take into account this fact. It is usually disabled. In this
+  case, NB PLAYS THE ROLE OF NDV.
+ 
+  Equations were got from Eq.2 of the Appendix in J. C. Fabero et al., "\textit{Single Event Upsets Under 14-MeV Neutrons in a 28-nm
+ SRAM-Based FPGA in Static Mode,}" in IEEE Transactions on Nuclear Science, vol.
+  67, no. 7, pp. 1461-1469, July 2020, doi: 10.1109/TNS.2020.2977874.
+  
+  Lawfully avalaible for free download on \href{https://eprints.ucm.es/id/eprint/59496/}{https://eprints.ucm.es/id/eprint/59496/}
+\end{itemize}
+%
+\subsection*{TheoAbundance}
+%
+	\begin{itemize}
+	\item \textbf{Arguments}:
+		\begin{itemize}
+			\item \textit{Method 1:} \textbf{NR}::Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{Operation}:: String, \textbf{UsingDV}::Bool
+			\item \textit{Method 1:} \textbf{NR}::Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{Operation}:: String
+		\end{itemize}
+	\item \textbf{Output}: AbstractFloat
+	\item This is an Alias for TheoAbundance\_POS() or TheoAbundance\_XOR().
+	
+	 \textbf{NR} must be an integer number higher or equeal than 0
+	 \textbf{NB} is an integer number supposed to be higher than 1.
+	 \textbf{LN} is an integer number, and indicates the size of the elements in the set
+	 where elements are chosen.
+	 \textbf{Operation} is "XOR" or "POS". 
+	 
+	   Sometimes, the user provides directly the DV set so an additional boolean
+	 input is provided to take into account this fact. It is usually disabled. In this
+	 case, NB PLAYS THE ROLE OF NDV. If \textbf{UsingDV} is not provided, it is supposed to be false.
+\end{itemize}
+%
+\subsection*{MaxExpectedRepetitions}
+%
+\begin{itemize}
+	\item \textbf{Arguments}: 
+		\begin{itemize}
+			\item \textit{Method 1}: \textbf{NDV}::Int, \textbf{LN}::Int, \textbf{Operation}:: String, \(\varepsilon\):: AbstractFloat	
+			\item \textit{Method 2}: \textbf{NDV}::Int, \textbf{LN}::Int, \textbf{Operation}::String
+		\end{itemize}
+	\item \textbf{Output}: Int
+	\item The purpose of this funcion is to determina the maximum number of expected
+	repetitions. in a DV set taken from a memory with size equal to \textbf{LN}.
+	In general, it is the first integer such that its theoretical abundance is
+	lower than \(\varepsilon\). If this threshold is not provided, it is assumed to be 0.01.
+\end{itemize}
+%
+\subsection*{CorrectNBitFlips}
+%
+	\begin{itemize}
+		\item \textbf{Arguments}: \textbf{NBF}::Int, \textbf{LN}::Int
+		\item \textbf{Output}: Float64
+		\item This function tries to correct the number of bitflips to compensate cells hit twice that
+		escape from inspection. 
+		%
+		\begin{itemize}
+			\item \textbf{NBF}: Number of bitflips. Theoretically, SBUs but they are impossible to be distinguished 
+			from other kinds of bitflips. Therefore, a simple approach is taken.
+			\item \textbf{LN}: Memory size in BITS!!!!!
+		\end{itemize}	 
+		%
+		 Expression is taken from Eq. 6 in F. J. Franco, J. A. Clemente, H. Mecha and R. Velazco, 
+		 "\textit{Influence of Randomness During the Interpretation of Results From Single-Event Experiments 
+		 on SRAMs}," IEEE Transactions on Device and Materials Reliability, vol. 19, no. 1, pp. 104-111, 
+		 March 2019, doi: 10.1109/TDMR.2018.
+		 2886358.		
+	\end{itemize}
+%
+\subsection*{NF2BitMCUs}
+%
+\begin{itemize}
+	\item \textbf{Arguments}: 
+		\begin{itemize}
+			\item \textit{Method 1}: \textbf{NSBU}::Int, \textbf{LA}::Int, \textbf{METHOD}::String, \textbf{D}::Int, \textbf{WordWidth}::Int, \textbf{UsePseudoAddress}::Bool
+			\item \textit{Method 2}: \textbf{NSBU}::Int, \textbf{LA}::Int, \textbf{METHOD}::String, \textbf{D}::Int, \textbf{WordWidth}::Int
+		\end{itemize}
+	\item \textbf{Output}: Float64
+	\item It indicates the expected number of false 2-bit MCUs that will occur 
+	 in a memory with \textbf{LA} words with \textbf{WORDWIDTH} bits each in which \textbf{NSBU} SBUs have occurred. In this analysis,
+	
+	 MCUS are sought using some grouping method (\textbf{METHOD}) with a generalized distance \textbf{D}.
+	
+	 Admitted values for \textbf{METHOD} and \textbf{D} are the following:
+	 
+	 \begin{enumerate}
+	 	\item METHOD: "MBU" --> Only MBUs are sought. In this case, D is the Wordwidth.
+	 	\item METHOD: "MHD" --> Only possible if the user has been able to place the ExtractFlippedBits 	 	cell in the XY plane. Two cells are related if |x1-x2|+|y1-y2| <= D. This 
+	 	is the Manhattan distance.
+	 	\item METHOD: "IND" --> Only possible if the user has been able to place the ExtractFlippedBits
+	 	cell in the XY mplane. Two cells are related if max(|x1-x2|,|y1-y2|) <= D.
+	 	In mathematics, this is the "infinite distance".
+	 	\item METHOD: "THD" --> Only valid if pairs of bitflips are located in a linear bitstream and if the
+	 	distace between cells is smaller than D: |x1-x2| <= D.
+	 	\item METHOD: "XOR" --> Related pairs are got by means of statistical deviations. Addresses are XORed 
+	 	and only if the value is one of the D possible critical values. If the WORD Addresses  
+	 	is used instead of PSEUDOADDRESS, the memory size must be expressed in WORDs, 
+	 	LA = LN/WordWidth.
+	 	IF SO, THE WORDWIDTH MUST BE PROVIDED.
+	 	\item METHOD: "POS" --> Identical to the previous one but with positive subtraction instead of XOR.
+	 \end{enumerate}
+	 
+	   Everything can be found in Eq. 11 of F. J. Franco, J. A. Clemente, G. Korkian, 
+	   J. C. Fabero, H. Mecha and R. Velazco, "\textit{Inherent Uncertainty in the Determination of Multiple 
+	   Event Cross Sections in Radiation Tests,}" IEEE Transactions on Nuclear Science, vol. 67, no. 7, 
+	   pp. 1547-1554, July 2020, doi: 10.1109/TNS.2020.2977698.
+\end{itemize}
+%
+\subsection*{NF3BitMCUs}
+%
+\begin{itemize}
+	\item \textbf{Arguments}: 
+	\begin{itemize}
+		\item \textit{Method 1}: \textbf{NSBU}::Int, \textbf{NMU2}::Int, \textbf{LN}::Int, \textbf{METHOD}::String, \textbf{D}::Int, WordWidth::Int
+		\item \textit{Method 2}: \textbf{NSBU}::Int, \textbf{NMU2}::Int, \textbf{LN}::Int, \textbf{METHOD}::String, \textbf{D}::Int
+	\end{itemize}
+	\item \textbf{Output}: Tuple{Float64, Float64}
+	\item     It indicates the expected number of false 3-bit MCUs that will occur 
+	 in a memory with LN bits in which NSBU SBUs and NMU2 2-bit MCUs have occurred. 
+	 In this analysis, MCUS are sought using some grouping --method (METHOD) with a generalized 
+	 distance D.
+	
+	MCUS are sought using some grouping method (\textbf{METHOD}) with a generalized distance \textbf{D}.
+	
+	Admitted values for \textbf{METHOD} and \textbf{D} are the following:
+	
+	\begin{enumerate}
+		\item METHOD: "MBU" --> Only MBUs are sought. In this case, D is the Wordwidth.
+		\item METHOD: "MHD" --> Only possible if the user has been able to place the ExtractFlippedBits 	 	cell in the XY plane. Two cells are related if |x1-x2|+|y1-y2| <= D. This 
+		is the Manhattan distance.
+		\item METHOD: "IND" --> Only possible if the user has been able to place the ExtractFlippedBits
+		cell in the XY mplane. Two cells are related if max(|x1-x2|,|y1-y2|) <= D.
+		In mathematics, this is the "infinite distance".
+		\item METHOD: "THD" --> Only valid if pairs of bitflips are located in a linear bitstream and if the
+		distace between cells is smaller than D: |x1-x2| <= D.
+		\item METHOD: "XOR" --> Related pairs are got by means of statistical deviations. Addresses are XORed 
+		and only if the value is one of the D possible critical values. If the WORD Addresses  
+		is used instead of PSEUDOADDRESS, the memory size must be expressed in WORDs, 
+		LA = LN/WordWidth.
+		IF SO, THE WORDWIDTH MUST BE PROVIDED.
+		\item METHOD: "POS" --> Identical to the previous one but with positive subtraction instead of XOR.
+	\end{enumerate}
+	
+	Everything can be found in Eq. 11 of F. J. Franco, J. A. Clemente, G. Korkian, 
+	J. C. Fabero, H. Mecha and R. Velazco, "\textit{Inherent Uncertainty in the Determination of Multiple 
+		Event Cross Sections in Radiation Tests,}" IEEE Transactions on Nuclear Science, vol. 67, no. 7, 
+	pp. 1547-1554, July 2020, doi: 10.1109/TNS.2020.2977698.
+	
+	In this paper, it was demonstrated that it is mathematically impossible to get an exact value. Therefore,  optimistic and pessimistic results are provided.
+\end{itemize}
