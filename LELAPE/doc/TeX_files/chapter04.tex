@@ -474,3 +474,45 @@ TBD
 	
 	In this paper, it was demonstrated that it is mathematically impossible to get an exact value. Therefore,  optimistic and pessimistic results are provided.
 \end{itemize}
+%
+\subsection*{NPairs}
+\begin{itemize}
+	\item \textbf{Arguments}:
+		\begin{itemize}
+			\item \textit{Method 1}: \textbf{DATA}::Array{UInt32}
+			\item \textit{Method 2}: \textbf{DATA}::Array{UInt32}, \textbf{UsePseudoAdd}::Bool
+			\item \textit{Method 3}: \textbf{DATA}:: Array{UInt32}, \textbf{UsePseudoAdd}::Bool, \textbf{WordWidth}:: Int
+			\item \textit{Method 4}: \textbf{DATA}::Array{UInt32}, \textbf{UsePseudoAdd}:: Bool, \textbf{WordWidth}:: Int, \textbf{KeepCycle}:: Bool
+			\item \textit{Method 5}: \textbf{N}::Int
+		\end{itemize}
+	\item \textbf{Output}: Int
+	%
+	\item \textbf{DATA} is a 3 or 4-column matrix derived from the loaded CSV file and each row containing the word address (\#1), the read word after the tests (\#2), the initial pattern (\#3) and the number of reading cycle when the error was observed. If this last column is not providedJ or \textbf{KeepCycle} is false, the system works as if only one cycle was done. 
+	
+	The function provides the number of pairs of addresses taken during each cycle regarding predictions of the Only-SBU model. For example, let us suppose that we have done 2 cycles, observing in the first one 30 events, and 40 in the second. The number of possible pairs is the addition of the pairs in each cycle:
+	\[
+		\frac{1}{2}\cdot 30\cdot(30-1)+\frac{1}{2}\cdot 40\cdot(40-1) = 1215
+	\]
+	Thus, 1215 pairs can be formed. If we had not taken into account the existence of cycles, the number of pairs woudl have been\[	\frac{1}{2}\cdot (30+40)\cdot(30+40-1) = 2415\]
+	however, many of them are unreal since were taken in different times!
+	
+	If \textbf{UsePseudoAdd} is set to true, the system looks for the position of the bitflips inside the word and uses the pseudoaddress (\(\text{WordAddress}\times\text{WordWidth}+\text{Position}\)). Thus, it is necessary to provide the \textbf{WordWidth} value (8, 16, 32, ...). If this value is not provided. Default values for this variables are \textbf{UsePseudoAdd}~=~true, \textbf{WordWidth}~=~1, \textbf{KeepCycle}~=~1. Using \textbf{DATA} as the only argument is appropriate to analyze values directly in pseudoaddress format taken during one only cycle. This is the case, for example, of FPGAs configuration memory. 
+	
+	There is a final method, just saying the number of observed pairs, \textbf{N}. In this case, the function returns \textbf{N}\(\cdot\)(\textbf{N}-1)/2.
+	
+\end{itemize}
+%
+\subsection*{NTriplets}
+\begin{itemize}
+	\item \textbf{Arguments}:
+	\begin{itemize}
+		\item \textit{Method 1}: \textbf{DATA}::Array{UInt32}
+		\item \textit{Method 2}: \textbf{DATA}::Array{UInt32}, \textbf{UsePseudoAdd}::Bool
+		\item \textit{Method 3}: \textbf{DATA}:: Array{UInt32}, \textbf{UsePseudoAdd}::Bool, \textbf{WordWidth}:: Int
+		\item \textit{Method 4}: \textbf{DATA}::Array{UInt32}, \textbf{UsePseudoAdd}:: Bool, \textbf{WordWidth}:: Int, \textbf{KeepCycle}:: Bool
+		\item \textit{Method 5}: \textbf{N}::Int
+	\end{itemize}
+	\item \textbf{Output}: Int
+	%
+	\item Similar to \textit{Npairs(...)}, but calculating the expected number of triplets instead of pairs.
+\end{itemize}

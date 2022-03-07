@@ -80,7 +80,7 @@ LELAPE is built as a module. In Julia, a module is a set of elements such as var
 	
 	\vspace{1mm}
 	\begin{center}
-		\texttt{push!(LOAD\_PATH, "PATH\_TO\_FOLDER")}
+		\texttt{{push!(LOAD\_PATH,"PATH\_TO\_FOLDER")}}
 	\end{center}
 	\vspace{1mm}	
 	
@@ -125,8 +125,15 @@ LELAPE is built as a module. In Julia, a module is a set of elements such as var
 	\end{center}
 	\vspace{1mm}	
 		
-	After a few seconds to precompile the library, the functions are loaded. Fig. \ref{Fig:Loading_LELAPE} shows a practical example.
+	After a few seconds to precompile the library, the functions are loaded. Figs. \ref{Fig:Loading_LELAPE} \& \ref{Fig:Julia_in_macoc} show practical examples.
 \end{enumerate}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.65\textwidth]{fig/Julia_in_macOS_anonymous}
+	\caption{Executing Julia on macOS and loading LELAPE.}
+	\label{Fig:Julia_in_macoc}
+\end{figure}
 
 Jupyter users should be aware of a detail. Even if it is loaded on the terminal, it does not inherit loaded packages or modules, so they must be loaded again and independently in Jupyter. Even more, the \texttt{LOAD\_PATH} variable is initialized with its default value, with only three elements, so the instruction \texttt{push!(LOAD\_PATH, "PATH\_TO\_FOLDER")} must be executed again before loading LELAPE.
 
