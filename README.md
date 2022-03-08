@@ -6,8 +6,8 @@ Semiconductor memories and FPGAs in space are exposed to natural radiation, whic
 
 However, recent researchs have discovered a link among some statistical paramaeters and presence of multiple events. LELAPE loads raw data from experiments and looks for evidence of mulitple events. Using this information, it classifies bitflips in sets of isolated bitflips, 2-bit events, 3-bit, etc. 
 
-For deeper details, see DOC folder.
+For deeper details, see [doc](https://github.com/fjfrancopelaez/LELAPE/tree/main/LELAPE/doc) folder.
 
-LELAPE is written in [Julia](https://julialang.org), a lenguage for scientific computation. With a grammar similar to Matlab-Octave, Python or R, it is one or two orders of magnitude more efficient, so even long calculations can be done on a modern laptop. 
+LELAPE is written in [Julia](https://julialang.org), a lenguage for scientific computation. With a grammar similar to Matlab-Octave, Python or R, it is one or two orders of magnitude more efficient, so even long calculations can be done on a modern laptop.  Some examples of analysis for Jupyter can be found on the [devoted folder](https://github.com/fjfrancopelaez/LELAPE/tree/main/LELAPE/Jupyter).
 
 This tool was supported by the ... 
