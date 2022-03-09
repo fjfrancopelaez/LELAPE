@@ -1,0 +1,65 @@
+\documentclass[a4paper,11pt]{book}
+\usepackage[utf8]{inputenc}
+%% Packages for maths.
+\usepackage{amsmath, amssymb}
+\usepackage{amstext}
+\usepackage{amsfonts}
+\usepackage{bm}
+\usepackage{nicefrac}
+% Packages to make the document nicer.
+\usepackage{color}
+\usepackage {fancyhdr}
+\usepackage{fontspec}
+\setmainfont[Mapping=tex-text]{Verdana}
+\setmonofont{Courier}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[a4paper]{geometry}
+	\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=1.5cm,rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
+	\setcounter{secnumdepth}{4}
+	\setcounter{tocdepth}{4}
+	\setlength{\parindent}{1cm}
+	\pagestyle{fancy}
+	\lhead{}
+	\chead{}
+	\rhead{}
+	\lfoot{Universidad Complutense de Madrid}
+	\cfoot{\thepage}
+	\rfoot{}
+	\renewcommand{\headrulewidth}{0.4pt}
+	\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{tablefootnote}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[unicode=true,
+bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+breaklinks=true,pdfborder={0 0 1},backref=false,colorlinks=false]
+{hyperref}
+\hypersetup{pdftitle={LELAPE},
+	pdfauthor={Francisco J. Franco}}
+
+\begin{document}
+
+\author{GHADIR Group \\ Universidad Complutense de Madrid}
+\title{\huge{LELAPE}}
+\date{\today}
+
+\frontmatter
+\maketitle
+\tableofcontents
+
+\mainmatter
+\include{./TeX_files/chapter01}
+\include{./TeX_files/chapter02}
+\include{./TeX_files/chapter03}
+\include{./TeX_files/chapter04}
+
+\backmatter
+% bibliography, glossary and index would go here.
+
+\end{document}
