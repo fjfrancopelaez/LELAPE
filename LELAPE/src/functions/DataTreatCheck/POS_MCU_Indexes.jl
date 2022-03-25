@@ -132,7 +132,7 @@ function POS_MCU_Indexes(   ADDRESS::Vector{UInt32},
 
 end
 
-function POS_MCU_Indexes(ADDRESS::Vector{UInt32}, POSDVMarkers::Vector{UInt32}, LimitMCUSize::Int=100)::Array{Int32, 2}
+function POS_MCU_Indexes(ADDRESS::Vector{UInt32}, POSDVMarkers::Vector{UInt32}, LimitMCUSize::Int=1000)::Array{Int32, 2}
 
     return POS_MCU_Indexes(ADDRESS, ones(UInt32, length(ADDRESS)), POSDVMarkers, LimitMCUSize)
 
