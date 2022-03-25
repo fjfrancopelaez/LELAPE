@@ -101,11 +101,11 @@ function DetectAnomalies_FullCheck(   DATA::Array{UInt32, 2},
             
         if Operation == "XOR"
 
-            MCU_Index = XOR_MCU_Indexes(ADDRESSES[:, 1], ADDRESSES[:, 2], PrevCandidates)
+            MCU_Index = XOR_MCU_Indexes(ADDRESSES[:, 1], ADDRESSES[:, 2], PrevCandidates, LargestMCUSize)
 
         elseif Operation == "POS"
 
-            MCU_Index = POS_MCU_Indexes(ADDRESSES[:, 1], ADDRESSES[:, 2], PrevCandidates)
+            MCU_Index = POS_MCU_Indexes(ADDRESSES[:, 1], ADDRESSES[:, 2], PrevCandidates,  LargestMCUSize)
 
         else
 
