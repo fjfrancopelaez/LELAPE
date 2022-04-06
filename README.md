@@ -18,3 +18,5 @@ If you have successfully used this tool and the results are worth for academic p
 * Obviusly, this site.
 * The Julia Language: _J. Bezanson, A. Edelman, S. Karpinski, and V. B. Shah, “Julia: A fresh
 approach to numerical computing,” SIAM review, vol. 59, no. 1, pp. 65–98, 2017 (DOI: 10.1137/141000671)._
+
+![LELAPE](LELAPE/doc/fig/LELAPE_LOGO_low.png)
