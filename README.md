@@ -10,4 +10,11 @@ For deeper details, see [doc](https://github.com/fjfrancopelaez/LELAPE/tree/main
 
 LELAPE is written in [Julia](https://julialang.org), a lenguage for scientific computation. With a grammar similar to Matlab-Octave, Python or R, it is one or two orders of magnitude more efficient, so even long calculations can be done on a modern laptop.  Some examples of analysis for Jupyter can be found on the [devoted folder](https://github.com/fjfrancopelaez/LELAPE/tree/main/LELAPE/Jupyter).
 
+## Acknowledgments
 This tool was supported by the Spanish MINECO by means of the PID2020-112916GB-I00 project.
+## How to reference
+If you have successfully used this tool and the results are worth for academic publications, we ask you for including the following references:
+
+* Obviusly, this site.
+* The Julia Language: _J. Bezanson, A. Edelman, S. Karpinski, and V. B. Shah, “Julia: A fresh
+approach to numerical computing,” SIAM review, vol. 59, no. 1, pp. 65–98, 2017 (DOI: 10.1137/141000671)._
