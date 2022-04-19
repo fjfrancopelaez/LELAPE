@@ -125,7 +125,8 @@ The idea is quite simple. Let us suppose that, after applying previous rules we 
 This is not exactly a rule, but a sign of being sensible. Let us suppose that you test a device and get a set of anomalies, \(A_1\). Later, you test it again and the obtained values are \(A_2\). As the device is the same, or at least of the same model and the anomalies are linked to the internal structure, it is evident that elements in \(A_1\) are valid for the second experiment, and vice versa. Thus, the union of both sets, \(A_1 \cup A_2\) can be used to classify results from both experiments.
 
 Even more, if you had previously tested the device and identified a significant set of anomalies, it is possible to skip the process of obtaining anomalies and straightly apply that set on the test results, saving analysis time.
-%
+
+However, this rule is only applicable if the address pins are correctly identified. For example, in some synchronous memories, these pins are fully configurable so unless the same setup does not change from experiment to experiment, previous results will be useless. Another option is to reorganize the address bits by software before analyzing events.
 \section{Number of false events}
 %
 Sometimes, two or more single bit upsets may occur in adjacent cells in such a way that a later analysis can erroneously conclude that both belong to a unique multiple cell upset \cite{Tausch2009}. This is completely false, and the number of expected false events increases with the number of bitflips. It is possible to deduce that that number increases with the number of flipped bits, and also depends on the method to detect the multiple cell upsets \cite{Franco2020}. 

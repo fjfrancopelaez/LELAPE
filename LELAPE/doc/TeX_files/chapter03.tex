@@ -31,7 +31,7 @@ If no additional tool is installed, Julia will be executed in a REPL as it is sh
 	\item \textbf{Pluto}: A notebook following the philosophy of Jupyter but specifically developed for Julia and easily extensible with JavaScript. Unlike the previous tools, it is installed inside Julia, not along with it. 
 \end{itemize}
 %
-Atom, Jupyter and Pluto require the installation of additional packages to link Julia and the IDE. As Jupyter is probably the most popular tool, it is installed inside Julia REPL with the following instructions:
+Atom, Jupyter and Pluto require the installation of additional packages to link Julia to the IDE. As Jupyter is probably the most popular tool, it is installed inside Julia REPL with the following instructions:
 
 \vspace{1mm}
 \begin{center}
@@ -76,8 +76,8 @@ There are other options if you prefer cloud computing. For  example, in spite of
 LELAPE is built as a module. In Julia, a module is a set of elements such as variables, functions, etc. that can be loaded at will. The procedure is the following:
 %
 \begin{enumerate}
-	\item Download the ZIP system from the website and decompress it. Also, you can clone the site with git.
-	\item Find the folder where a file called LELAPE.jl is located.
+	\item Download the ZIP system from the website and decompress it. Also, you can clone the site with \texttt{git}. The instruction is \texttt{git clone https://github.com/fjfrancopelaez/LELAPE.git}.
+	\item Find the \texttt{LELAPE/src} folder where a file called LELAPE.jl is located.
 	\item Copy the full path pointing to this folder (\texttt{PATH\_TO\_FOLDER}) and execute in REPL, Jupyter or the notebook you use the following command:
 	
 	\vspace{1mm}
@@ -111,7 +111,7 @@ LELAPE is built as a module. In Julia, a module is a set of elements such as var
 		\item Replacing \texttt{$\backslash$} with \texttt{$\backslash\backslash$}.
 	\end{itemize}
 	%
-	Fig. \ref{Fig:LELAPE_PATH_Windows} shows how to sucessfully add a new element to \texttt{LOAD\_PATH} with the first option. 
+	Fig. \ref{Fig:LELAPE_PATH_Windows} shows how to sucessfully add a new element to \texttt{LOAD\_PATH} with the first option\footnote{The instruction was \texttt{push!(LOAD\_PATH, "C:/Users/francisco/Desktop/LELAPE-main/LELAPE/src")}, although \texttt{push!(LOAD\_PATH, "C:{\textbackslash\textbackslash}Users{\textbackslash\textbackslash}francisco{\textbackslash\textbackslash}Desktop{\textbackslash\textbackslash}LELAPE-main{\textbackslash\textbackslash}LELAPE {\textbackslash\textbackslash}src")}}
 	%
 	\begin{figure}
 		\centering
@@ -119,6 +119,7 @@ LELAPE is built as a module. In Julia, a module is a set of elements such as var
 		\caption{The folder containing LELAPE is added to the admitted paths in Microsoft Windows.}
 		\label{Fig:LELAPE_PATH_Windows}
 	\end{figure} 
+
 	\item Now, just launch LELAPE with the following instruction:
 		
 	\vspace{1mm}
