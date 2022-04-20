@@ -76,36 +76,120 @@ Before starting the analysis, we must define some additional variables to indica
 \end{itemize}
 
  \section{Functions in the module}
+ %
+ The functions depicted in this section are included in LELAPE and also accessible from the REPL, Jupyter, etc. Other functions are for internal use in LELAPE and are excluded from this list. The reader can just open the individual \texttt{.jl} files and check the comments.
  
- \subsection*{ConvertToPseudoADD}
+ Available functions are grouped in several categories:
  \begin{itemize}
- 	\item \textbf{Arguments}: 
- 		\begin{itemize}
- 			\item \textit{Method 1: }\textbf{DATA}::Array\{UInt32\}, \textbf{WordWidth}::Int
- 			\item \textit{Method 2: }\textbf{DATA}::Array\{UInt32\}, \textbf{WordWidth}::Int, \textbf{KeepCycle}::Bool
- 		\end{itemize}
+ 	\item \hyperref[SubseC:PreparationExpdata]{Preparation of experimental data}
+ \end{itemize}
+ %
+ In all the items you will find the accepted input arguments, the kind of output as well as an explication of its purpose.
+ %
+ \subsection{Preparation of experimental data}\label{SubseC:PreparationExpdata}
+ %
+ These functions just adapt the original test data to be used by LELAPE, or provide information about the data set. In this section, the following functions are included:
+ \begin{itemize}
+ 	\item \hyperref[Func:ConvertToPseudoADD]{ConvertToPseudoADD}
+ 	\item \hyperref[Func:ExtractFlippedBits]{ExtractFlippedBits}
+ 	\item \hyperref[Func:Npairs]{Npairs}
+ 	\item \hyperref[Func:NTriplets]{NTriplets}
+ \end{itemize}
+ %
+ \subsubsection*{ConvertToPseudoADD}\label{Func:ConvertToPseudoADD}
+ \begin{itemize}
+ 	\item \textbf{Input arguments}: 
+ 	\begin{itemize}
+ 		\item \textit{Method 1: }\textbf{DATA}::Array\{UInt32\}, \textbf{WordWidth}::Int
+ 		\item \textit{Method 2: }\textbf{DATA}::Array\{UInt32\}, \textbf{WordWidth}::Int, \textbf{KeepCycle}::Bool
+ 	\end{itemize}
+ 
+ 	In the case of not providing \textbf{KeepCycle}, it is assumed to be \texttt{false}.
+ 
  	\item   \textbf{Output}: Array\{UInt32, 2\}, or Matrix\{UInt32\}.
  	\item  This function looks for the flipped bits between words in the same row but in the second
- 	 and third columns of the DATA matrix. It does not matter if there are several bitflips, since they are independently coundted. 
- 	 The pseudoaddress  of each bitflip, defined as \[\text{WORDADDRESS}\times\text{Wordwith}+\text{Bitposition}\] is returned as the first column of the output.
+ 	and third columns of the DATA matrix. It does not matter if there are several bitflips, since they are independently counted. 
+ 	The pseudoaddress  of each bitflip, defined as \[\text{WORDADDRESS}\times\text{Wordwith}+\text{Bitposition}\] (Eq. \ref{Eq:PseudoAddressDefinition}) is returned as the first column of the output.
+ 
+ 	If there is information about the different cycles, it can be kept in the optional second column in the output with the condition of previously declaring \textbf{KeepCycle} as true. If cycle information is absent, the second column is filled with 1's.
  	
- 	 If there is information about the different cycles, it can be kept in the optional second column in the output with the condition of declaring \textbf{KeepCycle} true. If cycle information is absent, the second column is filled with 1s.
+ 	Fig. \ref{fig:Example_ConvertToPseudoADD} shows an example of use in the REPL. There are more rows in the output matrix than in the input one since there are words with several flipped bits.
  	
+ 	\begin{figure}[h!]
+ 		\centering
+ 		\includegraphics[width=0.65\columnwidth]{fig/functions/ConvertToPsudoADD.png}
+ 		\caption{Example of use of \texttt{ConvertToPseudoADD}.}
+ 		\label{fig:Example_ConvertToPseudoADD}
+ 	\end{figure}
  \end{itemize}
-
-\subsection*{ExtractFlippedBits}
-\begin {itemize}
-	\item \textbf{Arguments}:
-		\begin{itemize}
-			\item \textit{Method 1: }\textbf{WORD}::UInt32, \textbf{PATTERN}::UInt32, \textbf{Wordwidth}::Int
-			\item \textit{Method 2: }\textbf{WORD}::UInt16, \textbf{PATTERN}::UInt16, \textbf{Wordwidth}::Int
-			\item \textit{Method 3: }\textbf{WORD}::UInt8, \textbf{PATTERN}::UInt8, \textbf{Wordwidth}::Int
-		\end{itemize}
-	\item \textbf{Output}: :Array\{Int,1\}, or Vector\{Int\}
-	\item This function allows discovering the position of different bits between WORD
-	 and PATTERN. It also verifies that both values are coherent with the \textbf{Wordwidth},
-	 meaning that neither of them are higher than \(2^{Wordwidth}-1\). A vector, never larger than \textbf{Wordwidth} is returned. If \textbf{WORD} and \textbf{PATTERN} are equal, the output is a void vector.
+ 
+ \subsubsection*{ExtractFlippedBits}\label{Func:ExtractFlippedBits}
+ \begin {itemize}
+ \item \textbf{Input arguments}:
+ \begin{itemize}
+ 	\item \textit{Method 1: }\textbf{WORD}::UInt32, \textbf{PATTERN}::UInt32, \textbf{Wordwidth}::Int
+ 	\item \textit{Method 2: }\textbf{WORD}::UInt16, \textbf{PATTERN}::UInt16, \textbf{Wordwidth}::Int
+ 	\item \textit{Method 3: }\textbf{WORD}::UInt8, \textbf{PATTERN}::UInt8, \textbf{Wordwidth}::Int
+ \end{itemize}
+ \item \textbf{Output}: :Array\{Int,1\}, or Vector\{Int\}
+ \item This function allows discovering the position of different bits between WORD
+ and PATTERN. It also verifies that both values are coherent with the \textbf{Wordwidth},
+ meaning that neither of them are higher than \(2^{Wordwidth}-1\). A vector, never larger than \textbf{Wordwidth} is returned. If this condition is not fulfilled, the functions returns an error. If \textbf{WORD} and \textbf{PATTERN} are equal, the output is a void vector.
+ %
+ \begin{figure}[h!]
+ 	\centering
+ 	\includegraphics[width=0.65\columnwidth]{fig/functions/ExtractFlippedBits.png}
+ 	\caption{Example of use of \texttt{ExtractFlippedBits}.}
+ 	\label{fig:Example_ExtractFlippedBits}
+ \end{figure}
+ 
+ Fig. \ref{fig:Example_ExtractFlippedBits} shows some examples of use of this function. Take into account that, even when there is a single bitflip, a vector is always returned, albeit with an only value inside.
 \end{itemize}
+%
+\subsubsection*{NPairs}\label{Func:Npairs}
+\begin{itemize}
+	\item \textbf{Input arguments}:
+	\begin{itemize}
+		\item \textit{Method 1}: \textbf{DATA}::Array{UInt32}
+		\item \textit{Method 2}: \textbf{DATA}::Array{UInt32}, \textbf{UsePseudoAdd}::Bool
+		\item \textit{Method 3}: \textbf{DATA}:: Array{UInt32}, \textbf{UsePseudoAdd}::Bool, \textbf{WordWidth}:: Int
+		\item \textit{Method 4}: \textbf{DATA}::Array{UInt32}, \textbf{UsePseudoAdd}:: Bool, \textbf{WordWidth}:: Int, \textbf{KeepCycle}:: Bool
+		\item \textit{Method 5}: \textbf{N}::Int
+	\end{itemize}
+	\item \textbf{Output}: Int
+	%
+	\item \textbf{DATA} is a 3 or 4-column matrix derived from the loaded CSV file and each row containing the word address (\#1), the read word after the tests (\#2), the initial pattern (\#3) and the number of reading cycle when the error was observed. If this last column is not provided or \textbf{KeepCycle} is false, the system works as if only one cycle was done. 
+	
+	The function provides the number of pairs of addresses taken during each cycle regarding predictions of the Only-SBU model. For example, let us suppose that we have done 2 cycles, observing in the first one 30 events, and 40 in the second. The number of possible pairs is the addition of the pairs in each cycle:
+	\[
+	\frac{1}{2}\cdot 30\cdot(30-1)+\frac{1}{2}\cdot 40\cdot(40-1) = 1215
+	\]
+	Thus, 1215 pairs can be formed. If we had not taken into account the existence of cycles, the number of pairs woudl have been\[	\frac{1}{2}\cdot (30+40)\cdot(30+40-1) = 2415\]
+	however, many of them are unreal since were taken in different times!
+	
+	If \textbf{UsePseudoAdd} is set to true, the system looks for the position of the bitflips inside the word and uses the pseudoaddress (\(\text{WordAddress}\times\text{WordWidth}+\text{Position}\)). Thus, it is necessary to provide the \textbf{WordWidth} value (8, 16, 32, ...). If this value is not provided. Default values for this variables are \textbf{UsePseudoAdd}~=~true, \textbf{WordWidth}~=~1, \textbf{KeepCycle}~=~1. Using \textbf{DATA} as the only argument is appropriate to analyze values directly in pseudoaddress format taken during one only cycle. This is the case, for example, of FPGAs configuration memory. 
+	
+	There is a final method, just saying the number of observed pairs, \textbf{N}. In this case, the function returns \textbf{N}\(\cdot\)(\textbf{N}-1)/2.
+	
+\end{itemize}
+%
+\subsubsection*{NTriplets}\label{Func:NTriplets}
+\begin{itemize}
+	\item \textbf{Input arguments}:
+	\begin{itemize}
+		\item \textit{Method 1}: \textbf{DATA}::Array{UInt32}
+		\item \textit{Method 2}: \textbf{DATA}::Array{UInt32}, \textbf{UsePseudoAdd}::Bool
+		\item \textit{Method 3}: \textbf{DATA}:: Array{UInt32}, \textbf{UsePseudoAdd}::Bool, \textbf{WordWidth}:: Int
+		\item \textit{Method 4}: \textbf{DATA}::Array{UInt32}, \textbf{UsePseudoAdd}:: Bool, \textbf{WordWidth}:: Int, \textbf{KeepCycle}:: Bool
+		\item \textit{Method 5}: \textbf{N}::Int
+	\end{itemize}
+	\item \textbf{Output}: Int
+	%
+	\item Similar to \textit{Npairs(...)}, but calculating the expected number of triplets instead of pairs.
+\end{itemize}
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
 
 \subsection*{CheckMBUs}
 
@@ -113,7 +197,7 @@ TBD
 
 \subsection*{DetectAnomalies\_SelfConsis}
 \begin{itemize}
-	\item \textbf{Arguments}:
+	\item \textbf{Input arguments}:
 	\begin{itemize}
 		\item  \textit{Method 1: }\textbf{DATA}::Array\{UInt32, 2\}, 
 		\textbf{WordWidth}::Int,
@@ -192,7 +276,7 @@ TBD
  \subsection*{MCU\_Indexes}
  %
  \begin{itemize}
- 	\item \textbf{Arguments}: 
+ 	\item \textbf{Input arguments}: 
  		\begin{itemize}
  			\item \textit{Method 1: } \textbf{DATA}::Matrix\{UInt32\}, 
  			\textbf{OPERATION}::String,
@@ -270,7 +354,7 @@ TBD
 \subsection*{Classify\_Addresses\_in\_MCU}
 %
 \begin{itemize}
-	\item \textbf{Arguments}: 
+	\item \textbf{Input arguments}: 
 		\begin{itemize}
 			\item \textit{Method 1}: \textbf{DATA}:: Matrix\{UInt32\}, 
 			\textbf{Indexes}:: Matrix\{Int\}, 
@@ -331,7 +415,7 @@ TBD
 \subsection*{TheoAbundance\_POS}
 %
 \begin{itemize}
-	\item \textbf{Arguments}:
+	\item \textbf{Input arguments}:
 		%
 	\begin{itemize}
 		\item \textit{Method 1}: \textbf{NR}: :Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{UsingDV}::Bool
@@ -360,7 +444,7 @@ TBD
 \subsection*{TheoAbundance}
 %
 	\begin{itemize}
-	\item \textbf{Arguments}:
+	\item \textbf{Input arguments}:
 		\begin{itemize}
 			\item \textit{Method 1:} \textbf{NR}::Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{Operation}:: String, \textbf{UsingDV}::Bool
 			\item \textit{Method 1:} \textbf{NR}::Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{Operation}:: String
@@ -382,7 +466,7 @@ TBD
 \subsection*{MaxExpectedRepetitions}
 %
 \begin{itemize}
-	\item \textbf{Arguments}: 
+	\item \textbf{Input arguments}: 
 		\begin{itemize}
 			\item \textit{Method 1}: \textbf{NDV}::Int, \textbf{LN}::Int, \textbf{Operation}:: String, \(\varepsilon\):: AbstractFloat	
 			\item \textit{Method 2}: \textbf{NDV}::Int, \textbf{LN}::Int, \textbf{Operation}::String
@@ -397,7 +481,7 @@ TBD
 \subsection*{CorrectNBitFlips}
 %
 	\begin{itemize}
-		\item \textbf{Arguments}: \textbf{NBF}::Int, \textbf{LN}::Int
+		\item \textbf{Input arguments}: \textbf{NBF}::Int, \textbf{LN}::Int
 		\item \textbf{Output}: Float64
 		\item This function tries to correct the number of bitflips to compensate cells hit twice that
 		escape from inspection. 
@@ -418,7 +502,7 @@ TBD
 \subsection*{NF2BitMCUs}
 %
 \begin{itemize}
-	\item \textbf{Arguments}: 
+	\item \textbf{Input arguments}: 
 		\begin{itemize}
 			\item \textit{Method 1}: \textbf{NSBU}::Int, \textbf{LA}::Int, \textbf{METHOD}::String, \textbf{D}::Int, \textbf{WordWidth}::Int, \textbf{UsePseudoAddress}::Bool
 			\item \textit{Method 2}: \textbf{NSBU}::Int, \textbf{LA}::Int, \textbf{METHOD}::String, \textbf{D}::Int, \textbf{WordWidth}::Int
@@ -457,7 +541,7 @@ TBD
 \subsection*{NF3BitMCUs}
 %
 \begin{itemize}
-	\item \textbf{Arguments}: 
+	\item \textbf{Input arguments}: 
 	\begin{itemize}
 		\item \textit{Method 1}: \textbf{NSBU}::Int, \textbf{NMU2}::Int, \textbf{LN}::Int, \textbf{METHOD}::String, \textbf{D}::Int, WordWidth::Int
 		\item \textit{Method 2}: \textbf{NSBU}::Int, \textbf{NMU2}::Int, \textbf{LN}::Int, \textbf{METHOD}::String, \textbf{D}::Int
@@ -495,46 +579,4 @@ TBD
 	pp. 1547-1554, July 2020, doi: 10.1109/TNS.2020.2977698.
 	
 	In this paper, it was demonstrated that it is mathematically impossible to get an exact value. Therefore,  optimistic and pessimistic results are provided.
-\end{itemize}
-%
-\subsection*{NPairs}
-\begin{itemize}
-	\item \textbf{Arguments}:
-		\begin{itemize}
-			\item \textit{Method 1}: \textbf{DATA}::Array{UInt32}
-			\item \textit{Method 2}: \textbf{DATA}::Array{UInt32}, \textbf{UsePseudoAdd}::Bool
-			\item \textit{Method 3}: \textbf{DATA}:: Array{UInt32}, \textbf{UsePseudoAdd}::Bool, \textbf{WordWidth}:: Int
-			\item \textit{Method 4}: \textbf{DATA}::Array{UInt32}, \textbf{UsePseudoAdd}:: Bool, \textbf{WordWidth}:: Int, \textbf{KeepCycle}:: Bool
-			\item \textit{Method 5}: \textbf{N}::Int
-		\end{itemize}
-	\item \textbf{Output}: Int
-	%
-	\item \textbf{DATA} is a 3 or 4-column matrix derived from the loaded CSV file and each row containing the word address (\#1), the read word after the tests (\#2), the initial pattern (\#3) and the number of reading cycle when the error was observed. If this last column is not providedJ or \textbf{KeepCycle} is false, the system works as if only one cycle was done. 
-	
-	The function provides the number of pairs of addresses taken during each cycle regarding predictions of the Only-SBU model. For example, let us suppose that we have done 2 cycles, observing in the first one 30 events, and 40 in the second. The number of possible pairs is the addition of the pairs in each cycle:
-	\[
-		\frac{1}{2}\cdot 30\cdot(30-1)+\frac{1}{2}\cdot 40\cdot(40-1) = 1215
-	\]
-	Thus, 1215 pairs can be formed. If we had not taken into account the existence of cycles, the number of pairs woudl have been\[	\frac{1}{2}\cdot (30+40)\cdot(30+40-1) = 2415\]
-	however, many of them are unreal since were taken in different times!
-	
-	If \textbf{UsePseudoAdd} is set to true, the system looks for the position of the bitflips inside the word and uses the pseudoaddress (\(\text{WordAddress}\times\text{WordWidth}+\text{Position}\)). Thus, it is necessary to provide the \textbf{WordWidth} value (8, 16, 32, ...). If this value is not provided. Default values for this variables are \textbf{UsePseudoAdd}~=~true, \textbf{WordWidth}~=~1, \textbf{KeepCycle}~=~1. Using \textbf{DATA} as the only argument is appropriate to analyze values directly in pseudoaddress format taken during one only cycle. This is the case, for example, of FPGAs configuration memory. 
-	
-	There is a final method, just saying the number of observed pairs, \textbf{N}. In this case, the function returns \textbf{N}\(\cdot\)(\textbf{N}-1)/2.
-	
-\end{itemize}
-%
-\subsection*{NTriplets}
-\begin{itemize}
-	\item \textbf{Arguments}:
-	\begin{itemize}
-		\item \textit{Method 1}: \textbf{DATA}::Array{UInt32}
-		\item \textit{Method 2}: \textbf{DATA}::Array{UInt32}, \textbf{UsePseudoAdd}::Bool
-		\item \textit{Method 3}: \textbf{DATA}:: Array{UInt32}, \textbf{UsePseudoAdd}::Bool, \textbf{WordWidth}:: Int
-		\item \textit{Method 4}: \textbf{DATA}::Array{UInt32}, \textbf{UsePseudoAdd}:: Bool, \textbf{WordWidth}:: Int, \textbf{KeepCycle}:: Bool
-		\item \textit{Method 5}: \textbf{N}::Int
-	\end{itemize}
-	\item \textbf{Output}: Int
-	%
-	\item Similar to \textit{Npairs(...)}, but calculating the expected number of triplets instead of pairs.
 \end{itemize}
