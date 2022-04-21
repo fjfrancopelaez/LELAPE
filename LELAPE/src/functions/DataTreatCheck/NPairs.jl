@@ -39,6 +39,10 @@ end
 
 function NPairs(NBF::Int)::Int
 
+    if (NBF < 0) 
+        error("Using a negative integer as input of NPairs is nonsense.")
+    end
+
     return div(NBF*(NBF-1), 2)
 
 end

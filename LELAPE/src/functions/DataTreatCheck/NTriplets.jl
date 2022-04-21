@@ -1,4 +1,4 @@
-function NTriplets(DATA::Array{UInt32}, UsePseudoAdd::Bool=true, WordWidth::Int=1, KeepCycle::Bool=false)::Int
+function NTriplets(DATA::Array{UInt32}, UsePseudoAdd::Bool=false, WordWidth::Int=1, KeepCycle::Bool=false)::Int
 
     if UsePseudoAdd
 
@@ -12,8 +12,9 @@ function NTriplets(DATA::Array{UInt32}, UsePseudoAdd::Bool=true, WordWidth::Int=
 
         ADDRESSES[:, 1] = DATA[:, 1]
 
-        if Ncol == 4 & KeepCycle
-
+        if Ncol == 4 && KeepCycle
+            #Fixed 2022/04/21: The typical mistake of using & instead of &&.
+            
             ADDRESSES[:,2] = DATA[:, 4]
 
         end
@@ -37,6 +38,10 @@ function NTriplets(DATA::Array{UInt32}, UsePseudoAdd::Bool=true, WordWidth::Int=
 end
 
 function NTriplets(NBF::Int)::Int
+
+    if (NBF < 0) 
+        error("Using a negative integer as input of NPairs is nonsense.")
+    end
 
     return div(NBF*(NBF-1)*(NBF-2), 6)
 
