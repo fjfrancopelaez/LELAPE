@@ -82,6 +82,8 @@ Before starting the analysis, we must define some additional variables to indica
  Available functions are grouped in several categories:
  \begin{itemize}
  	\item \hyperref[SubseC:PreparationExpdata]{Preparation of experimental data}
+ 	\item \hyperref[SubSeC:MBUs]{Multiple Bit Upsets}
+ 	\item \hyperref[Subsec:StatisticalPredictions]{Statistical predictions}
  \end{itemize}
  %
  In all the items you will find the accepted input arguments, the kind of output as well as an explication of its purpose.
@@ -108,7 +110,7 @@ Before starting the analysis, we must define some additional variables to indica
  
  	\item   \textbf{Output}: Array\{UInt32, 2\}, or Matrix\{UInt32\}.
  	\item  This function looks for the flipped bits between words in the same row but in the second
- 	and third columns of the DATA matrix. It does not matter if there are several bitflips, since they are independently counted. 
+ 	and third columns of the \textbf{DATA} matrix. It does not matter if there are several bitflips, since they are independently counted. 
  	The pseudoaddress  of each bitflip, defined as \[\text{WORDADDRESS}\times\text{Wordwith}+\text{Bitposition}\] (Eq. \ref{Eq:PseudoAddressDefinition}) is returned as the first column of the output.
  
  	If there is information about the different cycles, it can be kept in the optional second column in the output with the condition of previously declaring \textbf{KeepCycle} as true. If cycle information is absent, the second column is filled with 1's.
@@ -132,8 +134,8 @@ Before starting the analysis, we must define some additional variables to indica
  	\item \textit{Method 3: }\textbf{WORD}::UInt8, \textbf{PATTERN}::UInt8, \textbf{Wordwidth}::Int
  \end{itemize}
  \item \textbf{Output}: :Array\{Int,1\}, or Vector\{Int\}
- \item This function allows discovering the position of different bits between WORD
- and PATTERN. It also verifies that both values are coherent with the \textbf{Wordwidth},
+ \item This function allows discovering the position of different bits between \textbf{WORD}
+ and \textbf{PATTERN}. It also verifies that both values are coherent with the \textbf{Wordwidth},
  meaning that neither of them are higher than \(2^{Wordwidth}-1\). A vector, never larger than \textbf{Wordwidth} is returned. If this condition is not fulfilled, the functions returns an error. If \textbf{WORD} and \textbf{PATTERN} are equal, the output is a void vector.
  %
  \begin{figure}[h!]
@@ -156,20 +158,32 @@ Before starting the analysis, we must define some additional variables to indica
 		\item \textit{Method 4}: \textbf{DATA}::Array{UInt32}, \textbf{UsePseudoAdd}:: Bool, \textbf{WordWidth}:: Int, \textbf{KeepCycle}:: Bool
 		\item \textit{Method 5}: \textbf{N}::Int
 	\end{itemize}
-	\item \textbf{Output}: Int
+
+	In Methods 1--4, default values for parameters are \texttt{\textbf{UsePseudoAdd} = false}, \texttt{\textbf{WordWidth} = 1}, \texttt{\textbf{KeepCycle} = false}. 
+	
+	\item \textbf{Output}: Int 
 	%
 	\item \textbf{DATA} is a 3 or 4-column matrix derived from the loaded CSV file and each row containing the word address (\#1), the read word after the tests (\#2), the initial pattern (\#3) and the number of reading cycle when the error was observed. If this last column is not provided or \textbf{KeepCycle} is false, the system works as if only one cycle was done. 
 	
-	The function provides the number of pairs of addresses taken during each cycle regarding predictions of the Only-SBU model. For example, let us suppose that we have done 2 cycles, observing in the first one 30 events, and 40 in the second. The number of possible pairs is the addition of the pairs in each cycle:
+	The function provides the number of pairs of addresses taken during each cycle regarding predictions of the Only-SBU model (Eq. \ref{Eq:SizeOfDV}). For example, let us suppose that we have done 2 cycles, observing in the first one 30 events, and 40 in the second. The number of possible pairs is the addition of the pairs in each cycle:
 	\[
 	\frac{1}{2}\cdot 30\cdot(30-1)+\frac{1}{2}\cdot 40\cdot(40-1) = 1215
 	\]
-	Thus, 1215 pairs can be formed. If we had not taken into account the existence of cycles, the number of pairs woudl have been\[	\frac{1}{2}\cdot (30+40)\cdot(30+40-1) = 2415\]
+	Thus, 1215 pairs can be formed. If we had not taken into account the existence of cycles, the number of pairs would have been\[	\frac{1}{2}\cdot (30+40)\cdot(30+40-1) = 2415\]
 	however, many of them are unreal since were taken in different times!
 	
-	If \textbf{UsePseudoAdd} is set to true, the system looks for the position of the bitflips inside the word and uses the pseudoaddress (\(\text{WordAddress}\times\text{WordWidth}+\text{Position}\)). Thus, it is necessary to provide the \textbf{WordWidth} value (8, 16, 32, ...). If this value is not provided. Default values for this variables are \textbf{UsePseudoAdd}~=~true, \textbf{WordWidth}~=~1, \textbf{KeepCycle}~=~1. Using \textbf{DATA} as the only argument is appropriate to analyze values directly in pseudoaddress format taken during one only cycle. This is the case, for example, of FPGAs configuration memory. 
+	If \textbf{UsePseudoAdd} is set to true, the system looks for the position of the bitflips inside the word and uses the pseudoaddress (\(\text{WordAddress}\times\text{WordWidth}+\text{Position}\)). Thus, it is necessary to provide the \textbf{WordWidth} value (8, 16, 32, ...). Using \textbf{DATA} as the only argument is appropriate to analyze values directly in pseudoaddress format (or just the word address) taken during one only cycle. This is the case, for example, of FPGAs configuration memory. 
 	
 	There is a final method, just saying the number of observed pairs, \textbf{N}. In this case, the function returns \textbf{N}\(\cdot\)(\textbf{N}-1)/2.
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.75\columnwidth]{fig/functions/NPairs.png}
+		\caption{Example of use of \texttt{NPairs}.}
+		\label{fig:Example_NPAirs}
+	\end{figure}
+
+	Fig. \ref{fig:Example_NPAirs} shows an example of use of this function. 
 	
 \end{itemize}
 %
@@ -185,15 +199,144 @@ Before starting the analysis, we must define some additional variables to indica
 	\end{itemize}
 	\item \textbf{Output}: Int
 	%
-	\item Similar to \textit{Npairs(...)}, but calculating the expected number of triplets instead of pairs.
+	\item Similar to \textit{Npairs(...)}, but calculating the expected number of triplets instead of pairs. Thus, instead of using Eq. \ref{Eq:SizeOfDV} as the basis for calculations, this function uses:
+	\[
+		N_{Triplets} = \frac{1}{6}\cdot N_{BF}\cdot \left(N_{BF}-1\right)\cdot \left(N_{BF}-2\right)
+	\]
+\end{itemize}
+%
+\subsection{Multiple Bit Upsets} \label{SubSeC:MBUs}
+%
+Sometimes, the researcher just wants to know how many multiple bit upsets occurred during the experiments. There is only one function in this section, \texttt{CheckMBUs}.
+
+\subsubsection*{CheckMBUs}
+
+\begin{itemize}
+	\item \textbf{Input arguments}:
+	\begin{itemize}
+		\item \textit{Method 1}: \textbf{WORD}::UInt32, \textbf{PATTERN}::UInt32, \textbf{WordWidth}::Int
+		\item \textit{Method 2}: \textbf{WORDS}::Vector\{UInt32\}, \textbf{PATTERN}::Vector\{UInt32\}, \textbf{WordWidth}::Int
+		\item \textit{Method 3}:  \textbf{WORDS}::Vector\{UInt32\}, \textbf{PATTERN}::UInt32, \textbf{WordWidth}::Int
+	\end{itemize}
+	\item \textbf{Output}: 
+		\begin{itemize}
+			\item \textit{Method 1}: Tuple\{Int, Vector\{Int\}\}
+			\item \textit{Methods 2 \& 3}: Tuple\{Vector\{Int\}, Vector\{Any\}\}
+		\end{itemize}
+	%
+	\item The first method is quite easy to understad. It just takes to unsigned integer 32-bit numbers, \textbf{WORD} \& \textbf{PATTERN}, of which only the last \textbf{WordWidth} bits are significant, and looks for equivalent bits with different value with the function \hyperref[Func:ExtractFlippedBits]{\texttt{ExtractFlippedBits}}. Then, it returns the number of biflips and a vector containing the flipped positions. Fig. \ref{fig:Example_CheckMBUs_M1} shows how this function behaves with these inputs.
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.75\columnwidth]{fig/functions/CheckMBUs_M1.png}
+		\caption{Example of use of \texttt{CheckMBUs} with unsigned integers as inputs.}
+		\label{fig:Example_CheckMBUs_M1}
+	\end{figure}
+
+	For Method 2, the idea is to provide as arguments two similar-length vectors with the \textbf{WORD} and \textbf{PATTERN} values in UInt32 format, as well as the \textbf{WordWidth}. Then, the function checks the values in both vectors with the same index and returns two vectors. The first one is a typical vector of integers, containing in the \(k\)-th position the number of different bits between \textbf{WORD}[k] y \textbf{PATTERN}[k]. The second is a vector of vectors. Thus, the element in the \(k\)-th positiion is also a vector with the positions of the flipped bits. 
+	
+	Method 3 is quite similar to Method 2, but \textbf{PATTERN} is no longer a vector but a constant value for all the elements of \textbf{WORDS}. Fig. \ref{fig:Example_CheckMBUs_M23} shows how this method and the previous one work.
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.75\columnwidth]{fig/functions/CheckMBUs_Methods2_3.png}
+		\caption{Example of use of \texttt{CheckMBUs} with vectors as inputs. Last line uses Method 3, where the pattern is provided as an unsigned integer.}
+		\label{fig:Example_CheckMBUs_M23}
+	\end{figure}
+	
+\end{itemize}
+%
+\subsection{Statistical predictions}\label{Subsec:StatisticalPredictions}
+%
+The goals of this set of functions is to cast predictions about the characteristics of the data according to the Only-SBU model. The following functions are included in this section:
+
+\begin{itemize}
+	\item \hyperref[Subsec:MaxExpectedRepetitions]{MaxExpectedRepetitions}
+	\item \hyperref[Subsec:TheoAbundance_POS]{TheoAbundance\_POS}
+	\item \hyperref[Subsec:TheoAbundance_XOR]{TheoAbundance\_XOR}
+	\item \hyperref[Subsec:TheoAbundance]{TheoAbundance}
 \end{itemize}
 
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- 
+Related to these functions are those used to determine the expected number of false errors, but they will be depicted in the corresponding section.
+%
+\subsubsection*{MaxExpectedRepetitions}\label{Subsec:MaxExpectedRepetitions}
+%
+\begin{itemize}
+	\item \textbf{Input arguments}: 
+	\begin{itemize}
+		\item \textit{Method 1}: \textbf{NDV}::Int, \textbf{LN}::Int, \textbf{Operation}:: String, \(\varepsilon\):: AbstractFloat	
+		\item \textit{Method 2}: \textbf{NDV}::Int, \textbf{LN}::Int, \textbf{Operation}::String
+	\end{itemize}
+	\item \textbf{Output}: Int
+	\item The purpose of this funcion is to determine the maximum number of expected
+	repetitions. in a DV set taken from a memory with size equal to \textbf{LN} .
+	In general, it is the first integer such that its theoretical abundance is
+	lower than \(\varepsilon\). If this threshold is not provided, it is assumed to be \(\varepsilon = 0.01\).
+\end{itemize}
+%
+\subsubsection*{TheoAbundance\_POS}\label{Subsec:TheoAbundance_POS}
+%
+\begin{itemize}
+	\item \textbf{Input arguments}:
+	%
+	\begin{itemize}
+		\item \textit{Method 1}: \textbf{NR}: :Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{UsingDV}::Bool
+		\item \textit{Method 2}: \textbf{NR}: :Int, \textbf{NB}::Int, \textbf{LN}::Int
+	\end{itemize}
+	\item \textbf{Output:} AbstractFloat
+	%
+	\item This function allows calculating the expected number of values repeated 	 \textbf{NR} times after several bitflips in a memory with \textbf{LA} words with \textbf{W} bits per word   	supposing to have used the POSITIVE subtraction.
+	
+	\textbf{NR} must be an integer number higher than or equal to 0. 
+	\textbf{NB} is an integer number supposed to be higher than 1.
+	\textbf{LN} is an integer number, and indicates the size of the memory. If the researcher uses bit address for calculations, \textbf{LN} is \textbf{LA}\(\times\)\textbf{W}. However, if he/she uses the word address instead, this parameerter is \textbf{LA}.
+	
+	\textbf{UsingDV} determines how \textbf{NB} must be interpreted. If that boolean variable is \texttt{true}, \textbf{NB} is the size of the DV set, called elsewhere \(N_{DV}\). If false, \textbf{NB} is the number of bitflips and \(N_{DV}\) must be calculated from it. By default, \textbf{UsingDV} is \texttt{false}.
+	
+	Equations were got from Eq.2 of the Appendix in J. C. Fabero et al., "\textit{Single Event Upsets Under 14-MeV Neutrons in a 28-nm
+		SRAM-Based FPGA in Static Mode,}" in IEEE Transactions on Nuclear Science, vol.
+	67, no. 7, pp. 1461-1469, July 2020, doi: 10.1109/TNS.2020.2977874.
+	
+	Lawfully avalaible for free download on \href{https://eprints.ucm.es/id/eprint/59496/}{https://eprints.ucm.es/id/eprint/59496/}
+\end{itemize}
 
-\subsection*{CheckMBUs}
+\subsubsection*{TheoAbundance\_XOR}\label{Subsec:TheoAbundance_XOR}
+%
+\begin{itemize}
+	\item \textbf{Arguments:}
+	%
+	\begin{itemize}
+		\item \textit{Method 1}: \textbf{NR}: :Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{UsingDV}::Bool
+		\item \textit{Method 2}: \textbf{NR}: :Int, \textbf{NB}::Int, \textbf{LN}::Int
+	\end{itemize}
+	\item \textbf{Output:} AbstractFloat
+	%
+	\item Equivalent to \hyperref[Subsec:TheoAbundance_POS]{\texttt{TheoAbundance\_POS}}, but referred to the bitwise XOR operation. 
+	
+	Equations were got from Eq.12 of the Appendix.C in 
+	F. J. Franco et al., "\textit{Statistical Deviations From the Theoretical Only-SBU
+		Model to Estimate MCU Rates in SRAMs,}" in IEEE Transactions on Nuclear
+	Science, vol. 64, no. 8, pp. 2152-2160, Aug. 2017,
+	doi: 10.1109/TNS.2017.2726938. 
+	
+	Lawfully avalaible for free on https://eprints.ucm.es/id/eprint/43874/
+\end{itemize}
+%
+\subsubsection*{TheoAbundance}\label{Subsec:TheoAbundance}
+%
+\begin{itemize}
+	\item \textbf{Input arguments}:
+	\begin{itemize}
+		\item \textit{Method 1:} \textbf{NR}::Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{Operation}:: String, \textbf{UsingDV}::Bool
+		\item \textit{Method 1:} \textbf{NR}::Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{Operation}:: String
+	\end{itemize}
+	\item \textbf{Output}: AbstractFloat
+	\item This is an Alias for \hyperref[Subsec:TheoAbundance_POS]{ \texttt{TheoAbundance\_POS()}} or \hyperref[Subsec:TheoAbundance_XOR]{ \texttt{TheoAbundance\_XOR()}}. The definition of arguments are similar, with an additional parameter, \textbf{Operation}, which only can be \texttt{"XOR"} or \texttt{"POS"}. 
+	
+\end{itemize}
+%%
 
-TBD
+%%%%%%%%%%%%%%%%%%%%%%%%5
 
 \subsection*{DetectAnomalies\_SelfConsis}
 \begin{itemize}
@@ -380,104 +523,6 @@ TBD
 	Finally, SOLUTION[NLMCU] is just a simple vector with the addresses not involved in MCUs. Obviously, these are the SBUs.
 \end{itemize}
 
-\subsection*{TheoAbundance\_XOR}
-%
-\begin{itemize}
-	\item \textbf{Arguments:}
-	%
-		\begin{itemize}
-			\item \textit{Method 1}: \textbf{NR}: :Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{UsingDV}::Bool
-			\item \textit{Method 2}: \textbf{NR}: :Int, \textbf{NB}::Int, \textbf{LN}::Int
-		\end{itemize}
-	\item \textbf{Output:} AbstractFloat
-	%
-	\item This function allows calculating the expected number of values repeated 	 \textbf{NR} times after \textbf{NB} bitflips in a memory with \textbf{LA} words with \textbf{W} bits per word
-	 with XOR operation.
-	
-	 \textbf{NR} must be an integer number higher or equal than 0; 
-	 \textbf{NB} is an integer number supposed to be higher than 1.
-	 \textbf{LN} is an integer number, and indicates the size of the elements in the set
-	 where elements are chosen.
-	
-	 Sometimes, the user provides directly the DV set so an additional boolean
-	 input is provided to take into account this fact. It is usually disabled. In this
-	 case, NB PLAYS THE ROLE OF NDV.
-	 
-	 Equations were got from Eq.12 of the Appendix.C in 
-	 F. J. Franco et al., "\textit{Statistical Deviations From the Theoretical Only-SBU
-	 Model to Estimate MCU Rates in SRAMs,}" in IEEE Transactions on Nuclear
-	 Science, vol. 64, no. 8, pp. 2152-2160, Aug. 2017,
-	 doi: 10.1109/TNS.2017.2726938. 
-	
-	 Lawfully avalaible for free on https://eprints.ucm.es/id/eprint/43874/
-\end{itemize}
-%
-\subsection*{TheoAbundance\_POS}
-%
-\begin{itemize}
-	\item \textbf{Input arguments}:
-		%
-	\begin{itemize}
-		\item \textit{Method 1}: \textbf{NR}: :Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{UsingDV}::Bool
-		\item \textit{Method 2}: \textbf{NR}: :Int, \textbf{NB}::Int, \textbf{LN}::Int
-	\end{itemize}
-	\item \textbf{Output:} AbstractFloat
-	%
-	\item This function allows calculating the expected number of values repeated 	 NR times after NB bitflip in a memory with LA words with W bits per word   	supposing to have used the POSITIVE subtraction.
- 
-  \textbf{NR} must be an integer number higher or equeal than 0
-  \textbf{NB} is an integer number supposed to be higher than 1.
-  \textbf{LN} is an integer number, and indicates the size of the elements in the set
-  where elements are chosen.
- 
-  Sometimes, the user provides directly the DV set so an additional boolean
-  input is provided to take into account this fact. It is usually disabled. In this
-  case, NB PLAYS THE ROLE OF NDV.
- 
-  Equations were got from Eq.2 of the Appendix in J. C. Fabero et al., "\textit{Single Event Upsets Under 14-MeV Neutrons in a 28-nm
- SRAM-Based FPGA in Static Mode,}" in IEEE Transactions on Nuclear Science, vol.
-  67, no. 7, pp. 1461-1469, July 2020, doi: 10.1109/TNS.2020.2977874.
-  
-  Lawfully avalaible for free download on \href{https://eprints.ucm.es/id/eprint/59496/}{https://eprints.ucm.es/id/eprint/59496/}
-\end{itemize}
-%
-\subsection*{TheoAbundance}
-%
-	\begin{itemize}
-	\item \textbf{Input arguments}:
-		\begin{itemize}
-			\item \textit{Method 1:} \textbf{NR}::Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{Operation}:: String, \textbf{UsingDV}::Bool
-			\item \textit{Method 1:} \textbf{NR}::Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{Operation}:: String
-		\end{itemize}
-	\item \textbf{Output}: AbstractFloat
-	\item This is an Alias for TheoAbundance\_POS() or TheoAbundance\_XOR().
-	
-	 \textbf{NR} must be an integer number higher or equeal than 0
-	 \textbf{NB} is an integer number supposed to be higher than 1.
-	 \textbf{LN} is an integer number, and indicates the size of the elements in the set
-	 where elements are chosen.
-	 \textbf{Operation} is "XOR" or "POS". 
-	 
-	   Sometimes, the user provides directly the DV set so an additional boolean
-	 input is provided to take into account this fact. It is usually disabled. In this
-	 case, NB PLAYS THE ROLE OF NDV. If \textbf{UsingDV} is not provided, it is supposed to be false.
-\end{itemize}
-%
-\subsection*{MaxExpectedRepetitions}
-%
-\begin{itemize}
-	\item \textbf{Input arguments}: 
-		\begin{itemize}
-			\item \textit{Method 1}: \textbf{NDV}::Int, \textbf{LN}::Int, \textbf{Operation}:: String, \(\varepsilon\):: AbstractFloat	
-			\item \textit{Method 2}: \textbf{NDV}::Int, \textbf{LN}::Int, \textbf{Operation}::String
-		\end{itemize}
-	\item \textbf{Output}: Int
-	\item The purpose of this funcion is to determina the maximum number of expected
-	repetitions. in a DV set taken from a memory with size equal to \textbf{LN}.
-	In general, it is the first integer such that its theoretical abundance is
-	lower than \(\varepsilon\). If this threshold is not provided, it is assumed to be 0.01.
-\end{itemize}
-%
 \subsection*{CorrectNBitFlips}
 %
 	\begin{itemize}
