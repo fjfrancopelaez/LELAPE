@@ -1,4 +1,4 @@
-function NPairs(DATA::Array{UInt32}, UsePseudoAdd::Bool=true, WordWidth::Int=1, KeepCycle::Bool=false)::Int
+function NPairs(DATA::Array{UInt32}, UsePseudoAdd::Bool=false, WordWidth::Int=1, KeepCycle::Bool=false)::Int
 
     if UsePseudoAdd
 
@@ -12,7 +12,8 @@ function NPairs(DATA::Array{UInt32}, UsePseudoAdd::Bool=true, WordWidth::Int=1, 
 
         ADDRESSES[:, 1] = DATA[:, 1]
 
-        if Ncol == 4 & KeepCycle
+        if Ncol == 4 && KeepCycle
+            #Fixed 2022/04/21: The typical mistake of using & instead of &&.
 
             ADDRESSES[:,2] = DATA[:, 4]
 
