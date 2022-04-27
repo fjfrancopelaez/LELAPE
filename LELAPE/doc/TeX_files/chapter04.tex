@@ -84,6 +84,9 @@ Before starting the analysis, we must define some additional variables to indica
  	\item \hyperref[SubseC:PreparationExpdata]{Preparation of experimental data}
  	\item \hyperref[SubSeC:MBUs]{Multiple Bit Upsets}
  	\item \hyperref[Subsec:StatisticalPredictions]{Statistical predictions}
+ 	\item \hyperref[Subsec:SearchOfAnomalies]{Search of anomalies}
+ 	\item \hyperref [SubSec:ClassificationEventsFromAnomalies]{Classification of events from anomalies}
+ 	\item \hyperref[SubSec:FalseEvents]{False events due to accumulation of bitflips}
  \end{itemize}
  %
  In all the items you will find the accepted input arguments, the kind of output as well as an explication of its purpose.
@@ -337,8 +340,8 @@ Related to these functions are those used to determine the expected number of fa
 %%
 
 %%%%%%%%%%%%%%%%%%%%%%%%5
-
-\subsection*{DetectAnomalies\_SelfConsis}
+\subsection{Search of anomalies}\label{Subsec:SearchOfAnomalies}
+\subsubsection*{DetectAnomalies\_SelfConsis}
 \begin{itemize}
 	\item \textbf{Input arguments}:
 	\begin{itemize}
@@ -401,22 +404,23 @@ Related to these functions are those used to determine the expected number of fa
 	\end{itemize}
 \end{itemize}
 %
-\subsection*{DetectAnomalies\_Shuffle\_Rule}
+\subsubsection*{DetectAnomalies\_Shuffle\_Rule}
  TBD
  %
- \subsection*{DetectAnomalies\_Trace\_Rule}
- %
- TBD
- %
- \subsection*{DetectAnomalies\_MCU\_Rule}
+ \subsubsection*{DetectAnomalies\_Trace\_Rule}
  %
  TBD
  %
- \subsection*{DetectAnomalies\_FullCheck}
+ \subsubsection*{DetectAnomalies\_MCU\_Rule}
  %
  TBD
  %
- \subsection*{MCU\_Indexes}
+ \subsubsection*{DetectAnomalies\_FullCheck}
+ %
+ TBD
+ %
+ \subsection{Classification of events from anomalies}\label{SubSec:ClassificationEventsFromAnomalies}
+ \subsubsection*{MCU\_Indexes}
  %
  \begin{itemize}
  	\item \textbf{Input arguments}: 
@@ -494,7 +498,7 @@ Related to these functions are those used to determine the expected number of fa
  	
  \end{itemize}
 %
-\subsection*{Classify\_Addresses\_in\_MCU}
+\subsubsection*{Classify\_Addresses\_in\_MCU}
 %
 \begin{itemize}
 	\item \textbf{Input arguments}: 
@@ -523,67 +527,96 @@ Related to these functions are those used to determine the expected number of fa
 	Finally, SOLUTION[NLMCU] is just a simple vector with the addresses not involved in MCUs. Obviously, these are the SBUs.
 \end{itemize}
 
-\subsection*{CorrectNBitFlips}
+\subsection{False events due to accumulation of bitflips}\label{SubSec:FalseEvents}
 %
+When the number of bitflips is too high, it is possible that the interpretation of results can be affected by random phenomena, such as the disappearance of bitflips if a cell is hit twice, single bit upsets in adjacent cells that are misled with multiple events, etc. 
+
+The functions are:
+\begin{itemize}
+	\item  \hyperref[Fun:CorrectNBitFlips]{CorrectNBitFlips}
+	\item \hyperref[Fun:NF2BitMCUs]{NF2BitMCUs}
+	\item \hyperref[Fun:NF3BitMCUs]{NF3BitMCUs}
+\end{itemize}
+
+\subsubsection*{CorrectNBitFlips}\label{Fun:CorrectNBitFlips}
+%
+\begin{itemize}
+	\item \textbf{Input arguments}: \textbf{NBF}::Int, \textbf{LN}::Int
+	\item \textbf{Output}: Float64
+	\item This function tries to correct the number of bitflips to compensate cells hit twice that
+	escape from inspection. It is just an implementation of the simple Eq. \ref{Eq:ActualNumberOfBF}.
+	%
 	\begin{itemize}
-		\item \textbf{Input arguments}: \textbf{NBF}::Int, \textbf{LN}::Int
-		\item \textbf{Output}: Float64
-		\item This function tries to correct the number of bitflips to compensate cells hit twice that
-		escape from inspection. 
-		%
-		\begin{itemize}
-			\item \textbf{NBF}: Number of bitflips. Theoretically, SBUs but they are impossible to be distinguished 
-			from other kinds of bitflips. Therefore, a simple approach is taken.
-			\item \textbf{LN}: Memory size in BITS!!!!!
-		\end{itemize}	 
-		%
-		 Expression is taken from Eq. 6 in F. J. Franco, J. A. Clemente, H. Mecha and R. Velazco, 
-		 "\textit{Influence of Randomness During the Interpretation of Results From Single-Event Experiments 
-		 on SRAMs}," IEEE Transactions on Device and Materials Reliability, vol. 19, no. 1, pp. 104-111, 
-		 March 2019, doi: 10.1109/TDMR.2018.
-		 2886358.		
-	\end{itemize}
+		\item \textbf{NBF}: Number of bitflips. Theoretically, SBUs but they are impossible to be distinguished 
+		from other kinds of bitflips. Therefore, this simple approach is taken.
+		\item \textbf{LN}: Memory size in BITS!!!!!
+	\end{itemize}	 
+	%
+	Fig. \ref{fig:Example_CorrectNBitflips} is an example of use of this function.
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.75\columnwidth]{fig/functions/CorrectNBitFlips.png}
+		\caption{Example of use of \texttt{CorrectNBitFlips}.}
+		\label{fig:Example_CorrectNBitflips}
+	\end{figure}
+	
+	Expression is taken from Eq. 6 in F. J. Franco, J. A. Clemente, H. Mecha and R. Velazco, 
+	"\textit{Influence of Randomness During the Interpretation of Results From Single-Event Experiments 
+		on SRAMs}," IEEE Transactions on Device and Materials Reliability, vol. 19, no. 1, pp. 104-111, 
+	March 2019, doi: 10.1109/TDMR.2018.
+	2886358.		
+\end{itemize}
 %
-\subsection*{NF2BitMCUs}
+\subsubsection*{NF2BitMCUs}\label{Fun:NF2BitMCUs}
 %
 \begin{itemize}
 	\item \textbf{Input arguments}: 
-		\begin{itemize}
-			\item \textit{Method 1}: \textbf{NSBU}::Int, \textbf{LA}::Int, \textbf{METHOD}::String, \textbf{D}::Int, \textbf{WordWidth}::Int, \textbf{UsePseudoAddress}::Bool
-			\item \textit{Method 2}: \textbf{NSBU}::Int, \textbf{LA}::Int, \textbf{METHOD}::String, \textbf{D}::Int, \textbf{WordWidth}::Int
-		\end{itemize}
+	\begin{itemize}
+		\item \textit{Method 1}: \textbf{NSBU}::Int, \textbf{LA}::Int, \textbf{METHOD}::String, \textbf{D}::Int, \textbf{WordWidth}::Int, \textbf{UsePseudoAddress}::Bool
+		\item \textit{Method 2}: \textbf{NSBU}::Int, \textbf{LA}::Int, \textbf{METHOD}::String, \textbf{D}::Int, \textbf{WordWidth}::Int
+	\end{itemize}
 	\item \textbf{Output}: Float64
 	\item It indicates the expected number of false 2-bit MCUs that will occur 
-	 in a memory with \textbf{LA} words with \textbf{WORDWIDTH} bits each in which \textbf{NSBU} SBUs have occurred. In this analysis,
+	in a memory with \textbf{LA} words with \textbf{WORDWIDTH} bits each in which \textbf{NSBU} SBUs have occurred. In this analysis, 
+	MCUS are sought using some grouping method (\textbf{METHOD}) with a generalized distance \textbf{D}.
 	
-	 MCUS are sought using some grouping method (\textbf{METHOD}) with a generalized distance \textbf{D}.
+	If \textbf{UsePseudoAddress} is not provided, its default value is \texttt{false}.
 	
-	 Admitted values for \textbf{METHOD} and \textbf{D} are the following:
-	 
-	 \begin{enumerate}
-	 	\item METHOD: "MBU" --> Only MBUs are sought. In this case, D is the Wordwidth.
-	 	\item METHOD: "MHD" --> Only possible if the user has been able to place the ExtractFlippedBits 	 	cell in the XY plane. Two cells are related if |x1-x2|+|y1-y2| <= D. This 
-	 	is the Manhattan distance.
-	 	\item METHOD: "IND" --> Only possible if the user has been able to place the ExtractFlippedBits
-	 	cell in the XY mplane. Two cells are related if max(|x1-x2|,|y1-y2|) <= D.
-	 	In mathematics, this is the "infinite distance".
-	 	\item METHOD: "THD" --> Only valid if pairs of bitflips are located in a linear bitstream and if the
-	 	distace between cells is smaller than D: |x1-x2| <= D.
-	 	\item METHOD: "XOR" --> Related pairs are got by means of statistical deviations. Addresses are XORed 
-	 	and only if the value is one of the D possible critical values. If the WORD Addresses  
-	 	is used instead of PSEUDOADDRESS, the memory size must be expressed in WORDs, 
-	 	LA = LN/WordWidth.
-	 	IF SO, THE WORDWIDTH MUST BE PROVIDED.
-	 	\item METHOD: "POS" --> Identical to the previous one but with positive subtraction instead of XOR.
-	 \end{enumerate}
-	 
-	   Everything can be found in Eq. 11 of F. J. Franco, J. A. Clemente, G. Korkian, 
-	   J. C. Fabero, H. Mecha and R. Velazco, "\textit{Inherent Uncertainty in the Determination of Multiple 
-	   Event Cross Sections in Radiation Tests,}" IEEE Transactions on Nuclear Science, vol. 67, no. 7, 
-	   pp. 1547-1554, July 2020, doi: 10.1109/TNS.2020.2977698.
+	Unlike \hyperref[Fun:NF3BitMCUs]{\texttt{NF3BitMCUs}}, two values are provided as outputs, called  ``\textit{optimistic}'' and ``\textit{pessimistic}''. The actual number of expected false events is somewhere between both values. So far, it is not possible to get  more accurate value, as explained in the theoretical development. Use the values as you may wish.
+	
+	Admitted values for \textbf{METHOD} and \textbf{D} are the following:
+	
+	\begin{enumerate}
+		\item \textbf{METHOD}: \texttt{"MBU"} \(\rightarrow\) Only MBUs are sought. In this case, \textbf{D} is the \textbf{WORDWiDTH}.
+		\item \textbf{METHOD}: \texttt{"MHD"} \(\rightarrow\)  Only possible if the user has been able to place the flipped	cell in the XY plane. Two cells are related if \(\left|x_1-x_2\right|+ \left|y_1-y_2\right|) \le D\). This  is the \textit{``Manhattan distance''}.
+		\item \textbf{METHOD}: \texttt{"IND"} \(\rightarrow\)  Only possible if the user has been able to place the flipped	cell in the XY plane. Two cells are related if \(\max(\left|x_1-x_2\right|, \left|y_1-y_2\right|) \le D\). In mathematics, this is the \textit{"infinite distance"}.
+		\item \textbf{METHOD}: \texttt{"THD"} \(\rightarrow\)  Only valid if pairs of bitflips are located in a linear bitstream and if the
+		distance between cells is smaller than \textbf{D}: \(\left|x_1-x_2\right| \le D\).
+		\item \textbf{METHOD}: \texttt{"XOR"}\(\rightarrow\)  Related pairs are got by means of statistical deviations. Addresses are XORed 
+		and only if the value is one of the \textbf{D} possible critical values. If the WORD Addresses  
+		is used instead of PSEUDOADDRESS, the memory size must be expressed in WORDs, \textbf{LA = LN/WordWidth}.
+		IF SO, THE WORDWIDTH MUST BE PROVIDED.
+		\item \textbf{METHOD}: \texttt{"POS"}\(\rightarrow\)  Identical to the previous one but with positive subtraction instead of XOR.
+	\end{enumerate}
+	
+	For LELAPE, only the two last methods are of interest. However, the other methods are included in the tool in case you have used another strategy to combine bitflips and wish to know the background noise. Fig. \ref{fig:Example_NF2BitMCUs} is an example of use.
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.75\columnwidth]{fig/functions/NF2BitMCUs.png}
+		\caption{Example of use of \texttt{NF2BitMCUs}.}
+		\label{fig:Example_NF2BitMCUs}
+	\end{figure}	
+	
+	Everything can be found in Eq. 11 of F. J. Franco, J. A. Clemente, G. Korkian, 
+	J. C. Fabero, H. Mecha and R. Velazco, "\textit{Inherent Uncertainty in the Determination of Multiple 
+		Event Cross Sections in Radiation Tests,}" IEEE Transactions on Nuclear Science, vol. 67, no. 7, 
+	pp. 1547-1554, July 2020, doi: 10.1109/TNS.2020.2977698.
+	
 \end{itemize}
 %
-\subsection*{NF3BitMCUs}
+\subsubsection*{NF3BitMCUs}\label{Fun:NF3BitMCUs}
 %
 \begin{itemize}
 	\item \textbf{Input arguments}: 
@@ -592,31 +625,35 @@ Related to these functions are those used to determine the expected number of fa
 		\item \textit{Method 2}: \textbf{NSBU}::Int, \textbf{NMU2}::Int, \textbf{LN}::Int, \textbf{METHOD}::String, \textbf{D}::Int
 	\end{itemize}
 	\item \textbf{Output}: Tuple{Float64, Float64}
-	\item     It indicates the expected number of false 3-bit MCUs that will occur 
-	 in a memory with LN bits in which NSBU SBUs and NMU2 2-bit MCUs have occurred. 
-	 In this analysis, MCUS are sought using some grouping --method (METHOD) with a generalized 
-	 distance D.
+	\item     It indicates the expected number of false 3-bit MCUs that will occur 	in a memory with \textbf{LN} bits in which \textbf{NSBU} SBUs and \textbf{NMU2} 2-bit MCUs have occurred. 	In this analysis, MCUS are sought using some grouping method (\textbf{METHOD}) with a generalized 
+	distance D.
 	
 	MCUS are sought using some grouping method (\textbf{METHOD}) with a generalized distance \textbf{D}.
 	
 	Admitted values for \textbf{METHOD} and \textbf{D} are the following:
 	
 	\begin{enumerate}
-		\item METHOD: "MBU" --> Only MBUs are sought. In this case, D is the Wordwidth.
-		\item METHOD: "MHD" --> Only possible if the user has been able to place the ExtractFlippedBits 	 	cell in the XY plane. Two cells are related if |x1-x2|+|y1-y2| <= D. This 
-		is the Manhattan distance.
-		\item METHOD: "IND" --> Only possible if the user has been able to place the ExtractFlippedBits
-		cell in the XY mplane. Two cells are related if max(|x1-x2|,|y1-y2|) <= D.
-		In mathematics, this is the "infinite distance".
-		\item METHOD: "THD" --> Only valid if pairs of bitflips are located in a linear bitstream and if the
-		distace between cells is smaller than D: |x1-x2| <= D.
-		\item METHOD: "XOR" --> Related pairs are got by means of statistical deviations. Addresses are XORed 
-		and only if the value is one of the D possible critical values. If the WORD Addresses  
-		is used instead of PSEUDOADDRESS, the memory size must be expressed in WORDs, 
-		LA = LN/WordWidth.
-		IF SO, THE WORDWIDTH MUST BE PROVIDED.
-		\item METHOD: "POS" --> Identical to the previous one but with positive subtraction instead of XOR.
-	\end{enumerate}
+	\item \textbf{METHOD}: \texttt{"MBU"} \(\rightarrow\) Only MBUs are sought. In this case, \textbf{D} is the \textbf{WORDWiDTH}.
+	\item \textbf{METHOD}: \texttt{"MHD"} \(\rightarrow\)  Only possible if the user has been able to place the flipped	cell in the XY plane. Two cells are related if \(\left|x_1-x_2\right|+ \left|y_1-y_2\right|) \le D\). This  is the \textit{``Manhattan distance''}.
+	\item \textbf{METHOD}: \texttt{"IND"} \(\rightarrow\)  Only possible if the user has been able to place the flipped	cell in the XY plane. Two cells are related if \(\max(\left|x_1-x_2\right|, \left|y_1-y_2\right|) \le D\). In mathematics, this is the \textit{"infinite distance"}.
+	\item \textbf{METHOD}: \texttt{"THD"} \(\rightarrow\)  Only valid if pairs of bitflips are located in a linear bitstream and if the
+	distance between cells is smaller than \textbf{D}: \(\left|x_1-x_2\right| \le D\).
+	\item \textbf{METHOD}: \texttt{"XOR"}\(\rightarrow\)  Related pairs are got by means of statistical deviations. Addresses are XORed 
+	and only if the value is one of the \textbf{D} possible critical values. If the WORD Addresses  
+	is used instead of PSEUDOADDRESS, the memory size must be expressed in WORDs, \textbf{LA = LN/WordWidth}.
+	IF SO, THE WORDWIDTH MUST BE PROVIDED.
+	\item \textbf{METHOD}: \texttt{"POs"}\(\rightarrow\)  Identical to the previous one but with positive subtraction instead of XOR.
+\end{enumerate}
+	
+	For LELAPE, only the two last methods are of interest. See Fig. \ref{fig:Example_NF3BitMCUs} for a practical example. However, the other methods are included in the tool in case you have used another strategy to combine bitflips and wish to know the background noise.
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.75\columnwidth]{fig/functions/NF3BitMCUs.png}
+		\caption{Example of use of \texttt{NF3BitMCUs}.}
+		\label{fig:Example_NF3BitMCUs}
+	\end{figure}	
+	
 	
 	Everything can be found in Eq. 11 of F. J. Franco, J. A. Clemente, G. Korkian, 
 	J. C. Fabero, H. Mecha and R. Velazco, "\textit{Inherent Uncertainty in the Determination of Multiple 
