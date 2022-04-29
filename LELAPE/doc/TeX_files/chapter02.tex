@@ -85,7 +85,7 @@ For example, in Example 5 of Jupyter notebooks, we discovered that there was ove
 %
 \section{Methods to find and reject anomalously repeated value}
 %
-\subsection{The Self-Consistency Rule}
+\subsection{The Self-Consistency Rule}\label{Subsec:SelfConsistencyRule}
 Experiments on actual devices show that some values appear in the \(DV\) set far more than expected. However, not all of them are marks to relate adjacent cells. 
 
 Let us put an example. We have a hypothetical memory where cells are distributed along a simple chain, as in the bitstream of FPGAs. Now, let us suppose that 1 is a true mark to detect events, and that there are 2-bit MCUs in positions (100, 101), (350, 351), and (1500, 1501). As there are 6 cells, we can calculate 15 distances, the values of which appear the following number of times:

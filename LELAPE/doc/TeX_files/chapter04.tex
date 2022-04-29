@@ -341,7 +341,22 @@ Related to these functions are those used to determine the expected number of fa
 
 %%%%%%%%%%%%%%%%%%%%%%%%5
 \subsection{Search of anomalies}\label{Subsec:SearchOfAnomalies}
-\subsubsection*{DetectAnomalies\_SelfConsis}
+
+This is an important set of functions that determine the statistical anomalies in the data set, and discard those that are not trustworthy, perhaps due to interaction between events. 
+
+The functions included in this section are:
+
+\begin{itemize}
+	\item  \hyperref[Fun:DetectAnomaliesSelfConsis]{DetectAnomalies\_SelfConsis}
+	\item  \hyperref[Fun:DetectAnomaliesShuffleRule]{DetectAnomalies\_Shuffle\_Rule}
+	\item  \hyperref[Fun:DetectAnomaliesTraceRule]{DetectAnomalies\_Trace\_Rule}
+	\item  \hyperref[Fun:DetectAnomaliesMCURule]{DetectAnomalies\_MCU\_Rule}
+	\item  \hyperref[Fun:DetectAnomaliesFullCheck]{DetectAnomalies\_FullCheck}
+\end{itemize}
+
+Last function just calls the previous four.
+
+\subsubsection*{DetectAnomalies\_SelfConsis}\label{Fun:DetectAnomaliesSelfConsis}
 \begin{itemize}
 	\item \textbf{Input arguments}:
 	\begin{itemize}
@@ -369,53 +384,54 @@ Related to these functions are those used to determine the expected number of fa
 		\textbf{UsePseudoADD}::Bool,
 		\textbf{KeepCycle}::Bool
 	\end{itemize}
+
+	Default values for \textbf{\(\varepsilon\)} \& 	\textbf{LargestMCUSize} are \texttt{0.05} and \texttt{200} respectively.
 	%
 	\item \textbf{Output: } Array\{UInt32, 2\}	
 	%
-	\item This function will calculate the anomalies in the set of addresses using the SelfConsistency principle.
-
+	\item This function will calculate the anomalies in the set of addresses using \hyperref[Subsec:SelfConsistencyRule]{the Self Consistency rule}. 
 	 First of all, let us know the inputs:
 	 \begin{itemize}
 	
 		\item   \textbf{DATA}: A matrix with 3 or 4 columns. 
 			 \begin{itemize}
-			 	\item The first one contains the word addresses in UInt32 format.
+			 	\item The first column contains the word addresses in UInt32 format.
 			 	\item The second one shows the content read in the memory after the irradiation.
 			 	\item The third one, the pattern that should be inside.
-			 	\item  The fourth one is optional and shows the namber of the read cycle if the   memory was read and corrected several times during the irradiation.
+			 	\item  The fourth one is optional and shows the number of the read cycle if the   memory was read and corrected several times during the irradiation.
 			 \end{itemize}
-		\item   \textbf{WordWidth}: The size of each word in bits, usually 8, 16. 32, etc.
-		\item   \textbf{LN0}: The memory size in words (not in bits!!!). In many cases, \(2^N\).
+		\item   \textbf{WordWidth}: The size of each word in bits, usually 8, 16. 32, etc. No default value is provided.
+		\item   \textbf{LN0}: The memory size in words (not in bits!!!). In many cases, a natural power of 2.
 		\item   \textbf{Operation}: A string variable to indicate the preferred operation to calculate
-	    the DVSET. Only two operations are allowed: 
+	    the DV set. Only two operations are allowed: 
 	    \begin{itemize}
-	    	\item "XOR": XORing bit to bit.
-	    	\item "POS": abs(a-b)
+	    	\item \texttt{"XOR"}: bitwise XOR.
+	    	\item\texttt{ "POS"}: positive subtraction
 	    \end{itemize}
-		\item  \textbf{UsePseudoADD}: A boolean variable. It allows to indicate that the user wants to user word addresses (false). If true, a pseudoaddress is assigned to each bit and calculated
-	    as \(\text{WORADDRESS}\times\text{WordWidth} + \text{BitPosition}\). Full of sense in FPGA since it is just the position   of the bit in the bitstream, it has not physical interpretation in memories BUT works!!!!
-		\item   \textbf{KeepCycle}: If true, the function looks for the fourth column and uses it to calculate the DVSet.
+		\item  \textbf{UsePseudoADD}: A boolean variable. Its purpose is to indicate that the user wants to use the word addresses when this parameter is false). If true, the pseudoaddress, calculated
+	    as \(\text{WORADDRESS}\times\text{WordWidth} + \text{BitPosition}\), is used instead. Full of sense in FPGA since it is just the position  of the bit in the bitstream, it has not physical interpretation in memories BUT works!!!!
+		\item   \textbf{KeepCycle}: If true, the function looks for the fourth column and uses it to calculate the DV Set.
 		\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.05 if not provided among the input arguments.
-		\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not physical sense  and is only used to stop the program if unreallistic events occur. Set to 200 if not given as an input.
+		\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
 	
-	   The funcion return an \(N\times 2\) UInt32 matrix. The first column contains the anomalously repeated values of the DV SET compatible with the SelfConsistency test. The second one contains the number of times they appear in the DV set. Due to format integrity reasons, this column is expressed in unnatural UInt32 format. 
+	   The funcion return an \(N\times 2\) UInt32 matrix. The first column contains the anomalously repeated values of the DV SET compatible with the Self Consistency test. The second one contains the number of times they appear in the DV set. Due to format integrity reasons, this column is expressed in unnatural \texttt{UInt32} format. 
 	  
-	  It is advisable a latter conversion into Int to make this column more readable.
+	  It is advisable a latter conversion into Int to make this column more readable. There are several examples of this function or equivalent in the Jupyter folder.
 	\end{itemize}
 \end{itemize}
 %
-\subsubsection*{DetectAnomalies\_Shuffle\_Rule}
+\subsubsection*{DetectAnomalies\_Shuffle\_Rule}\label{Fun:DetectAnomaliesShuffleRule}
  TBD
  %
- \subsubsection*{DetectAnomalies\_Trace\_Rule}
- %
- TBD
- %
- \subsubsection*{DetectAnomalies\_MCU\_Rule}
+ \subsubsection*{DetectAnomalies\_Trace\_Rule}\label{Fun:DetectAnomaliesTraceRule}
  %
  TBD
  %
- \subsubsection*{DetectAnomalies\_FullCheck}
+ \subsubsection*{DetectAnomalies\_MCU\_Rule}\label{Fun:DetectAnomaliesMCURule}
+ %
+ TBD
+ %
+ \subsubsection*{DetectAnomalies\_FullCheck}\label{Fun:DetectAnomaliesFullCheck}
  %
  TBD
  %
