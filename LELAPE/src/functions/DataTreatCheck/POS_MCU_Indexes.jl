@@ -80,7 +80,10 @@ function POS_MCU_Indexes(   ADDRESS::Vector{UInt32},
                     if (EventIndex_k1 == EventIndex_k2)
                         #print(k1, " ", k2, "\n")
                     else
-                        print(k1, " ", k2, "\n")
+                        #print(k1, " ", k2, "\n")
+                        # 2022/04/29: This print sentence was used during development to debug the system.
+                        # Why do you need a debugger if you can just use print, vicious programmer?
+                        # Commented for being useless at the present stage of design.
                         Elements_Group1=GroupsOfEventsDraft[EventIndex_k1,findall(GroupsOfEventsDraft[EventIndex_k1, :].!=0)]
                         Elements_Group2=GroupsOfEventsDraft[EventIndex_k2,findall(GroupsOfEventsDraft[EventIndex_k2, :].!=0)]
                         NewGroup = sort(union(Elements_Group1,Elements_Group2))
