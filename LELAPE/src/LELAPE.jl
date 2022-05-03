@@ -1,6 +1,6 @@
 module LELAPE
 
-    export  ConvertToPseudoADD, 
+    export  ConvertToPseudoADD, AddPatternColumn,
             ExtractFlippedBits, CheckMBUs,
             DetectAnomalies_SelfConsis, 
             DetectAnomalies_Shuffle_Rule, 
@@ -21,6 +21,7 @@ module LELAPE
     ### Functions used to look for anomailes. Some of them do not go out of the module.
 
     include("functions/DataTreatCheck/PosSubst.jl")
+    include("functions/DataTreatCheck/AddPatternColumn.jl")
     include("functions/DataTreatCheck/ExtractFlippedBits.jl")
     include("functions/DataTreatCheck/CheckMBUs.jl")
     include("functions/DataTreatCheck/DataMatrixIntegrity.jl")
