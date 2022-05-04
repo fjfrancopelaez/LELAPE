@@ -131,7 +131,32 @@ Before starting the analysis, we must define some additional variables to indica
 %
  \subsubsection*{AddPatternColumn}\label{Func:AddPatternColumn}
  
- TBD
+  \begin{itemize}
+ 	\item \textbf{Input arguments}: 
+ 	\begin{itemize}
+ 		\item \textit{Method 1: }\textbf{DATA}::Matrix\{UInt32\}, \textbf{PATTERN}::UInt32
+ 		\item \textit{Method 2: }\textbf{DATA}::Matrix\{UInt32\}, \textbf{PATTERN}::UInt16
+ 		\item \textit{Method 3: }\textbf{DATA}::Matrix\{UInt32\}, \textbf{PATTERN}::UInt8
+ 	\end{itemize}
+ 
+ 	\textbf{DATA} must have 2 or 3 columns, as explained later. If the matrix does not accomplish this condition, the function returns an error.
+ 
+ 	\item \textbf{Output}: Matrix{UInt32}
+ 	\item     Sometimes, \textbf{DATA} are just a matrix with only two columns: \textit{Word Address} \& \textit{Content}, assuming that the PATTERN is constant. This function just expands the matrix
+ 	to include a column in the third position with the used \textbf{PATTERN}. 
+ 	
+ 	Sometimes, in pseudostatic tests, there is a third column with cycle information. In this case, this column is shifted to the fourth position, and the void third column filled with the \textbf{PATTERN}. 
+ 	 %
+ 	\begin{figure}[h!]
+ 		\centering
+ 		\includegraphics[width=0.65\columnwidth]{fig/functions/AddPatternColumn.png}
+ 		\caption{Example of use of \texttt{AddPatternColumn}.}
+ 		\label{fig:Example_AddPatternColumn}
+ 	\end{figure}
+ 
+ 	Fig. \ref{fig:Example_AddPatternColumn} shows an example of use of this function for a simple case.
+ 
+ \end{itemize}
  
  \subsubsection*{ExtractFlippedBits}\label{Func:ExtractFlippedBits}
  \begin {itemize}
