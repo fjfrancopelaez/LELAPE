@@ -108,7 +108,7 @@ Let us focus now on those events with a size of 3 or more. Cells in every event 
 
 In LELAPE, only those anomalies found in MCUs that also appear more than expected are included in the list of genuine marks of events.
 %
-\subsection{The Trace rule}
+\subsection{The Trace rule}\label{Subsec:TraceRule}
 % 
 We call ``\textit{trace}'' of a natural number as the number of ones present in the binary expression of the number. When the bitwise XOR operation is used, discovered anomalies are usually values with only one to three values in binary format. 
 
@@ -116,7 +116,7 @@ Therefore, the rule is simple: let us check all the possible natural numbers low
 
 However, our experience shows that only values with traces of 1 or 2 are good candidates. Trace 3 is risky and 4 or higher are forbidden in LELAPE.
 %
-\subsection{The Shuffle rule}
+\subsection{The Shuffle rule}\label{Subsec:ShuffleRule}
 %
 The idea is quite simple. Let us suppose that, after applying previous rules we have discovered a set of anomalies. The idea behind this rule is to combine them in pairs using the distance function in order to obtain new values, and adding them to the set of anomalies if they appear in the \(DV\) set more than predicted by the statistical model.
 %
