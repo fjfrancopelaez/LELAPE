@@ -1,4 +1,4 @@
-function AddPATTERNColumn(DATA::Matrix{UInt32}, PATTERN::UInt32)::Matrix{UInt32}
+function AddPatternColumn(DATA::Matrix{UInt32}, PATTERN::UInt32)::Matrix{UInt32}
 
     # Sometimes, DATA are just a matrix with only two columns: Word Address + Content,
     # assuming that the PATTERN is constant. This function just expands the matrix
@@ -38,15 +38,15 @@ function AddPATTERNColumn(DATA::Matrix{UInt32}, PATTERN::UInt32)::Matrix{UInt32}
 
 end
 
-function AddPATTERNColumn(DATA::Matrix{UInt32}, PATTERN::UInt8)::Matrix{UInt32}
+function AddPatternColumn(DATA::Matrix{UInt32}, PATTERN::UInt8)::Matrix{UInt32}
 
-    return AddPATTERNColumn(DATA, convert(UInt32, PATTERN))
+    return AddPatternColumn(DATA, convert(UInt32, PATTERN))
 
 
 end
 
-function AddPATTERNColumn(DATA::Matrix{UInt32}, PATTERN::UInt16)::Matrix{UInt32}
+function AddPatternColumn(DATA::Matrix{UInt32}, PATTERN::UInt16)::Matrix{UInt32}
 
-    return AddPATTERNColumn(DATA, convert(UInt32, PATTERN))
+    return AddPatternColumn(DATA, convert(UInt32, PATTERN))
 
 end
