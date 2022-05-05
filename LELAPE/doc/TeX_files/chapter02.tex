@@ -100,7 +100,7 @@ As expected, 1, the true mark, appears more times than the rest of elements. How
 
 This phenomenon is exacerbated if larger events are present. In order to discard false events, we have proposed to include the ``\textit{self-consistency rule}''. The group of confirmed anomalous values are picked one by one from the set of anomalies following the number of occurrences. When the size of the predicted events is larger than the number of collected critical elements, the process takes a step back to discard the recently added elements and exits. The advantage of this rule is that nonsense anomalies are rejected, with the penalty of possibly discarding genuine anomalies. However, previous experiences led us to consider that this decision is better than to be too permissive and to accept false values, that eventually lead to the detection of unrealistic very large events, fruit of the artificial union of two or more unrelated small ones.
 %
-\subsection{The MCU rule}
+\subsection{The MCU rule}\label{Subsec:MCURule}
 %
 Let us suppose that we have performed the self-consistency test on a set of addresses of flipped cells and that we have discovered several anomalies that allowed us reconstructing the possible multiple events. 
 
