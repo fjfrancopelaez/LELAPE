@@ -55,6 +55,11 @@ function DetectAnomalies_Trace_Rule(
     end
 
     DVSET = Create_DV_Set(ADDRESSES[:,1],  ADDRESSES[:,2], Operation)
+    # In computers with very small RAM this set and the following Histogram 
+    # should be built only if there are New Candidates not belonging to PrevCandidates.
+    # However, even in medium computers, the historgram calculation is very fast, 
+    # so we decided to keep it as it is, following the principle of not improving nothing
+    # if it works fine.
 
     Histogram = CreateDVSetHistogram(DVSET, LN)
 
@@ -65,7 +70,10 @@ function DetectAnomalies_Trace_Rule(
     for NewCandidate in LowTraceSet
 
         if Histogram[NewCandidate+1]>NThreshold & !(NewCandidate in PrevCandidates)
-            append!(PossibleCandidates)
+            append!(PossibleCandidates, NewCandidate)
+            #2022-05-06: Fixed a bug here. Strangely, the original sentence was append!(PossibleCandidates), 
+            # so nothing was added to the set of PossibleCandidates. However, as this rule is not very useful
+            # to detect anomalies, the bug was accidentally discovered.
         end
 
     end
