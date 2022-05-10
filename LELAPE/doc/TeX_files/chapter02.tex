@@ -1,24 +1,24 @@
 \chapter{Theoretical Background}
 \section{Memory devices as a metric space-like sets}
-First of all, we are going to depict a memory as a set of ordered elements, which can contain only two possible values. Clearly, this elements are the memory cells, and values are \textbf{0} \& 1.
+First of all, we are going to depict a memory as a set of countable elements, very often ordered, which can contain only two possible values. Clearly, this elements are the memory cells, and values are \textbf{0} \& \textbf{1}.
 
-As the set is ordered, we can assign an index number to every cell, which will be a positive natural number. For example, in FPGAs, this index is the position of the bit in the bitstream. In SRAMs, we can assign any cell the following index:
+As the set is countable, we can assign an index number to every cell, which will be a positive natural number. For example, in FPGAs, this index is the position of the bit in the bitstream. In SRAMs, we can assign any cell the following index:
 %
 \begin{equation}
 	Index = ADD\times W + k
 	\label{Eq:PseudoAddressDefinition}
 \end{equation}
 %
-\(ADD\) being the word address, \(W\) the wordwidth, and \(k\) the bit positiion in the word. From now on, we will call this index as \textit{pseudoaddress} in SRAMs. As this definition is arbitrary, anyone can postulate others for the \textit{pseudoaddress}, keeping in mind that any new definition  must be bijective. Thus, 
+\(ADD\) being the word address, \(W\) the wordwidth, and \(k\) the bit position in the word. From now on, we will call this index \textit{pseudoaddress}. As this definition is arbitrary, anyone can postulate others for the \textit{pseudoaddress}, keeping in mind that any new definition  must be bijective. Thus, 
 \[
 	Index_2 = ADD\times W + (W-k)
 \]
 could also be valid.
 
-It is immediate that the memory size, \(L_N\) is the number of available cells. If this memory is divided in \(L_A\) \(W\)-bit width words, \(L_N = L_A\times W\) holds.  In the simplest scenario, cell indexes are distributed between \(0\) and \(L_N-1\),  but more complicated situations can occur:
+It is immediate that the memory size, \(L_N\), is the number of available cells. If this memory is divided in \(L_A\) \(W\)-bit width words, \(L_N = L_A\times W\) holds.  In the simplest scenario, cell indexes are distributed between \(0\) and \(L_N-1\),  but more complicated situations can occur:
 %
 \begin{itemize}
-	\item In some microcontrollers, we can download its content as a binary file and the SRAM memory is placed between \(A_0\) \& \(A_0+L_N-1\) positions. Other memories such as the Flash memory are in other parts of the file.
+	\item In some microcontrollers, we can download its content as a binary file and the SRAM memory is placed between the \(A_0\) \& \(A_0+L_N-1\) positions. The content of other memories such as the Flash memory are in other parts of the file.
 	\item In Xilinx FPGAs, the downloaded bitstream contains information about the configuration memory, flipflops, and BRAM. The content of these parts are split in several pieces and inserted in the bitstream. It is necessary to perform some reverse engineering studies to gather information about how to disassemble the bitstream. Therefore, there will be gaps in the indexes.
 \end{itemize}
 %
@@ -32,7 +32,7 @@ We are going to defina a \textit{pseudodistance} or \textit{pseudometric} as any
 	\item \(d(a, b) = d(b, a) \quad\forall a, b \in \mathbb{N}\)
 \end{enumerate}
 %
-In this list, the triangular property (\(d(a,c) \le d(a, b)+d(b,c) \quad\forall a, b, c \in \mathbb{N}\)) has not been included. If the function fulfills this fourth condition, it would become a true distance or metric.
+In this list, the triangular property (\(d(a,c) \le d(a, b)+d(b,c) \quad\forall a, b, c \in \mathbb{N}\)) has not been included. If the function fulfilled this fourth condition, it would become a true distance or metric.
 
 We will focus on two functions, which have proven to provide interesting results to analyze events. These are:
 %
@@ -52,7 +52,7 @@ In this case, it is possible to demonstrate several properties. For example, ass
 	N_{BF}^* = N_{BF}+\frac{N_{BF}^2}{L_N}
 	\label{Eq:ActualNumberOfBF}
 \end{equation}
-This correction is not necessary for typical experiments \footnote{Nevertheless, we have found it necessary for Monte-Carlo tests} so we will assume hereafter that the number of observed bitflips (\(N_{BF}\)) is just the total number, \(N_{BF}^*\). 
+This correction is not necessary for typical experiments\footnote{Nevertheless, we have found it necessary for Monte-Carlo tests} so we will assume hereafter that the number of observed bitflips (\(N_{BF}\)) is just the total number, \(N_{BF}^*\). 
 
 Now, we will build a new set, which we will call \textit{'``Difference Vector (DV)''}, as the pseudodistance values of all possible pairs of addresses of flipped cells:
 %
@@ -64,12 +64,12 @@ Now, we will build a new set, which we will call \textit{'``Difference Vector (D
 Some properties of this set are:
 %
 \begin{itemize}
-	\item In \(DV\), there are \begin{equation}N_{DV}=\frac{1}{2}\cdot N_{BF}\cdot \left(N_{BF}-1\right) \label{Eq:SizeOfDV}\end{equation} elements, but this is valid only for results with one writing \& reading cycle. If there were several rounds, as it occurs in pseudostatic or dynamic tests, \(N_{DV}\) should be computed as the sum of the sizes of the partial sets.
-	\item No element is \(0\). The reason is that every address appears once and only once.
-	\item Some values can randomly appear several times in the \(DV\) set.
+	\item In \textit{DV}, there are \begin{equation}N_{DV}=\frac{1}{2}\cdot N_{BF}\cdot \left(N_{BF}-1\right) \label{Eq:SizeOfDV}\end{equation} elements, but this is valid only for results with one writing \& reading cycle. If there were several rounds, as it occurs in pseudostatic or dynamic tests, \(N_{DV}\) should be computed as the sum of the sizes of the partial sets.
+	\item No element is \(0\). The reason is that every address appears once and only once in the set of addresses.
+	\item Some values can randomly appear several times in the \textit{DV} set.
 \end{itemize}
 %
-This last statement is extremely interesting. It is possible to deduce that, if only single bit upsets occur and the bitwise XOR is used \cite{Franco2017}, the expected number of values appearing \(k\) times in the \(DV\) set is:
+This last statement is extremely interesting. It is possible to deduce that, if only single bit upsets occur and the bitwise XOR is used \cite{Franco2017}, the expected number of values appearing \(k\) times in the \textit{DV} set is:
 \[
 	N_{R,XOR}\left(k, N_{DV}\right) = \left( \begin{matrix} N_{DV}\\ k \end{matrix} \right) \cdot \frac{\left(L_N -1\right)^{N_{DV}-k}}{L_N^{N_{DV}-1}}
 \]
@@ -77,16 +77,16 @@ In the case of using the positive subtraction \cite{Fabero2020}, the expression 
 \[
 	N_{R,POS}\left(k, N_{DV}\right) =\left( \begin{matrix} N_{DV}\\ k \end{matrix} \right) \cdot \sum_{i=0}^{N_{DV}-k}{\frac{(-1)^i}{i+k+1} \cdot \left( \begin{matrix} N_{DV}-k\\ k \end{matrix} \right) \cdot \frac{2^{i+k}}{L_N^{i+k-1}}}
 \]
-Whichever expression we choose, the expected number of repetitions fades away as \(k\) grows. Thus, it is possible to calculate the value of \(k_{th}\) from which the number of expected elements repeated \(k > k_{th}\) times is lower than \(\varepsilon\), with \(1\gg \varepsilon > 0\). Therefore, it is almost impossible to find elements in the \(DV\) set repeated more the \(k_{th}\) times. 
+Whichever expression we choose, the expected number of repetitions fades away as \(k\) grows. Thus, it is possible to calculate the value of \(k_{th}\) from which the number of expected elements repeated \(k > k_{th}\) times is lower than \(\varepsilon\), with \(1\gg \varepsilon > 0\). Therefore, it is almost impossible to find elements in the \textit{DV} set repeated more the \(k_{th}\) times. 
 
-But this is true only if there are SBUs. If besides SBUs there are multiple cell upsets (MCUs), it is possible to find elements in the \(DV\) set repeated a forbidden number of times. These values are the marks of multiple events, that can be used to reconstruct the number and size of multiple events.
+But this is true only if there are SBUs. If besides SBUs there are multiple cell upsets (MCUs), it is possible to find elements in the \textit{DV} set repeated a forbidden number of times. These values are the marks of multiple events, that can be used to reconstruct the number and size of multiple events.
 
-For example, in Example 5 of Jupyter notebooks, we discovered that there was overabundance of 1, 2, 3230--3234 in the \(DV\) set derived from results in an FPGA with positive subtraction. Pairs of flipped bit addresses differing in one of these values are very likely members of a single multiple event. A later study showed that the FPGA configuration memory is organized in columns of 101 32-bit words, hence the physical meaning of 3232 = 32 $\times$ 101, so cells differing 3232 are just in the same row.
+For example, in Example 5 of Jupyter notebooks, we discovered that there was overabundance of 1, 2, 3230--3234 in the \textit{DV} set derived from results in an FPGA with positive subtraction. Pairs of flipped bit addresses differing in one of these values are very likely members of a multiple event. A later study showed that the FPGA configuration memory is organized in columns of 101 32-bit words, hence the physical meaning of 3232 = 32 $\times$ 101, so cells differing 3232 are just in the same row.
 %
 \section{Methods to find and reject anomalously repeated value}
 %
 \subsection{The Self-Consistency Rule}\label{Subsec:SelfConsistencyRule}
-Experiments on actual devices show that some values appear in the \(DV\) set far more than expected. However, not all of them are marks to relate adjacent cells. 
+Experiments on actual devices show that some values appear in the \textit{DV} set much more often than expected. However, not all of them are marks to relate adjacent cells. 
 
 Let us put an example. We have a hypothetical memory where cells are distributed along a simple chain, as in the bitstream of FPGAs. Now, let us suppose that 1 is a true mark to detect events, and that there are 2-bit MCUs in positions (100, 101), (350, 351), and (1500, 1501). As there are 6 cells, we can calculate 15 distances, the values of which appear the following number of times:
 %
@@ -96,7 +96,7 @@ Let us put an example. We have a hypothetical memory where cells are distributed
 	\item 149, 151, 1149, 1151, 1399, 1401: once
 \end{itemize}
 %
-As expected, 1, the true mark, appears more times than the rest of elements. However, three nonsense numbers, 150, 1150 and 1400, appear also several times since they measure the relative distance between identical-shape groups.
+As expected, 1, the true mark, appears more times than the rest of elements. However, three nonsense numbers, 150, 1150 and 1400, also appear  several times since they measure the relative distance between identical-shape groups.
 
 This phenomenon is exacerbated if larger events are present. In order to discard false events, we have proposed to include the ``\textit{self-consistency rule}''. The group of confirmed anomalous values are picked one by one from the set of anomalies following the number of occurrences. When the size of the predicted events is larger than the number of collected critical elements, the process takes a step back to discard the recently added elements and exits. The advantage of this rule is that nonsense anomalies are rejected, with the penalty of possibly discarding genuine anomalies. However, previous experiences led us to consider that this decision is better than to be too permissive and to accept false values, that eventually lead to the detection of unrealistic very large events, fruit of the artificial union of two or more unrelated small ones.
 %
@@ -110,35 +110,44 @@ In LELAPE, only those anomalies found in MCUs that also appear more than expecte
 %
 \subsection{The Trace rule}\label{Subsec:TraceRule}
 % 
-We call ``\textit{trace}'' of a natural number as the number of ones present in the binary expression of the number. When the bitwise XOR operation is used, discovered anomalies are usually values with only one to three values in binary format. 
+We call ``\textit{trace}'' of a natural number as the number of ones present in its binary expression. When the bitwise XOR operation is used, discovered anomalies are usually values with only one to three values in binary format. 
 
-Therefore, the rule is simple: let us check all the possible natural numbers lower than the memory size with low values of trace (1--3) to verify if they appear too often in the \(DV\) set. If so, they will be added to the group of confirmed anomailes. 
+Therefore, the rule is simple: let us check all the possible natural numbers lower than the memory size with low values of trace (1--3) to verify if they appear too often in the \textit{DV} set. If so, they will be added to the group of confirmed anomailes. 
 
 However, our experience shows that only values with traces of 1 or 2 are good candidates. Trace 3 is risky and 4 or higher are forbidden in LELAPE.
 %
 \subsection{The Shuffle rule}\label{Subsec:ShuffleRule}
 %
-The idea is quite simple. Let us suppose that, after applying previous rules we have discovered a set of anomalies. The idea behind this rule is to combine them in pairs using the distance function in order to obtain new values, and adding them to the set of anomalies if they appear in the \(DV\) set more than predicted by the statistical model.
+Let us suppose that, after applying previous rules we have discovered a set of anomalies. The idea behind this rule is to combine them in pairs using the distance function in order to obtain new values, and adding them to the set of anomalies if they appear in the \textit{DV} set more than predicted by the statistical model.
 %
 \subsection{The History rule}
 %
-This is not exactly a rule, but a sign of being sensible. Let us suppose that you test a device and get a set of anomalies, \(A_1\). Later, you test it again and the obtained values are \(A_2\). As the device is the same, or at least of the same model and the anomalies are linked to the internal structure, it is evident that elements in \(A_1\) are valid for the second experiment, and vice versa. Thus, the union of both sets, \(A_1 \cup A_2\) can be used to classify results from both experiments.
+This is not exactly a rule, but a sign of good judgment. Let us suppose that you test a device and get a set of anomalies, \(A_1\). Later, you test it again and the obtained values are \(A_2\). As the device is the same, or at least of the same model and the anomalies are linked to the internal structure, it is evident that elements in \(A_1\) are valid for the second experiment, and vice versa. Thus, the union of both sets, \(A_1 \cup A_2\) can be used to classify results from both experiments.
 
 Even more, if you had previously tested the device and identified a significant set of anomalies, it is possible to skip the process of obtaining anomalies and straightly apply that set on the test results, saving analysis time.
 
 However, this rule is only applicable if the address pins are correctly identified. For example, in some synchronous memories, these pins are fully configurable so unless the same setup does not change from experiment to experiment, previous results will be useless. Another option is to reorganize the address bits by software before analyzing events.
+%
+\section{MCU or SEFI?}
+%
+LELAPE discovers anomalies in the data after experiments, and relates them to multiple cell events in a larger set of single bit upsets. However, sometimes this identification is not immediate. 
+
+In some actual experiments, LELAPE was run on the data set to discover the existence of large multiple events (15 bitflips), but with very few SBUs. However, the physical layout was available, and cells located in the XY-plane. Bitflips were distributed0 in only 2 rows, separated a distance of 32 cells. Besides, bitflips in every row appeared periodically, with the following pattern: 1 flipped cell, 3 unaffected cells, 1 flipped cell, ... Clearly, this was not an MCU, since cells were not adjacent. Therefore, what LELAPE had detected was not an MCU, but probably some kind of Single-Event Functional Interruption (SEFI), perhaps in the reading block of the memory.
+
+In conclusion, sometimes the researcher can identify with LELAPE groups of bitflips that are not true multiple events. However, at any rate, there has clearly occurred a phenomenon more dramatic and different than SBUs, with much interest. Our experience says that MCUs always appear along a larger set of SBUs. Isolated MCUs with very few or absent SBUs are probably SEFIs.
+%
 \section{Number of false events}
 %
 Sometimes, two or more single bit upsets may occur in adjacent cells in such a way that a later analysis can erroneously conclude that both belong to a unique multiple cell upset \cite{Tausch2009}. This is completely false, and the number of expected false events increases with the number of bitflips. It is possible to deduce that that number increases with the number of flipped bits, and also depends on the method to detect the multiple cell upsets \cite{Franco2020}. 
 
-Concerning the statistical methods, we will defina \(N_{AN}\) as the number of detected anomalies in the \(DV\) set. Thus, the number of expected false 2-bit multiple cell upsets is:
+Concerning the statistical methods, we will define \(N_{AN}\) as the number of detected anomalies in the \textit{DV} set. Thus, the number of expected false 2-bit multiple cell upsets is:
 %
 \begin{equation}
 	N_{F,2BMCU} = M\cdot N_{DV}\cdot \frac{N_{AN}}{L_N}
 	\label{Eq;False2bitMCU}
 \end{equation}
 %
-\(M\) being \(1\) for bitwise XOR, \(2\) for positive subtraction. \(N_{DV}\) the size of the \(DV\) set.
+\(M\) being \(1\) for bitwise XOR, \(2\) for positive subtraction. \(N_{DV}\) the size of the \textit{DV} set.
 
 It is also possible to find expressions for the number of false 3-bit events but, unlike in the previous case, only upper and lower boundaries can be calculated. See \cite{Franco2020} for a deeper discussion. 
 

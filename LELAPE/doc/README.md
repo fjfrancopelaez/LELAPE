@@ -4,6 +4,7 @@ To build the TeX file, the following packages must be installed:
  * inputenc 
  * amstext 
  * amsfonts 
+ * amsmath
  * fancyhdr 
  * fontspec 
  * geometry 

@@ -1,26 +1,26 @@
 \chapter{Introduction}
 %
 \section{The reason of using LELAPE}
-Probably, the reason of reading this document is that you are a researcher that tests electronica devices under radiation. Even more, perhaps you are not interested in any electronic devices but, at this moment, only in commercial-off-the-shelf (COTS) memories. 
+Probably, you are reading this document because you are a researcher that tests electronica devices under radiation. Even more, perhaps you are not interested in any electronic devices but, at this very moment, only in commercial-off-the-shelf (COTS) memories. 
 
-Under the umbrella of memories, different devices are comprised. Let us enumerate them:
+Under the wide umbrella of memories, different devices are comprised. Let us enumerate some of them:
 %
 \begin{itemize}
 	\item Static Random Access Memories (SRAMs)
-	\item Dynamic Random Access Memories (DRAMs)
+	\item Dynamic Random Access Memories (DRAMs), but also Synchronous DRAM (SDRAMs) and Pseudo-Static RAMs (PSRAMs)
 	\item Non-volatile memories (Flash, PRAM, MRAM, etc.)
 	\item Configuration memory in FPGAs
 	\item Cache memory in microprocessors and microcontrollers
 	\item ...
 \end{itemize}
 %
-It is well known that these elements will show bitflips if they are exposed to protons, neutrons, heavy ions, ... The common procedure is to write a pattern in the memory and look for errors during read-back. These errors will be labeled indicating the word address and the flipped-bit position in the word. 
+It is well known that these elements will undergo bitflips after an exposition to protons, neutrons, heavy ions, ... The common test procedure is to write a pattern in the memory and look for errors in a later  read-back. These errors will be labeled indicating the word address and the flipped-bit position in the word. 
 
-Unfortunately, this is the so-called \textit{physical address} and it is impossible to relate it to the exact physical position on the integrated circuit. And this leads to a serious problem at the time of interpreting results. Nearby bitflips are probably caused by pernicious multiple cell upsets (MCUs) but they will not discovered unless the researcher has somehow got the information to relate any logical address to its physical address (an X, Y pair on the silicon surface).
+Unfortunately, this is the so-called \textit{physical address} and it is impossible to relate it to the exact physical position on the integrated circuit. And this leads to a serious problem at the time of interpreting results. Nearby bitflips are probably caused by pernicious multiple cell upsets (MCUs) but they will not discovered unless the researcher has somehow got the information to relate the logical address to its physical counterpart (an X, Y pair on the silicon surface).
 
-However, the presence of MCUs will leave a signature in the set of the logical addresses of bitflips that can be used to group pairs of related bitflips and classify them in single or multiple events. No matter are the multiple events hidden among the rest of bitflips, we can track and locate them.
+However, the presence of MCUs will leave a signature in the set of the logical addresses of bitflips, which can be used to group pairs of related bitflips and classify them in single or multiple events. No matter are the multiple events hidden among the rest of bitflips, we can track and locate them.
 
-LELAPE is the Spanish acronym for \textit{Listas de Eventos Localizando Anomalías al Preparar Estadísticas }, which is equivalent in English to LAELAPS (\textit{Lists of All Events Locating Anomalies at Preparing Statistics}). In Greek mythology, LELAPE, or LAELAPS, is Zeus' hound, with the magic skill to track and hunt any prey however hidden it may be. In a similar way, LELAPE is a software tool able to inspect sets of apparently random logical addresses of bitflips and discover those that are members of the same multiple event.
+\textbf{LELAPE} is the Spanish acronym for \textit{Listas de Eventos para Localizar Anomalías Preparando Estadísticas}, which is equivalent in English to LAELAPS (\textit{Lists of All Events for Locating Anomalies by Preparing Statistics}). In Greek mythology, LELAPE, or LAELAPS, is Zeus' hound, with the magic skill to track and hunt any prey however hidden it may be. In a similar way, LELAPE is a software tool able to inspect sets of apparently random logical addresses of bitflips and discover those that are members of the same multiple event.
 
 LELAPE can be found on its GitHub website (\href{https://github.com/fjfrancopelaez/LELAPE}{https://github.com/fjfrancopelaez/LELAPE}).
 
@@ -32,9 +32,11 @@ This tool was supported by the Spanish ``\textit{Ministerio de Ciencia e Innovac
 If you have successfully used this tool and the results are worth for academic publications, we ask you for including the following references:
 %
 \begin{itemize}
-	\item Obviusly, this site.
+	\item Please, this site.
 	\item \textbf{The Julia Language}: J. Bezanson, A. Edelman, S. Karpinski, and V. B. Shah, \textit{“Julia: A fresh approach to numerical computing},” SIAM review, vol. 59, no. 1, pp. 65–98, 2017 (DOI: 10.1137/141000671).
 \end{itemize}
+%
+Last reference is independent of LELAPE but related to the Julia Language instead. Its authors ask for including this reference to follow the use of Julia in science.
 %
 \section{License of use}
 %
