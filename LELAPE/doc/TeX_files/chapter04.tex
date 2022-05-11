@@ -19,7 +19,7 @@ In order to use LELAPE, radiation test data must be converted to a matrix with t
 	This calumn is also necessary for dynamic tests. In each step of the algorithm, the memory is fully explored and the discrepancies registered. So, in practice, for analysis with LELAPE the only differences between dynamic and psedostatic tests are that, in the former, the pattern changes from cycle to cycle, and that the addresses are recorded in different orders, sometimes increasing, sometimes decreasing, etc. These details are irrelevant for the tool.
 \end{itemize} 
 
-LELAPE needs this elements to be converted to a UInt32 matrix\footnote{In Julia, typing variables is optional but encouraged to speed up calculations.} so it is important that all the elements of the matrix, including the cycle label, are in this format or, at least, in some kind of integer. This makes dangerous labelling the fourth column with words or letters. 
+LELAPE needs this elements to be converted to a \texttt{UInt32} matrix\footnote{In Julia, typing variables is optional but encouraged to speed up calculations.} so it is important that all the elements of the matrix, including the cycle label, are in this format or, at least, in some kind of integer. This makes dangerous labelling the fourth column with words or letters. 
 
 A simple solution consists in grouping the data results in CSV format and reading this text file with \texttt{readdlm}, included in the \texttt{DelimitedFiles} package. In the Jupyter folder, you can see some examples that can guide you to adapt your own data. One advantage of this function is that it can automatically convert the data to the required format, as shown in the Jupyter notebooks.
 
@@ -268,7 +268,7 @@ Sometimes, the researcher just wants to know how many multiple bit upsets occurr
 		\label{fig:Example_CheckMBUs_M1}
 	\end{figure}
 
-	For Method 2, the idea is to provide as arguments two similar-length vectors with the \textbf{WORD} and \textbf{PATTERN} values in UInt32 format, as well as the \textbf{WordWidth}. Then, the function checks the values in both vectors with the same index and returns two vectors. The first one is a typical vector of integers, containing in the \(k\)-th position the number of different bits between \textbf{WORD}[k] y \textbf{PATTERN}[k]. The second is a vector of vectors. Thus, the element in the \(k\)-th position is also a vector with the positions of the flipped bits. 
+	For Method 2, the idea is to provide as arguments two similar-length vectors with the \textbf{WORD} and \textbf{PATTERN} values in \texttt{UInt32} format, as well as the \textbf{WordWidth}. Then, the function checks the values in both vectors with the same index and returns two vectors. The first one is a typical vector of integers, containing in the \(k\)-th position the number of different bits between \textbf{WORD}[k] y \textbf{PATTERN}[k]. The second is a vector of vectors. Thus, the element in the \(k\)-th position is also a vector with the positions of the flipped bits. 
 	
 	Method 3 is quite similar to Method 2, but \textbf{PATTERN} is no longer a vector but a constant value for all the elements of \textbf{WORDS}. Fig. \ref{fig:Example_CheckMBUs_M23} shows how this method and the previous one work.
 	
@@ -304,9 +304,9 @@ Related to these functions are those used to determine the expected number of fa
 	\end{itemize}
 	\item \textbf{Output}: Int
 	\item The purpose of this funcion is to determine the maximum number of expected
-	repetitions. in a \textit{DV} set taken from a memory with size equal to \textbf{LN} .
+	repetitions. in a \textit{DV} set taken from a memory with size equal to \textbf{LN}.
 	In general, it is the first integer such that its theoretical abundance is
-	lower than \(\varepsilon\). If this threshold is not provided, it is assumed to be \(\varepsilon = 0.01\).
+	lower than \(\varepsilon\). If this threshold is not provided, it is assumed to be \(\varepsilon\) = 0.05.
 \end{itemize}
 %
 \subsubsection*{TheoAbundance\_POS}\label{Subsec:TheoAbundance_POS}
@@ -315,12 +315,12 @@ Related to these functions are those used to determine the expected number of fa
 	\item \textbf{Input arguments}:
 	%
 	\begin{itemize}
-		\item \textit{Method 1}: \textbf{NR}: :Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{UsingDV}::Bool
-		\item \textit{Method 2}: \textbf{NR}: :Int, \textbf{NB}::Int, \textbf{LN}::Int
+		\item \textit{Method 1}: \textbf{NR}::Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{UsingDV}::Bool
+		\item \textit{Method 2}: \textbf{NR}::Int, \textbf{NB}::Int, \textbf{LN}::Int
 	\end{itemize}
 	\item \textbf{Output:} AbstractFloat
 	%
-	\item This function allows calculating the expected number of values repeated 	 \textbf{NR} times after several bitflips in a memory with \textbf{LA} words with \textbf{W} bits per word   	supposing to have used the POSITIVE subtraction.
+	\item This function allows calculating the expected number of values repeated 	 \textbf{NR} times after several bitflips in a memory with \textbf{LA} words with \textit{W} bits per word   	supposing to have used the POSITIVE subtraction.
 	
 	\textbf{NR} must be an integer number higher than or equal to 0. 
 	\textbf{NB} is an integer number supposed to be higher than 1.
@@ -332,7 +332,7 @@ Related to these functions are those used to determine the expected number of fa
 		SRAM-Based FPGA in Static Mode,}" in IEEE Transactions on Nuclear Science, vol.
 	67, no. 7, pp. 1461-1469, July 2020, doi: 10.1109/TNS.2020.2977874.
 	
-	Lawfully avalaible for free download on \href{https://eprints.ucm.es/id/eprint/59496/}{https://eprints.ucm.es/id/eprint/59496/}
+	Available for lawful free download on \href{https://eprints.ucm.es/id/eprint/59496/}{https://eprints.ucm.es/id/eprint/59496/}
 \end{itemize}
 
 \subsubsection*{TheoAbundance\_XOR}\label{Subsec:TheoAbundance_XOR}
@@ -341,8 +341,8 @@ Related to these functions are those used to determine the expected number of fa
 	\item \textbf{Arguments:}
 	%
 	\begin{itemize}
-		\item \textit{Method 1}: \textbf{NR}: :Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{UsingDV}::Bool
-		\item \textit{Method 2}: \textbf{NR}: :Int, \textbf{NB}::Int, \textbf{LN}::Int
+		\item \textit{Method 1}: \textbf{NR}::Int, \textbf{NB}::Int, \textbf{LN}::Int, \textbf{UsingDV}::Bool
+		\item \textit{Method 2}: \textbf{NR}::Int, \textbf{NB}::Int, \textbf{LN}::Int
 	\end{itemize}
 	\item \textbf{Output:} AbstractFloat
 	%
@@ -354,7 +354,7 @@ Related to these functions are those used to determine the expected number of fa
 	Science, vol. 64, no. 8, pp. 2152-2160, Aug. 2017,
 	doi: 10.1109/TNS.2017.2726938. 
 	
-	Lawfully avalaible for free on https://eprints.ucm.es/id/eprint/43874/
+	Available for lawful free download on  \href{https://eprints.ucm.es/id/eprint/43874}{https://eprints.ucm.es/id/eprint/43874}.
 \end{itemize}
 %
 \subsubsection*{TheoAbundance}\label{Subsec:TheoAbundance}
@@ -374,7 +374,7 @@ Related to these functions are those used to determine the expected number of fa
 %%%%%%%%%%%%%%%%%%%%%%%%5
 \subsection{Search of anomalies}\label{Subsec:SearchOfAnomalies}
 
-This is an important set of functions that determine the statistical anomalies in the data set, and discard those that are not trustworthy, perhaps due to interaction between events. 
+This is an important set of functions that determine the statistical anomalies in the data set, and discard those that are not trustworthy, perhaps due to interaction between multiple events. 
 
 The functions included in this section are:
 
@@ -427,7 +427,7 @@ Last function just calls the previous four.
 	
 		\item   \textbf{DATA}: A matrix with 3 or 4 columns. 
 			 \begin{itemize}
-			 	\item The first column contains the word addresses in UInt32 format.
+			 	\item The first column contains the word addresses in \texttt{UInt32} format.
 			 	\item The second one shows the content read in the memory after the irradiation.
 			 	\item The third one, the pattern that should be inside.
 			 	\item  The fourth one is optional and shows the number of the read cycle if the   memory was read and corrected several times during the irradiation.
@@ -438,19 +438,18 @@ Last function just calls the previous four.
 	    the \textit{DV} set. Only two operations are allowed: 
 	    \begin{itemize}
 	    	\item \texttt{"XOR"}: bitwise XOR.
-	    	\item\texttt{ "POS"}: positive subtraction
+	    	\item\texttt{"POS"}: positive subtraction
 	    \end{itemize}
-		\item  \textbf{UsePseudoADD}: A boolean variable. Its purpose is to indicate that the user wants to use the word addresses when this parameter is false). If true, the pseudoaddress, calculated
-	    as \(\text{WORDADDRESS}\times\text{WordWidth} + \text{BitPosition}\), is used instead. Full of sense in FPGA since it is just the position  of the bit in the bitstream, it has not physical interpretation in memories BUT works!!!!
-		\item   \textbf{KeepCycle}: If true, the function looks for the fourth column and uses it to calculate the \textit{DV} Set.
+		\item  \textbf{UsePseudoADD}: A boolean variable. Its purpose is to indicate that the user wants to use the word addresses when this parameter is \texttt{false}. If \texttt{true}, the pseudoaddress  is used instead. Full of sense in FPGA since it is just the position  of the bit in the bitstream, it has not any physical interpretation in memories BUT works!!!!
+		%
+		\item   \textbf{KeepCycle}: If \texttt{true}, the function looks for the fourth column and uses it to calculate the \textit{DV} set.
+		%
 		\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.05 if not provided among the input arguments.
-		\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
+		\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not any physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
 
 	\end{itemize}
 	
-	The function returns an \(N\times 2\) UInt32 matrix. The first column contains the anomalously repeated values of the \textit{DV} SET compatible with the Self Consistency test. The second one contains the number of times they appear in the \textit{DV} set. Due to format integrity reasons, this column is expressed in unnatural \texttt{UInt32} format. 
-	
-	It is advisable a latter conversion into Int to make this column more readable. There are several examples of this function or equivalent in the Jupyter folder.
+	The function returns an \(N\times 2\) \texttt{UInt32} matrix. The first column contains the anomalously repeated values of the \textit{DV} SET compatible with the Self Consistency test. The second one contains the number of times they appear in the \textit{DV} set. Due to format integrity reasons, this column is expressed in unnatural \texttt{UInt32} format. It is advisable a latter conversion into \texttt{Int} to make this column more readable. There are several examples of this function or equivalent in the Jupyter folder.
 	
 	If the function does not find any anomaly, it returns a void matrix.  Or, more exactly, a \(0\times 2\) one.
 \end{itemize}
@@ -459,13 +458,13 @@ Last function just calls the previous four.
  \begin{itemize}
  	\item \textbf{Input arguments}: 
  		\begin{itemize}
- 		\item \textit{Method 1}: \textbf{PrevCandidates}::Array\{UInt32, 1\}, \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \textbf{KeepCycle}::Bool, \textbf{\(\varepsilon\)}::AbstractFloat, \textbf{LargestMCUSize}::Int
+ 		\item \textit{Method 1}: \textbf{PrevCandidates}::Array\{UInt32, 1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \\ \textbf{KeepCycle}::Bool, \textbf{\(\varepsilon\)}::AbstractFloat, \textbf{LargestMCUSize}::Int
 %
 		\item \textit{Method 2}:
-			\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \textbf{KeepCycle}::Bool, \textbf{\(\varepsilon\)}::AbstractFloat
+			\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \\  \textbf{KeepCycle}::Bool, \textbf{\(\varepsilon\)}::AbstractFloat
 			%
 		\item \textit{Method 3}: 			%
-			\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \textbf{KeepCycle}::Bool
+			\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \\ \textbf{KeepCycle}::Bool
  			%
  		\end{itemize}
  		Default values for \textbf{\(\varepsilon\)} and \textbf{LargestMCUSize} are \texttt{0.05} and \texttt{200} if they are not provided.
@@ -476,11 +475,11 @@ Last function just calls the previous four.
  		First of all, let us know the inputs:
  		\begin{itemize}
  			
- 			\item \textbf{PrevCandidates}: a vector in UInt32 with anomalies discovered within the \textit{DV} set using other methods: Self Consistency, Trace Rule, etc. This rule is only useful if there are two or more previous anomalies. 
+ 			\item \textbf{PrevCandidates}: a vector in \texttt{UInt32} with anomalies discovered within the \textit{DV} set using other methods: Self Consistency, Trace Rule, etc. This rule is only useful if there are two or more previous anomalies. 
  			
  			\item   \textbf{DATA}: A matrix with 3 or 4 columns. 
  			\begin{itemize}
- 				\item The first column contains the word addresses in UInt32 format.
+ 				\item The first column contains the word addresses in \texttt{UInt32} format.
  				\item The second one shows the content read in the memory after the irradiation.
  				\item The third one, the pattern that should be inside.
  				\item  The fourth one is optional and shows the number of the read cycle if the   memory was read and corrected several times during the irradiation.
@@ -491,17 +490,19 @@ Last function just calls the previous four.
  			the \textit{DV} set. Only two operations are allowed: 
  			\begin{itemize}
  				\item \texttt{"XOR"}: bitwise XOR.
- 				\item\texttt{ "POS"}: positive subtraction
+ 				\item\texttt{"POS"}: positive subtraction
  			\end{itemize}
- 			\item  \textbf{UsePseudoADD}: A boolean variable. Its purpose is to indicate that the user wants to use the word addresses when this parameter is false). If true, the pseudoaddress, calculated
- 			as \(\text{WORDADDRESS}\times\text{WordWidth} + \text{BitPosition}\), is used instead. Full of sense in FPGA since it is just the position  of the bit in the bitstream, it has not physical interpretation in memories BUT works!!!!
- 			\item   \textbf{KeepCycle}: If true, the function looks for the fourth column and uses it to calculate the \textit{DV} Set.
+ 			\item  \textbf{UsePseudoADD}: A boolean variable. Its purpose is to indicate that the user wants to use the word addresses when this parameter is \texttt{false}. If \texttt{true}, the pseudoaddress  is used instead. Full of sense in FPGA since it is just the position  of the bit in the bitstream, it has not any physical interpretation in memories BUT works!!!!
+ 			%
+ 			\item   \textbf{KeepCycle}: If \texttt{true}, the function looks for the fourth column and uses it to calculate the \textit{DV} set.
+ 			%
  			\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.05 if not provided among the input arguments.
- 			\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
+ 			%
+ 			\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not any physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
  			
  		\end{itemize}
  		
- 		The function returns an \(N\times 2\) UInt32 matrix. The first column contains anomalies discovered as follows:
+ 		The function returns an \(N\times 2\) \texttt{UInt32} matrix. The first column contains anomalies discovered as follows:
  		
  			 \begin{enumerate}
  			 	 \item Two elements of \textbf{PrevCandidates} are selected and combined using \textbf{Operation} to get a new value. Let us call \textit{K}.
@@ -511,9 +512,7 @@ Last function just calls the previous four.
  			 	 \item This process is repeated with all the possible pairs of elements of \textbf{PrevCandidates}.
  			 \end{enumerate}
  		 
- 		The second one contains the number of times they appear in the \textit{DV} set. Due to format integrity reasons, this column is expressed in unnatural \texttt{UInt32} format. 
- 		
- 		It is advisable a latter conversion into \texttt{Int} to make this column more readable. There are several examples of this function or equivalent in the Jupyter folder.
+ 		The second one contains the number of times they appear in the \textit{DV} set. Due to format integrity reasons, this column is expressed in unnatural \texttt{UInt32} format. It is advisable a latter conversion into \texttt{Int} to make this column more readable. There are several examples of this function or equivalent in the Jupyter folder.
  		
  		If the function does not find any anomaly, it returns a void matrix.  Or, more exactly, a \(0\times 2\) one.
  		
@@ -524,13 +523,13 @@ Last function just calls the previous four.
  \begin{itemize}
 	 \item \textbf{Input arguments}: 
 	 \begin{itemize}
-	 	\item \textit{Method 1}: \textbf{TraceRuleLength}::Int, \textbf{PrevCandidates}::Array\{UInt32, 1\}, \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \\ \textbf{UsePseudoADD}::Bool, \textbf{KeepCycle}::Bool,\textbf{\(\varepsilon\)}::AbstractFloat, \textbf{LargestMCUSize}::Int
+	 	\item \textit{Method 1}: \textbf{TraceRuleLength}::Int, \textbf{PrevCandidates}::Array\{UInt32, 1\}, \\ \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \\ \textbf{UsePseudoADD}::Bool, \textbf{KeepCycle}::Bool,\textbf{\(\varepsilon\)}::AbstractFloat, \textbf{LargestMCUSize}::Int
 	 	%
 	 	\item \textit{Method 2}: \textbf{TraceRuleLength}::Int, 
-	 	\textbf{PrevCandidates}::Array\{UInt32, 1\}, \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \\ \textbf{UsePseudoADD}::Bool, \textbf{KeepCycle}::Bool,\textbf{\(\varepsilon\)}::AbstractFloat
+	 	\textbf{PrevCandidates}::Array\{UInt32, 1\}, \\ \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \\ \textbf{UsePseudoADD}::Bool, \textbf{KeepCycle}::Bool,\textbf{\(\varepsilon\)}::AbstractFloat
 	 	%
 	 	\item \textit{Method 3}: \textbf{TraceRuleLength}::Int,
-	 	\textbf{PrevCandidates}::Array\{UInt32, 1\}, \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \\ \textbf{UsePseudoADD}::Bool, \textbf{KeepCycle}::Bool
+	 	\textbf{PrevCandidates}::Array\{UInt32, 1\}, \\ \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \\ \textbf{UsePseudoADD}::Bool, \textbf{KeepCycle}::Bool
 	 	%
 	 \end{itemize}
 	 Default values for \textbf{\(\varepsilon\)} and \textbf{LargestMCUSize} are \texttt{0.05} and \texttt{200} if they are not provided.
@@ -542,7 +541,7 @@ Last function just calls the previous four.
 	 \begin{itemize}
 	 	\item \textbf{TraceRuleLength}: a positive integer. New candidates are sought among the natural numbers below \textbf{LN0}\(\times\)\textbf{WordWidth} that, in binary format, have this number of ones or less.
 	 	
-	 	\item \textbf{PrevCandidates}: a vector in UInt32 with anomalies discovered within the \textit{DV} set using other methods: Self Consistency, Trace Rule, etc. This rule is only useful if there are two or more previous anomalies. 
+	 	\item \textbf{PrevCandidates}: a vector in \texttt{UInt32} with anomalies discovered within the \textit{DV} set using other methods: Self Consistency, Trace Rule, etc. This rule is only useful if there are two or more previous anomalies. 
 	 	
 	 	\item   \textbf{DATA}: A matrix with 3 or 4 columns. 
 	 	\begin{itemize}
@@ -557,17 +556,19 @@ Last function just calls the previous four.
 	 	the \textit{DV} set. Only two operations are allowed: 
 	 	\begin{itemize}
 	 		\item \texttt{"XOR"}: bitwise XOR.
-	 		\item\texttt{ "POS"}: positive subtraction
+	 		\item\texttt{"POS"}: positive subtraction
 	 	\end{itemize}
-	 	\item  \textbf{UsePseudoADD}: A boolean variable. Its purpose is to indicate that the user wants to use the word addresses when this parameter is false). If true, the pseudoaddress, calculated
-	 	as \(\text{WORDADDRESS}\times\text{WordWidth} + \text{BitPosition}\), is used instead. Full of sense in FPGA since it is just the position  of the bit in the bitstream, it has not physical interpretation in memories BUT works!!!!
-	 	\item   \textbf{KeepCycle}: If true, the function looks for the fourth column and uses it to calculate the \textit{DV} Set.
+	 	\item  \textbf{UsePseudoADD}: A boolean variable. Its purpose is to indicate that the user wants to use the word addresses when this parameter is \texttt{false}. If \texttt{true}, the pseudoaddress  is used instead. Full of sense in FPGA since it is just the position  of the bit in the bitstream, it has not any physical interpretation in memories BUT works!!!!
+	 	%
+	 	\item   \textbf{KeepCycle}: If \texttt{true}, the function looks for the fourth column and uses it to calculate the \textit{DV} set.
+	 	%
 	 	\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.05 if not provided among the input arguments.
-	 	\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
+	 	%
+	 	\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not any physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
 	 	
 	 \end{itemize}
 	 
-	 The function returns an \(N\times 2\) UInt32 matrix. The first column contains anomalies discovered as follows:
+	 The function returns an \(N\times 2\) \texttt{UInt32} matrix. The first column contains anomalies discovered as follows:
 	 
 	 \begin{enumerate}
 	 	\item Elements with only 1 one in binary format are generated as powers of 2; with 2 ones they are the sum of two different powers of 2, etc. Obviously, we are interested only in those values below the memory size in bits.
@@ -577,8 +578,7 @@ Last function just calls the previous four.
 	 	\item This process is repeated with all the possible values with few ones in binary format.
 	 \end{enumerate}
 	 
-	 The second one contains the number of times they appear in the \textit{DV} set. Due to format integrity reasons, this column is expressed in unnatural \texttt{UInt32} format. 
-	 
+	 The second one contains the number of times they appear in the \textit{DV} set. Due to format integrity reasons, this column is expressed in unnatural \texttt{UInt32} format. 	 
 	 It is advisable a latter conversion into \texttt{Int} to make this column more readable. There are several examples of this function or equivalent in the Jupyter folder.
 	 
 	 If the function does not find any anomaly, it returns a void matrix.  Or, more exactly, a \(0\times 2\) one. This is also returned if a careless researcher uses a value of \textbf{TraceRuleLength} of 4 or more, completely nonsense.
@@ -593,13 +593,13 @@ Last function just calls the previous four.
  	\item \textbf{Input arguments}: 
  	\begin{itemize}
 
- 		\item \textit{Method 1}: \textbf{PrevCandidates}::Array\{UInt32, 1\}, \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \textbf{KeepCycle}::Bool, \textbf{\(\varepsilon\)}::AbstractFloat, \textbf{LargestMCUSize}::Int
+ 		\item \textit{Method 1}: \textbf{PrevCandidates}::Array\{UInt32, 1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \\ \textbf{KeepCycle}::Bool, \textbf{\(\varepsilon\)}::AbstractFloat, \textbf{LargestMCUSize}::Int
  		%
  		\item \textit{Method 2}:
- 		\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \textbf{KeepCycle}::Bool, \textbf{\(\varepsilon\)}::AbstractFloat
+ 		\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \\ \textbf{KeepCycle}::Bool,  \textbf{\(\varepsilon\)}::AbstractFloat
  		%
  		\item \textit{Method 3}: 			%
- 		\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \textbf{KeepCycle}::Bool
+ 		\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool,\\ \textbf{KeepCycle}::Bool
  		%
  	\end{itemize}
  	Default values for \textbf{\(\varepsilon\)} and \textbf{LargestMCUSize} are \texttt{0.05} and \texttt{200} if they are not provided.
@@ -610,7 +610,7 @@ Last function just calls the previous four.
  	First of all, let us know the inputs:
  	\begin{itemize}
  		
- 		\item \textbf{PrevCandidates}: a vector in UInt32 with anomalies discovered within the \textit{DV} set using other methods: Self Consistency, Trace Rule, etc. This rule is only useful if there are two or more previous anomalies. 
+ 		\item \textbf{PrevCandidates}: a vector in \texttt{UInt32} with anomalies discovered within the \textit{DV} set using other methods: Self Consistency, Trace Rule, etc. This rule is only useful if there are two or more previous anomalies. 
  		
  		\item   \textbf{DATA}: A matrix with 3 or 4 columns. 
  		\begin{itemize}
@@ -625,17 +625,19 @@ Last function just calls the previous four.
  		the \textit{DV} set. Only two operations are allowed: 
  		\begin{itemize}
  			\item \texttt{"XOR"}: bitwise XOR.
- 			\item\texttt{ "POS"}: positive subtraction
+ 			\item\texttt{"POS"}: positive subtraction
  		\end{itemize}
- 		\item  \textbf{UsePseudoADD}: A boolean variable. Its purpose is to indicate that the user wants to use the word addresses when this parameter is false). If true, the pseudoaddress, calculated
- 		as \(\text{WORDADDRESS}\times\text{WordWidth} + \text{BitPosition}\), is used instead. Full of sense in FPGA since it is just the position  of the bit in the bitstream, it has not physical interpretation in memories BUT works!!!!
- 		\item   \textbf{KeepCycle}: If true, the function looks for the fourth column and uses it to calculate the \textit{DV} Set.
+ 		\item  \textbf{UsePseudoADD}: A boolean variable. Its purpose is to indicate that the user wants to use the word addresses when this parameter is \texttt{false}. If \texttt{true}, the pseudoaddress  is used instead. Full of sense in FPGA since it is just the position  of the bit in the bitstream, it has not any physical interpretation in memories BUT works!!!!
+ 		%
+ 		\item   \textbf{KeepCycle}: If \texttt{true}, the function looks for the fourth column and uses it to calculate the \textit{DV} set.
+ 		%
  		\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.05 if not provided among the input arguments.
- 		\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
+ 		%
+ 		\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not any physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
  		
  	\end{itemize}
  	
- 	The function returns an \(N\times 2\) UInt32 matrix. The first column contains anomalies discovered as follows:
+ 	The function returns an \(N\times 2\) \texttt{UInt32} matrix. The first column contains anomalies discovered as follows:
  	
  	\begin{enumerate}
  		\item MCUs from \textbf{DATA} are extracted using \textbf{PrevCandidates}, taking into account \textbf{Operation, LN0, WordWidth, Operation, UsePseudoAdd \& KeepCycle}.
@@ -647,9 +649,7 @@ Last function just calls the previous four.
  		\item This process is repeated with all the possible pairs of addresses inside the multiple event and for all the MCU with 3-bit multiplicity or more.
  	\end{enumerate}
  	
- 	The second one contains the number of times they appear in the \textit{DV} set. Due to format integrity reasons, this column is expressed in unnatural \texttt{UInt32} format. 
- 	
- 	It is advisable a latter conversion into \texttt{Int} to make this column more readable. There are several examples of this function or equivalent in the Jupyter folder.
+ 	The second one contains the number of times they appear in the \textit{DV} set. Due to format integrity reasons, this column is expressed in unnatural \texttt{UInt32} format. It is advisable a latter conversion into \texttt{Int} to make this column more readable. There are several examples of this function or equivalent in the Jupyter folder.
  	
  	If the function does not find any anomaly, it returns a void matrix.  Or, more exactly, a \(0\times 2\) one.
  	
@@ -663,29 +663,29 @@ Last function just calls the previous four.
  	\begin{itemize}
  		\item  \textit{Method 1: }\textbf{DATA}::Array\{UInt32, 2\}, 
  		\textbf{WordWidth}::Int,
- 		\textbf{LN0}::Int,
+ 		\textbf{LN0}::Int, \\
  		\textbf{Operation}::String,
  		\textbf{TraceRuleLength}::Int,
- 		\textbf{UsePseudoADD}::Bool,
+ 		\textbf{UsePseudoADD}::Bool,\\
  		\textbf{KeepCycle}::Bool,
  		\textbf{\(\varepsilon\)}::AbstractFloat,
  		\textbf{LargestMCUSize}::Int
  		%
  		\item  \textit{Method 2: }\textbf{DATA}::Array\{UInt32, 2\}, 
  		\textbf{WordWidth}::Int,
- 		\textbf{LN0}::Int,
+ 		\textbf{LN0}::Int, \\
  		\textbf{Operation}::String,
  		\textbf{TraceRuleLength}::Int,
- 		\textbf{UsePseudoADD}::Bool,
+ 		\textbf{UsePseudoADD}::Bool, \\
  		\textbf{KeepCycle}::Bool,
  		\textbf{\(\varepsilon\)}::AbstractFloat
  		%
  		\item  \textit{Method 3: }\textbf{DATA}::Array\{UInt32, 2\}, 
  		\textbf{WordWidth}::Int,
- 		\textbf{LN0}::Int,
+ 		\textbf{LN0}::Int, \\
  		\textbf{Operation}::String,
  		\textbf{TraceRuleLength}::Int,
- 		\textbf{UsePseudoADD}::Bool,
+ 		\textbf{UsePseudoADD}::Bool,\\
  		\textbf{KeepCycle}::Bool
  	\end{itemize}
  	
@@ -700,7 +700,7 @@ Last function just calls the previous four.
  		
  		\item   \textbf{DATA}: A matrix with 3 or 4 columns. 
  		\begin{itemize}
- 			\item The first column contains the word addresses in UInt32 format.
+ 			\item The first column contains the word addresses in \texttt{UInt32} format.
  			\item The second one shows the content read in the memory after the irradiation.
  			\item The third one, the pattern that should be inside.
  			\item  The fourth one is optional and shows the number of the read cycle if the   memory was read and corrected several times during the irradiation.
@@ -711,24 +711,22 @@ Last function just calls the previous four.
  		the \textit{DV} set. Only two operations are allowed: 
  		\begin{itemize}
  			\item \texttt{"XOR"}: bitwise XOR.
- 			\item\texttt{ "POS"}: positive subtraction
+ 			\item\texttt{"POS"}: positive subtraction
  		\end{itemize}
  		\item \textbf{TraceRuleLength}: a positive integer. New candidates are sought among the natural numbers below \textbf{LN0}\(\times\)\textbf{WordWidth} that, in binary format, have this number of ones or less.
- 		\item  \textbf{UsePseudoADD}: A boolean variable. Its purpose is to indicate that the user wants to use the word addresses when this parameter is false). If true, the pseudoaddress, calculated
- 		as \(\text{WORDADDRESS}\times\text{WordWidth} + \text{BitPosition}\), is used instead. Full of sense in FPGA since it is just the position  of the bit in the bitstream, it has not physical interpretation in memories BUT works!!!!
- 		\item   \textbf{KeepCycle}: If true, the function looks for the fourth column and uses it to calculate the \textit{DV} Set.
+ 		\item  \textbf{UsePseudoADD}: A boolean variable. Its purpose is to indicate that the user wants to use the word addresses when this parameter is \texttt{false}. If \texttt{true}, the pseudoaddress is used instead. Full of sense in FPGA since it is just the position  of the bit in the bitstream, it has not any physical interpretation in memories BUT works!!!!
+ 		\item   \textbf{KeepCycle}: If \texttt{true}, the function looks for the fourth column and uses it to calculate the \textit{DV} Set.
  		\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.05 if not provided among the input arguments.
- 		\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
+ 		\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not any physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
  		
  	\end{itemize}
  	
- 	The function returns four \(N\times 2\) UInt32 matrices. The first matrix contains the anomalies calculated by \hyperref[Fun:DetectAnomaliesSelfConsis]{DetectAnomalies\_SelfConsis}. Then, the \hyperref[Fun:DetectAnomaliesMCURule]{DetectAnomalies \_MCU\_Rule} is used with the anomalies discovered in the previous step. This is the second returned matrix. Next, anomalies from both rules merge into one unique set and it is used as input for \hyperref[Fun:DetectAnomaliesShuffleRule]{DetectAnomalies\_Shuffle\_Rule}, the output of which is returned as the third matrix. Finally, the Trace rule is applied to the data set, its output being the fourth matrix.
+ 	The function returns four \(N\times 2\) \texttt{UInt32} matrices. The first matrix contains the anomalies calculated by \hyperref[Fun:DetectAnomaliesSelfConsis]{\texttt{DetectAnomalies\_SelfConsis}}. Then, the \hyperref[Fun:DetectAnomaliesMCURule]{\texttt{DetectAnomalies \_MCU\_Rule}} is used with the anomalies discovered in the previous step. This is the second returned matrix. Next, anomalies from both rules merge into one unique set and it is used as input for \hyperref[Fun:DetectAnomaliesShuffleRule]{\texttt{DetectAnomalies\_Shuffle\_Rule}}, the output of which is returned as the third matrix. Finally, the Trace rule is applied to the data set, its output being the fourth matrix.
  	
- 	If the researcher considers that this order does not fit his/her requirements, it is recommended to modify the file containing the function, \texttt{LELAPE/src/functions/DataTreatCheck/ DetectAnomalies\_FullCheck.jl}, or just using the four previous functions in the preferred order, even repeating passes if necessary.
+ 	If the researcher considers that this order does not fit his/her requirements, it is recommended to modify the file containing the function, \texttt{LELAPE/src/functions/DataTreat Check/DetectAnomalies\_FullCheck.jl}, or just using the four previous functions in the preferred order, even repeating passes if necessary.
  	
- 	Inside every matrix, the first column contains the anomalously repeated values of the \textit{DV} set obtained after applying the corresponding rule, while the second one contains the number of times they appear in the \textit{DV} set. Due to format integrity reasons, this column is expressed in unnatural \texttt{UInt32} format. 
- 	
- 	It is advisable a latter conversion into Int to make this column more readable. There are several examples of this function or equivalent in the Jupyter folder.
+ 	Inside every matrix, the first column contains the anomalously repeated values of the \textit{DV} set obtained after applying the corresponding rule, while the second one contains the number of times they appear in the \textit{DV} set. Due to format integrity reasons, this column is expressed in unnatural \texttt{UInt32} format.  	
+ 	It is advisable a latter conversion into\texttt{Int}to make this column more readable. There are several examples of this function or equivalent in the Jupyter folder.
  	
  	If the function does not find any anomaly, it returns a void matrix.  Or, more exactly, a \(0\times 2\) one. 
  	
@@ -743,37 +741,37 @@ Last function just calls the previous four.
  	\item \textbf{Input arguments}: 
  		\begin{itemize}
  			\item \textit{Method 1: } \textbf{DATA}::Matrix\{UInt32\}, 
- 			\textbf{OPERATION}::String,
+ 			\textbf{OPERATION}::String, \\
  			\textbf{Markers}::Vector\{UInt32\}, 
  			\textbf{UsePseudoADD}::Bool, 
- 			\textbf{WordWidth}::Int,
+ 			\textbf{WordWidth}::Int, \\
  			\textbf{LimitMCUSize}::Int
  			%
  			\item \textit{Method 2: } \textbf{DATA}::Matrix\{UInt32\}, 
- 			\textbf{OPERATION}::String,
+ 			\textbf{OPERATION}::String, \\
  			\textbf{Markers}::Vector\{UInt32\}, 
  			\textbf{UsePseudoADD}::Bool, 
  			\textbf{WordWidth}::Int
  			%
  			\item \textit{Method 3: } \textbf{DATA}:Matrix\{UInt32\}, 
- 			\textbf{OPERATION}::String,
+ 			\textbf{OPERATION}::String, \\
  			\textbf{Markers}::Vector\{UInt32\}, 
  			\textbf{UsePseudoADD}::Bool
  			%
  			\item \textit{Method 4: } \textbf{DATA}::Matrix\{UInt32\}, 
- 			\textbf{OPERATION}::String,
+ 			\textbf{OPERATION}::String,\\
  			\textbf{Markers}::Vector\{UInt32\}, 
  		\end{itemize}
  	\item \textbf{Output}: Matrix\{Int\}
  	%
- 	\item This functions uses the \textbf{DATA} set to look for pairs of addresses which treated with 	 \textbf{OPERATION} yield one of the \textbf{MARKERS}. If an \textbf{ADDRESS} is related to other two addresses, 	 a 3--bit MCU appears (and so on.) The rest of parameters are used to provide necessary  information to use the \textbf{PSEUDOADDRESS} instead of the \textbf{WORD ADDRESS}. 
+ 	\item This functions uses the \textbf{DATA} set to look for pairs of addresses which treated with 	 \textbf{OPERATION} yield one of the \textbf{MARKERS}. If an \textbf{ADDRESS} is related to other two addresses, 	 a 3--bit MCU appears (and so on). The rest of parameters are used to provide necessary  information to use the \textbf{PSEUDOADDRESS} instead of the \textbf{WORD ADDRESS}. 
 	 
 	 More information about the inputs:
 	 
 	 \begin{itemize}
-	 	\item DATA: A matrix with 3 or 4 columns. 
+	 	\item \textbf{DATA}: A matrix with 3 or 4 columns. 
 	 		\begin{itemize}
-	 			\item  The first one contains the word addresses in UInt32 formata.
+	 			\item  The first one contains the word addresses in UInt32 format.
 	 			\item        The second one shows the content read in the memory after the irradiation.
 	 			\item        The third one, the pattern that should be inside.
 	 			\item        The fourth one is optional and shows the namber of the read cycle if the  memory was read and corrected several times during the irradiation.
@@ -781,34 +779,32 @@ Last function just calls the previous four.
 	 	%       
 	 	\item \textbf{OPERATION}: A string variable to indicate the preferred operation to calculate
 	 	the DVSET. Only two operations are allowed: 
-	 	\begin{itemize}
-	 		\item "XOR": XORing bit to bit.
-	 		\item "POS": abs(a-b)
-	 	\end{itemize}
 	 	%
-	 	\item \textbf{UsePseudoADD}: A boolean variable. It allows to indicate that the user wants to user
-	 	word addresses (false). If true, a pseudoaddress is assigned to each bit and calculated
-	 	as \[\text{WORDADDRESS}\times\text{WordWidth} + \text{BitPosition.}\] Full of sense in FPGA since it is just the position
-	 	of the bit in the bitstream, it has not physical interpretation in memories BUT works!!!!
+ 		\begin{itemize}
+			\item \texttt{"XOR"}: bitwise XOR.
+			\item\texttt{"POS"}: positive subtraction
+		\end{itemize}
+	 	%
+	 	\item \textbf{UsePseudoADD}: A boolean variable. If \texttt{false}, LELAPE will use word address. If \texttt{true}, cell pseudoaddresses are used instead.
 	 	%
 	 	\item \textbf{WordWidth}: The size of each word in bits, usually 8, 16. 32, etc.
 	 	%
-	 	\item \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not physical sense
+	 	\item \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not any physical sense
 	 	and is only used to stop the program if unreallistic events occur. Initially set to 200.
 	 \end{itemize}
   
-	 Concerning the OUTPUT: It provides an integer NMCU\(\times\)LMCU matrix, NMCU being the number of detected MCUs and
-	 LMCU the size of the largest reconstructed MCU. Every value different than 0 must be determined as follows:
+	 Concerning the \textbf{OUTPUT}: It provides an integer \texttt{NMCU}\(\times\)\texttt{LMCU} matrix, \texttt{NMCU} being the number of detected MCUs and
+	 \texttt{LMCU} the size of the largest reconstructed MCU. Every value different than 0 must be determined as follows:
 	 \begin{enumerate}
-	 	\item UsePseudoADD = false: The index indicates the row in DATA with the address in the MCU.
-	 	\item UsePseudoADD = true: It provides the index in the PSEUDOADDRESS derived SET. If the exact position of
-	 	the bitcell is required, DATA should be treated with ConvertToPseudoADD() and
+	 	\item \textbf{UsePseudoADD} = \texttt{false}: The index indicates the row in \textbf{DATA} with the address in the MCU.
+	 	\item \textbf{UsePseudoADD} = \texttt{true}: It provides the index in the PSEUDOADDRESS derived SET. If the exact position of
+	 	the bitcell is required, \textbf{DATA} should be treated with \texttt{ConvertToPseudoADD()} and
 	 	the index used in the resulting matrix.
 	 \end{enumerate}
  
      In both cases, if the size of the MCU is smaller than LMCU, the row will be filled with zeros until
-     reaching the desired length. For example, if the content of a row is [5 7 9 0 0], it must be interpreted
-     as a 3-bit MCU involving addresses indexed with 5, 7 \& 9 in an experiment in which at least a 5-bit 
+     reaching the desired length. For example, if the content of a row is \texttt{[5 7 9 0 0]}, it must be interpreted
+     as a 3--bit MCU involving addresses indexed with 5, 7 \& 9 in an experiment in which at least a 5-bit 
      MCU (and nothing larger) was observed.
      
  	Finally, if the index of an address does not appear in the returned matrix, it should be interpreted as  isolated and belonging to an SBU.
@@ -835,13 +831,13 @@ Last function just calls the previous four.
 	%
 	\item \textbf{Output}: Vector::\{Any\}
 	%
-	\item The purpose of this function is to classify the addresses (or pseudoaddresses) with bitflips transform the matrix of INDEXES got from MCU\_Indexes() into a Vector of matrices, called SOLUTION, which is eventually returned as OUTPUT.
+	\item The purpose of this function is to classify the addresses (or pseudoaddresses) with bitflips by transforming the matrix of \textbf{Indexes} got from \texttt{MCU\_Indexes()} into a Vector of matrices, called \texttt{SOLUTION}, which is eventually returned as \textbf{OUTPUT}.
 	 
-	The length of SOLUTION is the size of the largest observed MCU(s), NLMCU. Thus, SOLUTION[1] is 	a N x NLMCU matrix in which every row contains the addresses or pseudoaddresses of the NLMCU 	bitflips involved in this MCU. N is the number of observdd NLMCU-bit MCUs.
+	The length of \texttt{SOLUTION} is the size of the largest observed MCU(s), \texttt{NLMCU}. Thus, \texttt{SOLUTION[1]} is an \texttt{N \(\times\) NLMCU} matrix in which every row contains the addresses or pseudoaddresses of the \texttt{NLMCU} 	bitflips involved in this MCU. \texttt{N} is the number of observed \texttt{NLMCU}-bit MCUs.
 	
-	SOLUTION[2] is devoted to events with M = NLMCU-1 bits. As before, it is a matrix with NLMCU-1 	rows and an undetermined number of rows.
+	\texttt{SOLUTION[2]} is devoted to events with \texttt{M = NLMCU-1} bits. As before, it is a matrix with \texttt{NLMCU-1} 	columns and an undetermined number of rows.
 	
-	Finally, SOLUTION[NLMCU] is just a simple vector with the addresses not involved in MCUs. Obviously, these are the SBUs.
+	Finally, \texttt{SOLUTION[NLMCU]} is just a simple vector with the addresses not involved in MCUs. Obviously, these are the SBUs.
 \end{itemize}
 
 \subsection{False events due to accumulation of bitflips}\label{SubSec:FalseEvents}
@@ -890,13 +886,13 @@ The functions are:
 \begin{itemize}
 	\item \textbf{Input arguments}: 
 	\begin{itemize}
-		\item \textit{Method 1}: \textbf{NSBU}::Int, \textbf{LA}::Int, \textbf{METHOD}::String, \textbf{D}::Int, \textbf{WordWidth}::Int, \textbf{UsePseudoAddress}::Bool
+		\item \textit{Method 1}: \textbf{NSBU}::Int, \textbf{LA}::Int, \textbf{METHOD}::String, \textbf{D}::Int, \textbf{WordWidth}::Int,\\ \textbf{UsePseudoAddress}::Bool
 		\item \textit{Method 2}: \textbf{NSBU}::Int, \textbf{LA}::Int, \textbf{METHOD}::String, \textbf{D}::Int, \textbf{WordWidth}::Int
 	\end{itemize}
 	\item \textbf{Output}: Float64
 	\item It indicates the expected number of false 2-bit MCUs that will occur 
 	in a memory with \textbf{LA} words with \textbf{WORDWIDTH} bits each in which \textbf{NSBU} SBUs have occurred. In this analysis, 
-	MCUS are sought using some grouping method (\textbf{METHOD}) with a generalized distance \textbf{D}.
+	MCUs are sought using some grouping method (\textbf{METHOD}) with a generalized distance \textbf{D}.
 	
 	If \textbf{UsePseudoAddress} is not provided, its default value is \texttt{false}.
 	
@@ -905,7 +901,7 @@ The functions are:
 	Admitted values for \textbf{METHOD} and \textbf{D} are the following:
 	
 	\begin{enumerate}
-		\item \textbf{METHOD}: \texttt{"MBU"} \(\rightarrow\) Only MBUs are sought. In this case, \textbf{D} is the \textbf{WORDWiDTH}.
+		\item \textbf{METHOD}: \texttt{"MBU"} \(\rightarrow\) Only MBUs are sought. In this case, use the \textbf{WORDWiDTH} as \textbf{D}.
 		\item \textbf{METHOD}: \texttt{"MHD"} \(\rightarrow\)  Only possible if the user has been able to place the flipped	cell in the XY plane. Two cells are related if \(\left|x_1-x_2\right|+ \left|y_1-y_2\right|) \le D\). This  is the \textit{``Manhattan distance''}.
 		\item \textbf{METHOD}: \texttt{"IND"} \(\rightarrow\)  Only possible if the user has been able to place the flipped	cell in the XY plane. Two cells are related if \(\max(\left|x_1-x_2\right|, \left|y_1-y_2\right|) \le D\). In mathematics, this is the \textit{"infinite distance"}.
 		\item \textbf{METHOD}: \texttt{"THD"} \(\rightarrow\)  Only valid if pairs of bitflips are located in a linear bitstream and if the
@@ -913,7 +909,7 @@ The functions are:
 		\item \textbf{METHOD}: \texttt{"XOR"}\(\rightarrow\)  Related pairs are got by means of statistical deviations. Addresses are XORed 
 		and only if the value is one of the \textbf{D} possible critical values. If the WORD Addresses  
 		is used instead of PSEUDOADDRESS, the memory size must be expressed in WORDs, \textbf{LA = LN/WordWidth}.
-		IF SO, THE WORDWIDTH MUST BE PROVIDED.
+		IF SO, THE \textbf{WORDWIDTH} MUST BE PROVIDED.
 		\item \textbf{METHOD}: \texttt{"POS"}\(\rightarrow\)  Identical to the previous one but with positive subtraction instead of XOR.
 	\end{enumerate}
 	
@@ -938,14 +934,12 @@ The functions are:
 \begin{itemize}
 	\item \textbf{Input arguments}: 
 	\begin{itemize}
-		\item \textit{Method 1}: \textbf{NSBU}::Int, \textbf{NMU2}::Int, \textbf{LN}::Int, \textbf{METHOD}::String, \textbf{D}::Int, WordWidth::Int
+		\item \textit{Method 1}: \textbf{NSBU}::Int, \textbf{NMU2}::Int, \textbf{LN}::Int, \textbf{METHOD}::String, \textbf{D}::Int, \\ \textbf{WordWidth}::Int
 		\item \textit{Method 2}: \textbf{NSBU}::Int, \textbf{NMU2}::Int, \textbf{LN}::Int, \textbf{METHOD}::String, \textbf{D}::Int
 	\end{itemize}
-	\item \textbf{Output}: Tuple{Float64, Float64}
-	\item     It indicates the expected number of false 3-bit MCUs that will occur 	in a memory with \textbf{LN} bits in which \textbf{NSBU} SBUs and \textbf{NMU2} 2-bit MCUs have occurred. 	In this analysis, MCUS are sought using some grouping method (\textbf{METHOD}) with a generalized 
-	distance D.
-	
-	MCUS are sought using some grouping method (\textbf{METHOD}) with a generalized distance \textbf{D}.
+	\item \textbf{Output}: Tuple\{Float64, Float64\}
+	\item     It indicates the expected number of false 3-bit MCUs that will occur 	in a memory with \textbf{LN} bits in which \textbf{NSBU} SBUs and \textbf{NMU2} 2-bit MCUs have occurred. 	In this analysis, MCUs are sought using some grouping method (\textbf{METHOD}) with a generalized 
+	distance \textbf{D}.
 	
 	Admitted values for \textbf{METHOD} and \textbf{D} are the following:
 	
@@ -958,7 +952,7 @@ The functions are:
 	\item \textbf{METHOD}: \texttt{"XOR"}\(\rightarrow\)  Related pairs are got by means of statistical deviations. Addresses are XORed 
 	and only if the value is one of the \textbf{D} possible critical values. If the WORD Addresses  
 	is used instead of PSEUDOADDRESS, the memory size must be expressed in WORDs, \textbf{LA = LN/WordWidth}.
-	IF SO, THE WORDWIDTH MUST BE PROVIDED.
+	IF SO, THE \textbf{WORDWIDTH} MUST BE PROVIDED.
 	\item \textbf{METHOD}: \texttt{"POs"}\(\rightarrow\)  Identical to the previous one but with positive subtraction instead of XOR.
 \end{enumerate}
 	
