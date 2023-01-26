@@ -152,7 +152,7 @@ function DetectAnomalies_FullCheck(   DATA::Array{UInt32, 2},
         for NewCandidate in PossibleCandidates
 
             if Histogram[NewCandidate+1]>NThreshold & !(NewCandidate in PrevCandidates)
-                append!(ConfirmedCandidates)
+                append!(ConfirmedCandidates, NewCandidate)
             end
 
         end
@@ -179,11 +179,11 @@ function DetectAnomalies_FullCheck(   DATA::Array{UInt32, 2},
             error("Operation not recognisable.")
         end
         if Histogram[NewCandidate+1]>NThreshold
-            append!(PossibleCandidates)
+            append!(PossibleCandidates, NewCandidate)
         end
     end
     
-    Matrix4SMCURULE = convert.(UInt32, reshape([PossibleCandidates; Histogram[PossibleCandidates.+1]], :, 2))
+    Matrix4SHUFFLERULE = convert.(UInt32, reshape([PossibleCandidates; Histogram[PossibleCandidates.+1]], :, 2))
     
     # Finally, the TraceLength rule.
 
@@ -220,16 +220,16 @@ function DetectAnomalies_FullCheck(   DATA::Array{UInt32, 2},
     for NewCandidate in LowTraceSet
 
         if Histogram[NewCandidate+1]>NThreshold & !(NewCandidate in PrevCandidates)
-            append!(PossibleCandidates)
+            append!(PossibleCandidates, NewCandidate)
         end
 
     end
 
     
-    Matrix4SMCURULE = convert.(UInt32, reshape([PossibleCandidates; Histogram[PossibleCandidates.+1]], :, 2))
+    Matrix4TRACERULE = convert.(UInt32, reshape([PossibleCandidates; Histogram[PossibleCandidates.+1]], :, 2))
 
     #### Nothing else to do. Returning to the main program.
 
-    return Matrix4SelfConsistency, Matrix4SMCURULE, Matrix4SMCURULE, Matrix4SMCURULE
+    return Matrix4SelfConsistency, Matrix4SMCURULE, Matrix4SHUFFLERULE, Matrix4TRACERULE
 
 end

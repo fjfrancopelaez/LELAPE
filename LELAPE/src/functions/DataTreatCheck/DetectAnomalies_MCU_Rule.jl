@@ -91,7 +91,7 @@ function DetectAnomalies_MCU_Rule(
         for NewCandidate in PossibleCandidates
 
             if Histogram[NewCandidate+1]>NThreshold & !(NewCandidate in PrevCandidates)
-                append!(ConfirmedCandidates)
+                append!(ConfirmedCandidates, NewCandidate)
             end
 
         end
