@@ -120,5 +120,7 @@ consistent with this Licence. However, if accepting obligations, You may act onl
 responsibility, not on behalf of the original Licensor or any other Contributor, and only if You agree to indemnify,
 defend, and hold each Contributor harmless for any liability incurred by, or claims asserted against such Contributor by
 the fact You have accepted any warranty or additional liability.
+
  ------------------------
+ 
  Full text of the Licence in different languages are available on https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
