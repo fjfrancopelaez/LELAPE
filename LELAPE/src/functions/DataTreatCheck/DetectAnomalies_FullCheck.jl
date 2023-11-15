@@ -219,7 +219,7 @@ function DetectAnomalies_FullCheck(   DATA::Array{UInt32, 2},
 
     for NewCandidate in LowTraceSet
 
-        if Histogram[NewCandidate+1]>NThreshold & !(NewCandidate in PrevCandidates)
+        if (Histogram[NewCandidate+1]>NThreshold) & !(NewCandidate in PossibleCandidates)
             append!(PossibleCandidates, NewCandidate)
         end
 
