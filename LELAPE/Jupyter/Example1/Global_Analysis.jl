@@ -1,24 +1,17 @@
-### Defining the path to LELAPE
+## Defining the path to LELAPE
+### If you have included this in the Julia configuration file, comment it.
 push!(LOAD_PATH, "~/LELAPE-dev/LELAPE-main/LELAPE/src"); # <-- ADAPT THIS INSTRUCTION TO YOUR COMPUTER!
 # If you are a Windows user, remember that subfolders are indicated with \\ or /, NEVER with a simple backslash.
 
 using DelimitedFiles, LELAPE, Printf
 
-LA = 2^21 # Memory size in words
-WordWidth = 8 # Selfexplaining.
-Operation = "XOR" # Only "XOR" or "POS" are allowed.
-KeepCycles = true; # This is a Bool variable and only true false are accepted.
-UsePseudoAddress = true #  This is a Bool variable and only true false are accepted.
-LargestMCUSize = 20; # Just a value to set the memory to be reserved. Change it reasonably.
-
-###############################################################################################
-################### WARNING 
-################### Change the name of this file everytime you need.
-
-File = "ExampleSRAM03.csv"
-
-##################
-###############################################################################################
+#################################################### 
+###
+###     Loading analysis setup parameters
+###
+####################################################
+include("Analysis.conf")
+####################################################
 
 DATA = readdlm(File, ',', UInt32, '\n', skipstart=1); # This instructions reads csv files.
 
@@ -52,8 +45,15 @@ NFalse2BitMCUs = NF2BitMCUs(NBitFlips, LA, "MBU", WordWidth, WordWidth);
 
 println("\n**********************************\n");
 println("Now, we will study the occurrence of MCUs with statistical methods. \n")
-println("Previous studies have shown that this memory has the following anomalies:")
+println("Previous studies have shown that this memory has the following anomalies:\n")
 
+#
+#################################################### 
+###
+###     Adapt the following vector to your system
+###
+####################################################
+#############################
 Anomalies =[
     0x000800
     0x080008
@@ -66,7 +66,7 @@ Anomalies =[
     0x600800
     0x680809
 ]
-
+##########################33#
 
 
     for element ∈ Anomalies
