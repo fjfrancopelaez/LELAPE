@@ -1,23 +1,17 @@
 ### Defining the path to LELAPE
+### If you have included this in the Julia configuration file, comment it.
 push!(LOAD_PATH, "~/LELAPE-dev/LELAPE-main/LELAPE/src"); # <-- ADAPT THIS INSTRUCTION TO YOUR COMPUTER!
 # If you are a Windows user, remember that subfolders are indicated with \\ or /, NEVER with a simple backslash.
 
 using DelimitedFiles, LELAPE, Printf
 
-LA = 2^21 # Memory size in words
-WordWidth = 8 # Selfexplaining.
-Operation = "XOR" # Only "XOR" or "POS" are allowed.
-KeepCycles = false; # This is a Bool variable and only true false are accepted.
-##### SETUP GOES ON IN LINE 55
-
-###############################################################################################
-################### WARNING 
-################### Change the name of this file everytime you need.
-
-File = "ExampleSRAM04.csv"
-
-##################
-###############################################################################################
+#################################################### 
+###
+###     Loading analysis setup parameters
+###
+####################################################
+include("Analysis.conf")
+####################################################
 
 DATA = readdlm(File, ',', UInt32, '\n', skipstart=1); # This instructions reads csv files.
 
@@ -34,7 +28,9 @@ NBitFlips = sum(MBUSize); # MBUSize is a vector the length of which is the numbe
 println("\n**********************************");
 println("--> Number of bitflips: $NBitFlips");
 println("**********************************");
+
 ####################################################
+
 println("\nNumber of MBUs with different sizes \n")
 println("Size\tOccurrences")
 println("----\t-----------")
@@ -46,21 +42,11 @@ end
 NFalse2BitMCUs = NF2BitMCUs(NBitFlips, LA, "MBU", WordWidth, WordWidth);
 
 @printf("\nExpected number of false 2-bit MBUs: %.3f\n", NFalse2BitMCUs)
-###############################
+
 ###############################
 
 println("\n**********************************\n");
 println("Now, we will study the occurrence of MCUs with statistical methods.\n")
-
-##### Please, change this values as you wish.
-ϵ = 0.001   # If the expected number of elements repeated k times is lower than ϵ, 
-            # we can afirm that this is virtually impossible.
-
-UsePseudoAddress = true
-TraceRuleLength = 2
-LargestMCUSize = 20
-#### End of configuration parameters
-##########################################################
 
 C1_SCY, C1_MCU, C1_SHF, C1_TRC = DetectAnomalies_FullCheck(DATA, WordWidth, LA, Operation, TraceRuleLength, UsePseudoAddress, KeepCycles, ϵ, LargestMCUSize)
 
