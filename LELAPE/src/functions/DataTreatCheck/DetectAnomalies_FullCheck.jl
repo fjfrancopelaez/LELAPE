@@ -74,6 +74,26 @@ function DetectAnomalies_FullCheck(   DATA::Array{UInt32, 2},
   
 
     end
+    if UsePseudoADD
+
+        ADDRESSES = ConvertToPseudoADD(DATA, WordWidth, KeepCycle)
+        # The size of the matrix is changed if there are MBUs.
+        LN = LN0*WordWidth;
+        # This is the size in bits.
+
+    else
+
+        ADDRESSES[:,1] = DATA[:,1]
+        LN = LN0
+
+        if KeepCycle & length(DATA[1,:]) == 4
+        
+            ADDRESSES[:,2] = DATA[:,4]
+    
+        end
+  
+
+    end
 
 
     DVSET = Create_DV_Set(ADDRESSES[:,1],  ADDRESSES[:,2], Operation)
@@ -219,7 +239,7 @@ function DetectAnomalies_FullCheck(   DATA::Array{UInt32, 2},
 
     for NewCandidate in LowTraceSet
 
-        if (Histogram[NewCandidate+1]>NThreshold) & !(NewCandidate in PossibleCandidates)
+        if ((Histogram[NewCandidate+1]>NThreshold) & !(NewCandidate in PossibleCandidates))
             append!(PossibleCandidates, NewCandidate)
         end
 
@@ -231,5 +251,6 @@ function DetectAnomalies_FullCheck(   DATA::Array{UInt32, 2},
     #### Nothing else to do. Returning to the main program.
 
     return Matrix4SelfConsistency, Matrix4SMCURULE, Matrix4SHUFFLERULE, Matrix4TRACERULE
+   
 
 end
