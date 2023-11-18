@@ -149,19 +149,21 @@ function DetectAnomalies_FullCheck_MassStorage(   DATA::Array{UInt32, 2},
 
         PossibleCandidates = union(PossibleCandidates)
 
-        ConfirmedCandidates = UInt32[]
+        ConfirmPossibleCandidates = union(PossibleCandidates)
 
         PossibleCandidates_Indexes = [findfirst(Histogram[:,1].==x) for x in PossibleCandidates]
 
+        ConfirmedCandidates = UInt32[];
+
         for NewCandidate in PossibleCandidates_Indexes
 
-            if Histogram[NewCandidate, 2]>NThreshold & !(Histogram[NewCandidate,1] in PrevCandidates)
-                append!(ConfirmedCandidates, NewCandidate)
+            if (Histogram[NewCandidate, 2]>NThreshold) & !(Histogram[NewCandidate,1] in PrevCandidates)
+                append!(ConfirmedCandidates, Histogram[NewCandidate,:]')
             end
 
         end
-        Matrix4SMCURULE = convert.(UInt32, reshape([ConfirmedCandidates; Histogram[ConfirmedCandidates.+1]], :, 2))
-
+        
+        Matrix4SMCURULE = convert.(UInt32, reshape(ConfirmedCandidates', :, 2))
 
     else
 
