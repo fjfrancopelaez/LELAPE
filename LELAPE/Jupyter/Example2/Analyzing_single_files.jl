@@ -1,6 +1,6 @@
 ### Defining the path to LELAPE
 ### If you have included this in the Julia configuration file, comment it.
-push!(LOAD_PATH, "~/LELAPE-dev/LELAPE-main/LELAPE/src"); # <-- ADAPT THIS INSTRUCTION TO YOUR COMPUTER!
+push!(LOAD_PATH, "/home/francisco/UCM/LELAPE/LELAPE-git/LELAPE/LELAPE/src"); # <-- ADAPT THIS INSTRUCTION TO YOUR COMPUTER!
 # If you are a Windows user, remember that subfolders are indicated with \\ or /, NEVER with a simple backslash.
 
 using DelimitedFiles, LELAPE, Printf
@@ -50,11 +50,16 @@ println("Now, we will study the occurrence of MCUs with statistical methods.\n")
 
 C1_SCY, C1_MCU, C1_SHF, C1_TRC = DetectAnomalies_FullCheck(DATA, WordWidth, LA, Operation, TraceRuleLength, UsePseudoAddress, KeepCycles, ϵ, LargestMCUSize)
 
+if length(C1_SCY[:,1])>0
+    println("Elements appearing more than expected and passing the Self-Consistency test:\n")
+        for index in 1:length(C1_SCY[:, 1])
+            println("\tValue: 0x", string(C1_SCY[index, 1], base=16, pad = 6), "  (", Int(C1_SCY[index, 1]), ") --> ", Int(C1_SCY[index, 2]),".")
+        end
+    else
 
-println("Elements appearing more than expected and passing the Self-Consistency test:\n")
-    for index in 1:length(C1_SCY[:, 1])
-        println("\tValue: 0x", string(C1_SCY[index, 1], base=16, pad = 6), "  (", Int(C1_SCY[index, 1]), ") --> ", Int(C1_SCY[index, 2]),".")
+        println("No elements appeared after the Self-Consistency test")
     end
+    
  
     println("\nOnly up to ", MaxExpectedRepetitions(NPairs(DATA, UsePseudoAddress, WordWidth, KeepCycles), LA, Operation, ϵ)-1, " repetitions are explained by randomness.\n")
 
@@ -67,7 +72,7 @@ println("Elements appearing more than expected and passing the Self-Consistency 
             end
         end
     else
-        println("MCU rule issued no candidates!!!\n")
+        println("\tMCU rule issued no candidates!!!\n")
 
     end
 
@@ -79,7 +84,7 @@ println("Elements appearing more than expected and passing the Self-Consistency 
             end
         end
     else
-        println("\nTrace rule issued no candidates!!!\n")
+        println("\n\tTrace rule issued no candidates!!!\n")
 
     end
 
@@ -91,7 +96,7 @@ println("Elements appearing more than expected and passing the Self-Consistency 
             end
         end
     else
-        println("\tShuffle rule issued no candidates!!!\n")
+        println("\n\tShuffle rule issued no candidates!!!\n")
 
     end
 

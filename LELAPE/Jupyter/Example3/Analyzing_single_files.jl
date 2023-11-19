@@ -28,7 +28,9 @@ NBitFlips = sum(MBUSize); # MBUSize is a vector the length of which is the numbe
 println("\n**********************************");
 println("--> Number of bitflips: $NBitFlips");
 println("**********************************");
+
 ####################################################
+
 println("\nNumber of MBUs with different sizes \n")
 println("Size\tOccurrences")
 println("----\t-----------")
@@ -40,19 +42,24 @@ end
 NFalse2BitMCUs = NF2BitMCUs(NBitFlips, LA, "MBU", WordWidth, WordWidth);
 
 @printf("\nExpected number of false 2-bit MBUs: %.3f\n", NFalse2BitMCUs)
-###############################
+
 ###############################
 
 println("\n**********************************\n");
 println("Now, we will study the occurrence of MCUs with statistical methods.\n")
 
-C1_SCY, C1_MCU, C1_SHF, C1_TRC  = DetectAnomalies_FullCheck(DATA, WordWidth, LA, Operation, TraceRuleLength, UsePseudoAddress, KeepCycles, ϵ, LargestMCUSize)
+C1_SCY, C1_MCU, C1_SHF, C1_TRC = DetectAnomalies_FullCheck(DATA, WordWidth, LA, Operation, TraceRuleLength, UsePseudoAddress, KeepCycles, ϵ, LargestMCUSize)
 
+if length(C1_SCY[:,1])>0
+    println("Elements appearing more than expected and passing the Self-Consistency test:\n")
+        for index in 1:length(C1_SCY[:, 1])
+            println("\tValue: 0x", string(C1_SCY[index, 1], base=16, pad = 6), "  (", Int(C1_SCY[index, 1]), ") --> ", Int(C1_SCY[index, 2]),".")
+        end
+    else
 
-println("Elements appearing more than expected and passing the Self-Consistency test:\n")
-    for index in 1:length(C1_SCY[:, 1])
-        println("\tValue: 0x", string(C1_SCY[index, 1], base=16, pad = 6), "  (", Int(C1_SCY[index, 1]), ") --> ", Int(C1_SCY[index, 2]),".")
+        println("No elements appeared after the Self-Consistency test")
     end
+    
  
     println("\nOnly up to ", MaxExpectedRepetitions(NPairs(DATA, UsePseudoAddress, WordWidth, KeepCycles), LA, Operation, ϵ)-1, " repetitions are explained by randomness.\n")
 
@@ -65,7 +72,7 @@ println("Elements appearing more than expected and passing the Self-Consistency 
             end
         end
     else
-        println("MCU rule issued no candidates!!!\n")
+        println("\tMCU rule issued no candidates!!!\n")
 
     end
 
@@ -77,7 +84,7 @@ println("Elements appearing more than expected and passing the Self-Consistency 
             end
         end
     else
-        println("Trace rule issued no candidates!!!\n")
+        println("\n\tTrace rule issued no candidates!!!\n")
 
     end
 
@@ -89,7 +96,7 @@ println("Elements appearing more than expected and passing the Self-Consistency 
             end
         end
     else
-        println("\tShuffle rule issued no candidates!!!\n")
+        println("\n\tShuffle rule issued no candidates!!!\n")
 
     end
 
@@ -134,7 +141,7 @@ println("Elements appearing more than expected and passing the Self-Consistency 
             if NMCUs != 0
                 for row = 1:NMCUs
                     for bit = 1:length(Events)-k+1
-                        print("0x", string(Events[k][row, bit], base=16, pad = 6))
+                        print("0x", string(Events[k][row, bit], base=16, pad = 6),)
                         #print(Events[k][row, bit])
                         bit != length(Events)-k+1 ? print(", ") : print("\n")
 
