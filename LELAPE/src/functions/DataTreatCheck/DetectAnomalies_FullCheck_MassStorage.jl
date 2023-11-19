@@ -157,7 +157,7 @@ function DetectAnomalies_FullCheck_MassStorage(   DATA::Array{UInt32, 2},
 
         for NewCandidate in PossibleCandidates_Indexes
 
-            if (Histogram[NewCandidate, 2]>NThreshold) & !(Histogram[NewCandidate,1] in PrevCandidates)
+            if (Histogram[NewCandidate, 2]>NThreshold) & !(Histogram[NewCandidate,1] in PrevCandidates) & !(Histogram[NewCandidate,1] in ConfirmedCandidates[:,1])
                 append!(ConfirmedCandidates, Histogram[NewCandidate,:]')
             end
 
@@ -186,7 +186,7 @@ function DetectAnomalies_FullCheck_MassStorage(   DATA::Array{UInt32, 2},
         end
 
         if (NewCandidate in Histogram[:,1]) 
-            if (Histogram[findfirst(Histogram[:,1].==NewCandidate),2]>NThreshold) & !(NewCandidate in PrevCandidates)
+            if (Histogram[findfirst(Histogram[:,1].==NewCandidate),2]>NThreshold) & !(NewCandidate in PrevCandidates) & !(Histogram[NewCandidate,1] in ConfirmedCandidates[:,1])
                 append!(PossibleCandidates, NewCandidate)
             end
         end
@@ -239,7 +239,7 @@ function DetectAnomalies_FullCheck_MassStorage(   DATA::Array{UInt32, 2},
     for NewCandidate in LowTraceSet
 
         if (NewCandidate in Histogram[:,1])
-            if (Histogram[findfirst(Histogram[:,1].==NewCandidate),2]>NThreshold) & !(NewCandidate in PrevCandidates)
+            if (Histogram[findfirst(Histogram[:,1].==NewCandidate),2]>NThreshold) & !(NewCandidate in PrevCandidates)  & !(Histogram[NewCandidate,1] in ConfirmedCandidates[:,1])
                 append!(PossibleCandidates, NewCandidate)
             end
         end

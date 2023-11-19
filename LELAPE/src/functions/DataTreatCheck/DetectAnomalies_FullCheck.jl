@@ -198,7 +198,7 @@ function DetectAnomalies_FullCheck(   DATA::Array{UInt32, 2},
         else
             error("Operation not recognisable.")
         end
-        if Histogram[NewCandidate+1]>NThreshold
+        if (Histogram[NewCandidate+1]>NThreshold) & !(NewCandidate in PrevCandidates) & !(NewCandidate in PossibleCandidates)
             append!(PossibleCandidates, NewCandidate)
         end
     end
@@ -239,7 +239,7 @@ function DetectAnomalies_FullCheck(   DATA::Array{UInt32, 2},
 
     for NewCandidate in LowTraceSet
 
-        if ((Histogram[NewCandidate+1]>NThreshold) & !(NewCandidate in PossibleCandidates))
+        if ((Histogram[NewCandidate+1]>NThreshold) & !(NewCandidate in PossibleCandidates) & !(NewCandidate in PrevCandidates))
             append!(PossibleCandidates, NewCandidate)
         end
 
