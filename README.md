@@ -15,7 +15,7 @@ This tool was supported by the Spanish MINECO by means of the PID2020-112916GB-I
 ## How to reference
 If you have successfully used this tool and the results are worth for academic publications, we ask you for including the following references:
 
-* Obviusly, this site.
+* Obviusly, this site, or the ZENODO repository with DOI:10.5281/zenodo.10156119
 * The Julia Language: _J. Bezanson, A. Edelman, S. Karpinski, and V. B. Shah, “Julia: A fresh
 approach to numerical computing,” SIAM review, vol. 59, no. 1, pp. 65–98, 2017 (DOI: 10.1137/141000671)._
 
