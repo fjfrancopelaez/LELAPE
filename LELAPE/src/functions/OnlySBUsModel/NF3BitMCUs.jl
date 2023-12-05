@@ -1,3 +1,13 @@
+# Distributed under the 
+#
+#          European Union Public Licence v. 1.2
+# 
+# See 
+#
+#          https://github.com/fjfrancopelaez/LELAPE/blob/main/LICENSE.md 
+# 
+# for further details.
+#
 function NF3BitMCUs(NSBU::Int, NMU2::Int, LN::Int, METHOD::String, D::Int, WordWidth::Int=1)::Tuple{Float64, Float64}
     # indicates the expected number of false 3-bit MCUs that will occur 
     # in a memory with LN bits in which NSBU SBUs and NMU2 2-bit MCUs have occurred. 

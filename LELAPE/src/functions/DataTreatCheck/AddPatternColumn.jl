@@ -1,3 +1,12 @@
+# Distributed under the 
+#
+#          European Union Public Licence v. 1.2
+# 
+# See 
+#
+#          https://github.com/fjfrancopelaez/LELAPE/blob/main/LICENSE.md 
+# 
+# for further details.
 function AddPatternColumn(DATA::Matrix{UInt32}, PATTERN::UInt32)::Matrix{UInt32}
 
     # Sometimes, DATA are just a matrix with only two columns: Word Address + Content,

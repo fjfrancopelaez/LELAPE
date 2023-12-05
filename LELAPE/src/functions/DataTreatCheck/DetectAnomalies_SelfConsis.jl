@@ -1,3 +1,13 @@
+# Distributed under the 
+#
+#          European Union Public Licence v. 1.2
+# 
+# See 
+#
+#          https://github.com/fjfrancopelaez/LELAPE/blob/main/LICENSE.md 
+# 
+# for further details.
+#
 function DetectAnomalies_SelfConsis(   DATA::Array{UInt32, 2},
                             WordWidth::Int,
                             LN0::Int,

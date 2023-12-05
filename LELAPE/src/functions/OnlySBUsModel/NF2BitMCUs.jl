@@ -1,3 +1,13 @@
+# Distributed under the 
+#
+#          European Union Public Licence v. 1.2
+# 
+# See 
+#
+#          https://github.com/fjfrancopelaez/LELAPE/blob/main/LICENSE.md 
+# 
+# for further details.
+#
 function NF2BitMCUs(NSBU::Int, LA::Int, METHOD::String, D::Int, WordWidth::Int, UsePseudoAddress::Bool=false)::Float64
     # indicates the expected number of false 2-bit MCUs that will occur 
     # in a memory with LA words with WORDWIDTH bits each in which NSBU SBUs have occurred. In this analysis,

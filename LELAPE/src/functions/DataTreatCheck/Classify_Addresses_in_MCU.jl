@@ -1,3 +1,13 @@
+# Distributed under the 
+#
+#          European Union Public Licence v. 1.2
+# 
+# See 
+#
+#          https://github.com/fjfrancopelaez/LELAPE/blob/main/LICENSE.md 
+# 
+# for further details.
+#
 function Classify_Addresses_in_MCU(DATA::Matrix{UInt32}, 
     Indexes::Matrix{Int}, 
     UsePseudoADD::Bool=false, 

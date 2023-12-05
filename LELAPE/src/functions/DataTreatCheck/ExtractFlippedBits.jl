@@ -1,3 +1,13 @@
+# Distributed under the 
+#
+#          European Union Public Licence v. 1.2
+# 
+# See 
+#
+#          https://github.com/fjfrancopelaez/LELAPE/blob/main/LICENSE.md 
+# 
+# for further details.
+#
 function ExtractFlippedBits(WORD::UInt32, PATTERN::UInt32, Wordwidth::Int)::Array{Int,1}
     # This function allows diwcovering the position of different bits between WORD
     # and PATTERN. It also verifies that both values are coherent with the Wordwidth,

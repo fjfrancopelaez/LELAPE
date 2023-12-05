@@ -1,3 +1,13 @@
+# Distributed under the 
+#
+#          European Union Public Licence v. 1.2
+# 
+# See 
+#
+#          https://github.com/fjfrancopelaez/LELAPE/blob/main/LICENSE.md 
+# 
+# for further details.
+#
 function Create_XOR_DV_Set(ADDRESSES::Array{UInt32, 1})::Array{UInt32, 1}
     # A matrix with all after making and xoring all the possible pairs is returned.
     # This version does not require the presence of cycle. It is defined so to increase speed.

@@ -1,3 +1,13 @@
+# Distributed under the 
+#
+#          European Union Public Licence v. 1.2
+# 
+# See 
+#
+#          https://github.com/fjfrancopelaez/LELAPE/blob/main/LICENSE.md 
+# 
+# for further details.
+#
 function ConvertToPseudoADD(DATA::Array{UInt32}, WordWidth::Int, KeepCycle::Bool=false)::Array{UInt32, 2}
     #
     # This function looks for the flipped bits between words in the second

@@ -1,3 +1,13 @@
+# Distributed under the 
+#
+#          European Union Public Licence v. 1.2
+# 
+# See 
+#
+#          https://github.com/fjfrancopelaez/LELAPE/blob/main/LICENSE.md 
+# 
+# for further details.
+#
 function CreateDVSetHistogram(SET::Array{UInt32, 1}, LN::Int)::Array{Int, 1}
 
     # It checks the number of elements present in the DV Histogram and returns the

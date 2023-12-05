@@ -1,3 +1,13 @@
+# Distributed under the 
+#
+#          European Union Public Licence v. 1.2
+# 
+# See 
+#
+#          https://github.com/fjfrancopelaez/LELAPE/blob/main/LICENSE.md 
+# 
+# for further details.
+#
 function DataMatrixIntegrity(DATA::Array{UInt32,2}, LN::Int, WordWidth::Int)::Bool
     # This function verifies that the DATA matrix is:
     #   a) Contains only 3 columns

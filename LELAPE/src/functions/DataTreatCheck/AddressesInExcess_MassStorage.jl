@@ -1,3 +1,12 @@
+# Distributed under the 
+#
+#          European Union Public Licence v. 1.2
+# 
+# See 
+#
+#          https://github.com/fjfrancopelaez/LELAPE/blob/main/LICENSE.md 
+# 
+# for further details.
 function AddressesInExcess_MassStorage(Histogram::Array{Int, 2}, Threshold::Int)::Array{UInt32, 2}
     # This is a simple function that looks for all of the elements in a MATRRX called Histogram
     # and selects those values above Threshold. 

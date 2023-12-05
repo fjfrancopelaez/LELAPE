@@ -1,3 +1,13 @@
+# Distributed under the 
+#
+#          European Union Public Licence v. 1.2
+# 
+# See 
+#
+#          https://github.com/fjfrancopelaez/LELAPE/blob/main/LICENSE.md 
+# 
+# for further details.
+#
 function TheoAbundance_POS(NR::Int, NB::Int, LN::Int, UsingDV::Bool = false)::AbstractFloat
 #This function allows calculating the expected number of values repeated
 # NR times after NB bitflip in a memory with LA words with W bits per word

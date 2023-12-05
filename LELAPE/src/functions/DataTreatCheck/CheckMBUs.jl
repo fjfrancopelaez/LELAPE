@@ -1,3 +1,12 @@
+# Distributed under the 
+#
+#          European Union Public Licence v. 1.2
+# 
+# See 
+#
+#          https://github.com/fjfrancopelaez/LELAPE/blob/main/LICENSE.md 
+# 
+# for further details.
 function CheckMBUs(WORD::UInt32, PATTERN::UInt32, WordWidth::Int)::Tuple{Int, Vector{Int}}
 
     Signature = ExtractFlippedBits(WORD, PATTERN, WordWidth)

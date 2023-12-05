@@ -1,3 +1,13 @@
+# Distributed under the 
+#
+#          European Union Public Licence v. 1.2
+# 
+# See 
+#
+#          https://github.com/fjfrancopelaez/LELAPE/blob/main/LICENSE.md 
+# 
+# for further details.
+#
 function MaxExpectedRepetitions(NDV::Int, LN::Int, Operation::String, ϵ::AbstractFloat=0.01)::Int
     # The purpose of this funcion is to determina the maximum number of expected
     # repetitions. in a DV set taken from a memory with size equal to LN.

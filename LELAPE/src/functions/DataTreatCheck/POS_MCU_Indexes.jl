@@ -1,3 +1,13 @@
+# Distributed under the 
+#
+#          European Union Public Licence v. 1.2
+# 
+# See 
+#
+#          https://github.com/fjfrancopelaez/LELAPE/blob/main/LICENSE.md 
+# 
+# for further details.
+#
 function POS_MCU_Indexes(   ADDRESS::Vector{UInt32}, 
                             CYCLES::Vector{UInt32}, 
                             POSDVMarkers::Vector{UInt32}, 
