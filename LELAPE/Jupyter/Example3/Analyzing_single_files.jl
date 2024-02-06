@@ -61,7 +61,7 @@ if length(C1_SCY[:,1])>0
     end
     
  
-    println("\nOnly up to ", MaxExpectedRepetitions(NPairs(DATA, UsePseudoAddress, WordWidth, KeepCycles), LA, Operation, ϵ)-1, " repetitions are explained by randomness.\n")
+    println("\nOnly up to ", MaxExpectedRepetitions(NPairs(DATA, UsePseudoAddress, WordWidth, KeepCycles), LA*WordWidth, Operation, ϵ)-1, " repetitions are explained by randomness.\n")
 
     println("New anomalies issued from:\n")
     if length(C1_MCU[:,1])>1

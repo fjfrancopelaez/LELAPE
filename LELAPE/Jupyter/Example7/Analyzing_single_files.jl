@@ -48,7 +48,7 @@ NFalse2BitMCUs = NF2BitMCUs(NBitFlips, LA, "MBU", WordWidth, WordWidth);
 println("\n**********************************\n");
 println("Now, we will study the occurrence of MCUs with statistical methods.\n")
 
-C1_SCY, C1_MCU, C1_SHF, C1_TRC = DetectAnomalies_FullCheck(DATA, WordWidth, LA, Operation, TraceRuleLength, UsePseudoAddress, KeepCycles, ϵ, LargestMCUSize)
+C1_SCY, C1_MCU, C1_SHF, C1_TRC = DetectAnomalies_FullCheck(DATA, WordWidth, LA*WordWidth, Operation, TraceRuleLength, UsePseudoAddress, KeepCycles, ϵ, LargestMCUSize)
 
 
 println("Elements appearing more than expected and passing the Self-Consistency test:\n")
