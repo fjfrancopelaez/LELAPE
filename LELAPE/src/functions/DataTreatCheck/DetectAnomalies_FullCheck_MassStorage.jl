@@ -248,9 +248,13 @@ function DetectAnomalies_FullCheck_MassStorage(   DATA::Array{UInt32, 2},
 
     for NewCandidate in LowTraceSet
 
-        if (NewCandidate in Histogram[:,1])
-            if (Histogram[findfirst(Histogram[:,1].==NewCandidate),2]>NThreshold) & !(NewCandidate in PrevCandidates)  & !(Histogram[NewCandidate,1] in ConfirmedCandidates[:,1])
-                append!(PossibleCandidates, NewCandidate)
+        if NewCandidate < LN
+            # 2023-02-07: Bug fixed. See https://github.com/fjfrancopelaez/LELAPE/issues/2
+
+            if (NewCandidate in Histogram[:,1])
+                if (Histogram[findfirst(Histogram[:,1].==NewCandidate),2]>NThreshold) & !(NewCandidate in PrevCandidates)  & !(Histogram[NewCandidate,1] in ConfirmedCandidates[:,1])
+                    append!(PossibleCandidates, NewCandidate)
+                end
             end
         end
 

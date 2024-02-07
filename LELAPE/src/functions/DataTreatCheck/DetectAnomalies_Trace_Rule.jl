@@ -79,11 +79,15 @@ function DetectAnomalies_Trace_Rule(
 
     for NewCandidate in LowTraceSet
 
-        if Histogram[NewCandidate+1]>NThreshold & !(NewCandidate in PrevCandidates)
-            append!(PossibleCandidates, NewCandidate)
-            #2022-05-06: Fixed a bug here. Strangely, the original sentence was append!(PossibleCandidates), 
-            # so nothing was added to the set of PossibleCandidates. However, as this rule is not very useful
-            # to detect anomalies, the bug was accidentally discovered.
+        if NewCandidate < LN
+            # 2023-02-07: Bug fixed. See https://github.com/fjfrancopelaez/LELAPE/issues/2
+
+            if Histogram[NewCandidate+1]>NThreshold & !(NewCandidate in PrevCandidates)
+                append!(PossibleCandidates, NewCandidate)
+                #2022-05-06: Fixed a bug here. Strangely, the original sentence was append!(PossibleCandidates), 
+                # so nothing was added to the set of PossibleCandidates. However, as this rule is not very useful
+                # to detect anomalies, the bug was accidentally discovered.
+            end
         end
 
     end

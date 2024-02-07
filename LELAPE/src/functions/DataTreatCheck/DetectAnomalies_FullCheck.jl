@@ -249,8 +249,13 @@ function DetectAnomalies_FullCheck(   DATA::Array{UInt32, 2},
 
     for NewCandidate in LowTraceSet
 
-        if ((Histogram[NewCandidate+1]>NThreshold) & !(NewCandidate in PossibleCandidates) & !(NewCandidate in PrevCandidates))
-            append!(PossibleCandidates, NewCandidate)
+        if NewCandidate < LN
+            # 2023-02-07: Bug fixed. See https://github.com/fjfrancopelaez/LELAPE/issues/2
+
+            if ((Histogram[NewCandidate+1]>NThreshold) & !(NewCandidate in PossibleCandidates) & !(NewCandidate in PrevCandidates))
+                append!(PossibleCandidates, NewCandidate)
+            end
+        
         end
 
     end
