@@ -68,7 +68,7 @@ Before starting the analysis, we must define some additional variables to indica
 	%
 	\item \textbf{TraceRuleLength}: This an integer variable with 1, 2 or 3 as allowed values. LELAPE looks for anomalously repeated elements in the \textit{DV} set with very few ones in binary representation. The user can decide if looks for elements with 1, 2 or 3 ones or less and include them as candidates to detect pairs. 
 	%
-	\item \textbf{$\varepsilon$}: A float number always positive but close to 0. If the expected number of elements repeated $k$ times in the \textit{DV} set is lower than $\varepsilon$, we must consider this number of repetitions impossible. If higher, we determine than at least an element can appear $k$ times just due to randomness. Default value is 0.05 in many of the functions listed in Sec. \ref{Sec:FunctionsintheModule}.
+	\item \textbf{$\varepsilon$}: A float number always positive but close to 0. If the expected number of elements repeated $k$ times in the \textit{DV} set is lower than $\varepsilon$, we must consider this number of repetitions impossible. If higher, we determine than at least an element can appear $k$ times just due to randomness. Default value is 0.001 in many of the functions listed in Sec. \ref{Sec:FunctionsintheModule}.
 	
 	A very low value of $\varepsilon$ will exclude false positives, but also genuine unusual values in the \textit{DV} set. On the contrary, if it is chosen too low, false positives might be taken as good ones.
 	%
@@ -306,7 +306,7 @@ Related to these functions are those used to determine the expected number of fa
 	\item The purpose of this funcion is to determine the maximum number of expected
 	repetitions. in a \textit{DV} set taken from a memory with size equal to \textbf{LN}.
 	In general, it is the first integer such that its theoretical abundance is
-	lower than \(\varepsilon\). If this threshold is not provided, it is assumed to be \(\varepsilon\) = 0.05.
+	lower than \(\varepsilon\). If this threshold is not provided, it is assumed to be \(\varepsilon\) = 0.001.
 \end{itemize}
 %
 \subsubsection*{TheoAbundance\_POS}\label{Subsec:TheoAbundance_POS}
@@ -332,7 +332,7 @@ Related to these functions are those used to determine the expected number of fa
 		SRAM-Based FPGA in Static Mode,}" in IEEE Transactions on Nuclear Science, vol.
 	67, no. 7, pp. 1461-1469, July 2020, doi: 10.1109/TNS.2020.2977874.
 	
-	Available for lawful free download on \href{https://eprints.ucm.es/id/eprint/59496/}{https://eprints.ucm.es/id/eprint/59496/}
+	Available for lawful free download on \href{https://docta.ucm.es/entities/publication/5527cf0a-d638-4e7f-906f-587d88fad858}{https://docta.ucm.es/entities/publication/5527cf0a-d638-4e7f-906f-587d88fad858}
 \end{itemize}
 
 \subsubsection*{TheoAbundance\_XOR}\label{Subsec:TheoAbundance_XOR}
@@ -354,7 +354,7 @@ Related to these functions are those used to determine the expected number of fa
 	Science, vol. 64, no. 8, pp. 2152-2160, Aug. 2017,
 	doi: 10.1109/TNS.2017.2726938. 
 	
-	Available for lawful free download on  \href{https://eprints.ucm.es/id/eprint/43874}{https://eprints.ucm.es/id/eprint/43874}.
+	Available for lawful free download on  \href{https://docta.ucm.es/entities/publication/733d4f6e-662e-4a72-8b80-8131a7770ade}{https://docta.ucm.es/entities/publication/733d4f6e-662e-4a72-8b80-8131a7770ade}.
 \end{itemize}
 %
 \subsubsection*{TheoAbundance}\label{Subsec:TheoAbundance}
@@ -417,7 +417,7 @@ Last function just calls the previous four.
 		\textbf{KeepCycle}::Bool
 	\end{itemize}
 
-	Default values for \textbf{\(\varepsilon\)} \& 	\textbf{LargestMCUSize} are \texttt{0.05} and \texttt{200} respectively.
+	Default values for \textbf{\(\varepsilon\)} \& 	\textbf{LargestMCUSize} are \texttt{0.001} and \texttt{200} respectively.
 	%
 	\item \textbf{Output: } Array\{UInt32, 2\}	
 	%
@@ -444,7 +444,7 @@ Last function just calls the previous four.
 		%
 		\item   \textbf{KeepCycle}: If \texttt{true}, the function looks for the fourth column and uses it to calculate the \textit{DV} set.
 		%
-		\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.05 if not provided among the input arguments.
+		\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.001 if not provided among the input arguments.
 		\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not any physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
 
 	\end{itemize}
@@ -471,7 +471,7 @@ TBD
 			\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \\ \textbf{KeepCycle}::Bool
  			%
  		\end{itemize}
- 		Default values for \textbf{\(\varepsilon\)} and \textbf{LargestMCUSize} are \texttt{0.05} and \texttt{200} if they are not provided.
+ 		Default values for \textbf{\(\varepsilon\)} and \textbf{LargestMCUSize} are \texttt{0.001} and \texttt{200} if they are not provided.
  		%
  		\item \textbf{Output}: Matrix\{UInt32\}
  		%
@@ -500,7 +500,7 @@ TBD
  			%
  			\item   \textbf{KeepCycle}: If \texttt{true}, the function looks for the fourth column and uses it to calculate the \textit{DV} set.
  			%
- 			\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.05 if not provided among the input arguments.
+ 			\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.001 if not provided among the input arguments.
  			%
  			\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not any physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
  			
@@ -540,7 +540,7 @@ TBD
 	 	\textbf{PrevCandidates}::Array\{UInt32, 1\}, \\ \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \\ \textbf{UsePseudoADD}::Bool, \textbf{KeepCycle}::Bool
 	 	%
 	 \end{itemize}
-	 Default values for \textbf{\(\varepsilon\)} and \textbf{LargestMCUSize} are \texttt{0.05} and \texttt{200} if they are not provided.
+	 Default values for \textbf{\(\varepsilon\)} and \textbf{LargestMCUSize} are \texttt{0.001} and \texttt{200} if they are not provided.
 	 %
 	 \item \textbf{Output}: Matrix\{UInt32\}
 	 %
@@ -570,7 +570,7 @@ TBD
 	 	%
 	 	\item   \textbf{KeepCycle}: If \texttt{true}, the function looks for the fourth column and uses it to calculate the \textit{DV} set.
 	 	%
-	 	\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.05 if not provided among the input arguments.
+	 	\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.001 if not provided among the input arguments.
 	 	%
 	 	\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not any physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
 	 	
@@ -614,7 +614,7 @@ TBD
  		\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool,\\ \textbf{KeepCycle}::Bool
  		%
  	\end{itemize}
- 	Default values for \textbf{\(\varepsilon\)} and \textbf{LargestMCUSize} are \texttt{0.05} and \texttt{200} if they are not provided.
+ 	Default values for \textbf{\(\varepsilon\)} and \textbf{LargestMCUSize} are \texttt{0.001} and \texttt{200} if they are not provided.
  	%
  	\item \textbf{Output}: Matrix\{UInt32\}
  	%
@@ -643,7 +643,7 @@ TBD
  		%
  		\item   \textbf{KeepCycle}: If \texttt{true}, the function looks for the fourth column and uses it to calculate the \textit{DV} set.
  		%
- 		\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.05 if not provided among the input arguments.
+ 		\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.001 if not provided among the input arguments.
  		%
  		\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not any physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
  		
@@ -705,7 +705,7 @@ TBD
  		\textbf{KeepCycle}::Bool
  	\end{itemize}
  	
- 	Default values for \textbf{\(\varepsilon\)} \& 	\textbf{LargestMCUSize} are \texttt{0.05} and \texttt{200} respectively.
+ 	Default values for \textbf{\(\varepsilon\)} \& 	\textbf{LargestMCUSize} are \texttt{0.001} and \texttt{200} respectively.
 % 	%
  	\item \textbf{Output: } Tuple\{Array\{UInt32, 2\}, Array\{UInt32, 2\}, Array\{UInt32, 2\}, Array\{UInt32, 2\}\}	
 % 	%
@@ -732,7 +732,7 @@ TBD
  		\item \textbf{TraceRuleLength}: a positive integer. New candidates are sought among the natural numbers below \textbf{LN0}\(\times\)\textbf{WordWidth} that, in binary format, have this number of ones or less.
  		\item  \textbf{UsePseudoADD}: A boolean variable. Its purpose is to indicate that the user wants to use the word addresses when this parameter is \texttt{false}. If \texttt{true}, the pseudoaddress is used instead. Full of sense in FPGA since it is just the position  of the bit in the bitstream, it has not any physical interpretation in memories BUT works!!!!
  		\item   \textbf{KeepCycle}: If \texttt{true}, the function looks for the fourth column and uses it to calculate the \textit{DV} Set.
- 		\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.05 if not provided among the input arguments.
+ 		\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.001 if not provided among the input arguments.
  		\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not any physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
  		
  	\end{itemize}
