@@ -15,7 +15,7 @@ function DetectAnomalies_FullCheck_MassStorage(   DATA::Array{UInt32, 2},
                             TraceRuleLength::Int, 
                             UsePseudoADD::Bool,
                             KeepCycle::Bool,
-                            ϵ::AbstractFloat=0.05,
+                            ϵ::AbstractFloat=0.001,
                             LargestMCUSize::Int=200
                         )::Tuple{Array{UInt32, 2}, Array{UInt32, 2},Array{UInt32, 2},Array{UInt32, 2}}
 

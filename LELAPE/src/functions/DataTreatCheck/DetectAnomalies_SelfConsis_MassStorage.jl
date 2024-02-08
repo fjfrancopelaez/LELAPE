@@ -14,7 +14,7 @@ function DetectAnomalies_SelfConsis_MassStorage(   DATA::Array{UInt32, 2},
                             Operation::String,
                             UsePseudoADD::Bool,
                             KeepCycle::Bool,
-                            ϵ::AbstractFloat=0.05,
+                            ϵ::AbstractFloat=0.001,
                             LargestMCUSize::Int=200
                         )::Array{UInt32, 2}
 

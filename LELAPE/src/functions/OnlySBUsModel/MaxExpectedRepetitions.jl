@@ -8,7 +8,7 @@
 # 
 # for further details.
 #
-function MaxExpectedRepetitions(NDV::Int, LN::Int, Operation::String, ϵ::AbstractFloat=0.01)::Int
+function MaxExpectedRepetitions(NDV::Int, LN::Int, Operation::String, ϵ::AbstractFloat=0.001)::Int
     # The purpose of this funcion is to determina the maximum number of expected
     # repetitions. in a DV set taken from a memory with size equal to LN.
     # In general, it is the first integer such that its theoretical abundance is
