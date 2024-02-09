@@ -135,6 +135,8 @@ LELAPE discovers anomalies in the data after experiments, and relates them to mu
 In some actual experiments, LELAPE was run on the data set to discover the existence of large multiple events (15 bitflips), but with very few SBUs. However, the physical layout was available, and cells located in the XY-plane. Bitflips were distributed0 in only 2 rows, separated a distance of 32 cells. Besides, bitflips in every row appeared periodically, with the following pattern: 1 flipped cell, 3 unaffected cells, 1 flipped cell, ... Clearly, this was not an MCU, since cells were not adjacent. Therefore, what LELAPE had detected was not an MCU, but probably some kind of Single-Event Functional Interruption (SEFI), perhaps in the reading block of the memory.
 
 In conclusion, sometimes the researcher can identify with LELAPE groups of bitflips that are not true multiple events. However, at any rate, there has clearly occurred a phenomenon more dramatic and different than SBUs, with much interest. Our experience says that MCUs always appear along a larger set of SBUs. Isolated MCUs with very few or absent SBUs are probably SEFIs.
+
+See Section \ref{subsec:ExtractingBitflipsFromSEFI} to know how to remove bitflips likely attributed to SEFI in pseudostatic or dynamic tests.
 %
 \section{Number of false events}
 %

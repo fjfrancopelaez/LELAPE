@@ -24,7 +24,8 @@ module LELAPE
             DetectAnomalies_FullCheck_MassStorage,  
             MCU_Indexes, Classify_Addresses_in_MCU, 
             TheoAbundausince_XOR, TheoAbundance_POS, TheoAbundance, MaxExpectedRepetitions,
-            CorrectNBitFlips, NF2BitMCUs, NF3BitMCUs, NPairs, NTriplets
+            CorrectNBitFlips, NF2BitMCUs, NF3BitMCUs, NPairs, NTriplets,
+            SEFI_Detection_Binomial, SEFI_Detection_Poisson
 
     ### Functions issued from the Only SBUs model.
     include("functions/OnlySBUsModel/TheoAbundance_POS.jl")
@@ -70,5 +71,11 @@ module LELAPE
     include("functions/OnlySBUsModel/CorrectNBitFlips.jl")
     include("functions/OnlySBUsModel/NF2BitMCUs.jl")
     include("functions/OnlySBUsModel/NF3BitMCUs.jl")
+
+    ##############################################
+    ### Functions used to clean non SEU errors from Data 
+    include("functions/SEFI/SEFI_Detection_Binomial.jl")
+    include("functions/SEFI/SEFI_Detection_Poisson.jl")
+
 
 end

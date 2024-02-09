@@ -11,7 +11,11 @@ The Julia language (\href{https://julialang.org}{https://julialang.org}] was rel
 
 \section{How to install Julia}
 %
-Julia, open software released with MIT license, can be downloaded and installed from \href{https://julialang.org/downloads/}{https://julialang.org/downloads/} for different operating systems and architectures. Depending on the system, the binary files will be installed (Microsoft Windows, macOS) or just uncompressed (GNU/Linux, FreeBSD). Compilation from source code is also possible.
+Julia, open software released with MIT license, can be downloaded and installed from
+\begin{center}
+ \href{https://julialang.org/downloads/}{https://julialang.org/downloads/} 
+\end{center}
+for different operating systems and architectures. Depending on the system, the binary files will be installed (Microsoft Windows, macOS) or just uncompressed (GNU/Linux, FreeBSD). Compilation from source code is also possible.
 
 \begin{figure}
 	\centering
@@ -29,8 +33,6 @@ If no additional tool is installed, Julia will be executed in a REPL as it is sh
 \begin{itemize}
 	\item \textbf{Visual Studio Code}: Popular IDE developed by Microsoft with plugins for Julia. It can be downloaded from \href{https://code.visualstudio.com/}{https://code.visualstudio.com/} and the plugins installed as extensions. See \href{https://code.visualstudio.com/docs/languages/julia}{https://code.visualstudio.com/docs/languages/julia} for further information.
 	%
-	\item \textbf{Atom}: Just like VS Code, it is a general-purpose IDE with plugins for Julia. It can be downloaded from \href{https://atom.io/}{https://atom.io/}, with Julia plugins on \href{https://junolab.org/}{https://junolab.org/}. Thus, Atom becomes Juno, an IDE for Julia.
-	%
 	\item \textbf{Jupyter}: Although it is typically used for Python, it is also appropriate for Julia. Indeed, Jupyter is an acronym for \textbf{Ju}lia-\textbf{Pyt}hon-\textbf{R}. There are different ways of installing Jupyter. In systems with Microsoft Windows OS, the most simple way is to install Anaconda (\href{https://www.anaconda.com/products/individual}{https://www.anaconda.com/products/individual}). It can be setup to use Julia as calculation engine. In GNU/Linux there are smaller packages to install Jupyter. For example, in Ubuntu the simple instruction \texttt{sudo apt install jupyter-notebook} will install the software in your computer. Later, it is necessary to install an additional package inside Julia but this will be studied a bit later.
 	
 	Modern versions of Julia allow skipping this step, as we will see later. If Jupyter is not found, Julia  downloads and locally installs the software.
@@ -38,7 +40,7 @@ If no additional tool is installed, Julia will be executed in a REPL as it is sh
 	\item \textbf{Pluto}: A notebook following the philosophy of Jupyter but specifically developed for Julia and easily extensible with JavaScript. Unlike the previous tools, it is installed inside Julia, not along with it. 
 \end{itemize}
 %
-Atom, Jupyter and Pluto require the installation of additional packages to link Julia to the IDE. As Jupyter is probably the most popular tool, it is installed inside Julia REPL with the following instructions:
+Jupyter and Pluto require the installation of additional packages to link Julia to the IDE. As Jupyter is probably the most popular tool, it is installed inside Julia REPL with the following instructions:
 
 \vspace{1mm}
 \begin{center}
@@ -158,7 +160,9 @@ There are many Julia packages at the user's disposal that can be found on \href{
 	\item \textbf{OhMyREPL}: Inteligent highlighting of elements in REPL. Figs. \ref{Fig;JuliaREPL} \& \ref{Fig:Loading_LELAPE} are using this package to show function names and strings.
 \end{itemize}
 
-Both are installed with \texttt{Pkg.add()}. 
+Both are installed with \texttt{Pkg.add()}. \vspace{5mm}
+
+Also the package \textbf{Printf} is recommended, since it is used by some scripts in the example section. The macro \textbf{\textcircled{a}printf} allows printing information on the screen following the C convention.
 
 Another interesting package to have is \textbf{DelimitedFiles}, which allows reading and writing CSV files. It is an essential package in Julia, available in a fresh installation, but not loaded by default. It is not necessary to fetch it and it is loaded as:
 	

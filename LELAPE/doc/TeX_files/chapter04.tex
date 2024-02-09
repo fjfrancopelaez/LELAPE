@@ -993,3 +993,72 @@ The functions are:
 	
 	In this paper, it was demonstrated that it is mathematically impossible to get an exact value. Therefore,  optimistic and pessimistic results are provided.
 \end{itemize}
+
+\subsection{Extracting bitflips from effects other than SEU}\label{subsec:ExtractingBitflipsFromSEFI}
+Very often not only single event upsets occur in the irradiated devices. For example, SEFI, stuck bits, microlatchups, etc., that introduce addresses of flipped cells and this can commit the search of true MCUs.
+
+In order to deal with this situation, LELAPE incorporates two functions that help to remove addresses from the data set that have not been caused by SEUs. These functions are:
+\begin{itemize}
+	\item \hyperref[Fun:SEFI_Detection_Binomial]{SEFI\_Detection\_Binomial}
+	\item \hyperref[Fun:SEFI_Detection_Poisson]{SEFI\_Detection\_Poisson}
+\end{itemize}
+These functions only work with data from pseudostatic or dynamic tests or, at least, from the combination of data sets from static tests on a sole sample (E.g., static tests performed at different bias voltage, temperature or pattern).
+	\subsubsection*{SEFI\_Detection\_Binomial}\label{Fun:SEFI_Detection_Binomial}
+	\begin{itemize}
+		\item \textbf{Input arguments}: 
+		\begin{itemize}			\item \textit{Method 1:} \textbf{DATA}::Matrix{UInt32},
+			\textbf{WordWidth}::Int,
+			\textbf{LA}::Int
+			
+			\item \textit{Method 2:} \textbf{DATA}::Matrix{UInt32},
+			\textbf{WordWidth}::Int,
+			\textbf{LA}::Int,
+			\textbf{UsePseudoAddress}::Bool
+			
+			\item \textit{Method 3:} \textbf{DATA}::Matrix{UInt32},
+			\textbf{WordWidth}::Int,
+			\textbf{LA}::Int,
+			\textbf{UsePseudoAddress}::Bool,
+			\textbf{ReturnCleanSetAddresses}::Bool
+			
+			
+			\item \textit{Method 4:} \textbf{DATA}::Matrix{UInt32},
+			\textbf{WordWidth}::Int,
+			\textbf{LA}::Int,
+			\textbf{UsePseudoAddress}::Bool,
+			\textbf{ReturnCleanSetAddresses}::Bool,
+			\textbf{verbose}::Bool
+		
+		\end{itemize}
+		\item \textbf{Output}: Tuple\{Matrix\{UInt32\}, Matrix\{UInt32\}\}
+		\item This function checks the addresses where bitflips have occurred in the first column of a \textbf{DATA} matrix with 4 columns (thus containing information about the reading cycles). Then, it detects those addresses that appear more times than expected and returns the \textbf{DATA} matrix without the rows of  wicked addresses. 
+		
+		Input parameters are self explaining or already known. \textbf{LA} is the capacity of the memory in words, not in bits; \textbf{ReturnCleanSetAddresses} is a boolean variable that allows to select how to clean the \textbf{DATA} set. If true, only the labeled addresses are removed. If false, the whole cycle where this address appear is removed. Finally, \textbf{verbose} is a boolean variable to show warnings and other information on screen.
+		
+		Default values for \textbf{UsePseudoAddress} and \textbf{ReturnCleanSetAddress} are \textit{true}, \textit{false} for \textbf{verbose}.
+		
+		The function returns two matrices. The format of the first one depends on the value of \textbf{ReturnCleanSetAddress}. If false, the matrix is just the original \textbf{DATA} with the cycles where problematic addresses occurred removed. If \textbf{UsePseudoAddress} is false, the first column contains the word address, the second the content and the third the pattern. If true, the first columns contains the pseudoaddress, the second a 32-bit word with all bits to zero except the one where the bitflip occurred, and the third just filled with zeros. This matrix can be directly used in the family of functions to detect anomalies. Finally, the second matrix returns the withdrawn cycles.
+		
+		If \textbf{ReturnCleanSetAddress} is true, the returned matrix is the matrix with the problematic addresses and the cycles where they appeared. The second one shows the addresses and the number of occurrences. This matrices cannot be used to detect anomalies, but to investigate the origin of this odd behavior.
+		
+	\end{itemize}
+\subsection*{SEFI\_Detection\_Poisson}\label{Fun:SEFI_Detection_Poisson}
+
+	\begin{itemize}
+		\item \textbf{Input arguments}: 
+		\begin{itemize}			
+			\item \textit{Method 1:} \textbf{DATA}::Matrix{UInt32},
+			\textbf{WordWidth}::Int
+			\item \textit{Method 2:} \textbf{DATA}::Matrix{UInt32},
+			\textbf{WordWidth}::Int,
+			\textbf{verbose}:Bool
+		\end{itemize}
+		\item \textbf{Output}: Tuple\{Matrix\{UInt32\}, Vector\{UInt32\}\}
+		
+		\item The function checks the number of bitflips per cycle and discards the cycles where too many bitflips have occurred, following the method developped by Perez-Celis et al. in \cite{Perez-Celis2021}. \textbf{Please}, \textit{if you use this function with data that eventually lead to a publication, cite this paper as well.}
+		
+		The output is just a couple of matrices, the first one being the original \textbf{DATA} matrix without the cycles where the possible SEFIs occurred, and the second one just shows the withdrawn cycles.
+		
+		The first matrix can be directly used as the \textbf{DATA} input for the family of functions to detect anomalies.
+	\end{itemize}
+
