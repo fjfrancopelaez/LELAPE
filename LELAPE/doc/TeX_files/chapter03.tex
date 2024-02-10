@@ -154,7 +154,13 @@ Jupyter users should be aware of a detail. Even if it is loaded on the terminal,
 
 \section{Recommended packages}
 %
-There are many Julia packages at the user's disposal that can be found on \href{https://juliapackages.com/}{https:// juliapackages.com/}. Some packages are extremely popular:
+There are many Julia packages at the user's disposal that can be found on
+
+\begin{center}
+	\href{https://juliapackages.com/}{https://juliapackages.com/}.
+\end{center}  
+
+Some packages are extremely popular:
 \begin{itemize}
 	\item \textbf{Revise}: Useful for code developers since it allows reloading user functions without restarting Julia and losing information.
 	\item \textbf{OhMyREPL}: Inteligent highlighting of elements in REPL. Figs. \ref{Fig;JuliaREPL} \& \ref{Fig:Loading_LELAPE} are using this package to show function names and strings.
@@ -162,7 +168,7 @@ There are many Julia packages at the user's disposal that can be found on \href{
 
 Both are installed with \texttt{Pkg.add()}. \vspace{5mm}
 
-Also the package \textbf{Printf} is recommended, since it is used by some scripts in the example section. The macro \textbf{\textcircled{a}printf} allows printing information on the screen following the C convention.
+Also the package \textbf{Printf} is recommended, since it is used by some scripts in the example section. The macro \textbf{{\makeatletter @}printf} allows printing information on the screen following the C convention.
 
 Another interesting package to have is \textbf{DelimitedFiles}, which allows reading and writing CSV files. It is an essential package in Julia, available in a fresh installation, but not loaded by default. It is not necessary to fetch it and it is loaded as:
 	

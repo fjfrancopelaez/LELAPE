@@ -104,17 +104,17 @@ function SEFI_Detection_Binomial(   DATA::Matrix{UInt32},
         FreakAddresses = AffectedAddresses[findall(AffectedAddresses[:,2].>=ncutoff), :]
 
         if (ReturnCleanSetAddresses)
-
-            
-            FreakAddressIndex=[];
+           
+            FreakWordAddressIndex=[];
 
             for element  in FreakAddresses[:,1]
 
-                FreakAddressIndex = [FreakAddressIndex;findall(FlippedBits[:, 1].==element) ]
+                FreakWordAddressIndex = [   FreakWordAddressIndex;
+                                            findall(DATA[:, 1].==div(element, WordWidth)) ]
             
             end
 
-            FreakAddressIndex = union(FreakAddressIndex)
+            FreakWordAddressIndex = union(FreakWordAddressIndex)
 
             if length(FreakAddresses)>=1
                 if (verbose)
@@ -131,12 +131,11 @@ function SEFI_Detection_Binomial(   DATA::Matrix{UInt32},
 
             end
             
-            goodAddressIndexes = setdiff(collect(1:length(FlippedBits[:,1])), FreakAddressIndex)
+            goodAddressIndexes = setdiff(collect(1:length(DATA[:,1])), FreakWordAddressIndex)
 
-            return FlippedBits[goodAddressIndexes, :], FreakAddresses
+            return DATA[goodAddressIndexes, :], FreakAddresses
 
         else
-
 
             FreakCycles = [];
 
