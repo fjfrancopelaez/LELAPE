@@ -37,7 +37,7 @@ function CombinedProbability(   n::Int,
 
     p = μ/L; # experimental avergage probability of being flipped.
 
-    P = p^n*(1-p)^(NC-n)
+    P = p^n*(1-p)^(NC-n)/factorial(n);
 
     for k = 1:n
             
