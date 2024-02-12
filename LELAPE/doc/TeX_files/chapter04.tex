@@ -462,16 +462,14 @@ Identical to \hyperref[Fun:DetectAnomaliesSelfConsis]{\texttt{DetectAnomalies\_S
  \begin{itemize}
  	\item \textbf{Input arguments}: 
  		\begin{itemize}
- 		\item \textit{Method 1}: \textbf{PrevCandidates}::Array\{UInt32, 1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \\ \textbf{KeepCycle}::Bool, \textbf{\(\varepsilon\)}::AbstractFloat, \textbf{LargestMCUSize}::Int
-%
-		\item \textit{Method 2}:
+		\item \textit{Method 1}:
 			\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \\  \textbf{KeepCycle}::Bool, \textbf{\(\varepsilon\)}::AbstractFloat
 			%
-		\item \textit{Method 3}: 			%
+		\item \textit{Method 2}: 			%
 			\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \\ \textbf{KeepCycle}::Bool
  			%
  		\end{itemize}
- 		Default values for \textbf{\(\varepsilon\)} and \textbf{LargestMCUSize} are \texttt{0.001} and \texttt{200} if they are not provided.
+ 		Default value for \textbf{\(\varepsilon\)} is \texttt{0.001} if not provided.
  		%
  		\item \textbf{Output}: Matrix\{UInt32\}
  		%
@@ -501,8 +499,6 @@ Identical to \hyperref[Fun:DetectAnomaliesSelfConsis]{\texttt{DetectAnomalies\_S
  			\item   \textbf{KeepCycle}: If \texttt{true}, the function looks for the fourth column and uses it to calculate the \textit{DV} set.
  			%
  			\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.001 if not provided among the input arguments.
- 			%
- 			\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not any physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
  			
  		\end{itemize}
  		
@@ -532,16 +528,14 @@ Identical to \hyperref[Fun:DetectAnomaliesSelfConsis]{\texttt{DetectAnomalies\_S
  \begin{itemize}
 	 \item \textbf{Input arguments}: 
 	 \begin{itemize}
-	 	\item \textit{Method 1}: \textbf{TraceRuleLength}::Int, \textbf{PrevCandidates}::Array\{UInt32, 1\}, \\ \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \\ \textbf{UsePseudoADD}::Bool, \textbf{KeepCycle}::Bool,\textbf{\(\varepsilon\)}::AbstractFloat, \textbf{LargestMCUSize}::Int
-	 	%
-	 	\item \textit{Method 2}: \textbf{TraceRuleLength}::Int, 
+	 	\item \textit{Method 1}: \textbf{TraceRuleLength}::Int, 
 	 	\textbf{PrevCandidates}::Array\{UInt32, 1\}, \\ \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \\ \textbf{UsePseudoADD}::Bool, \textbf{KeepCycle}::Bool,\textbf{\(\varepsilon\)}::AbstractFloat
 	 	%
-	 	\item \textit{Method 3}: \textbf{TraceRuleLength}::Int,
+	 	\item \textit{Method 2}: \textbf{TraceRuleLength}::Int,
 	 	\textbf{PrevCandidates}::Array\{UInt32, 1\}, \\ \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \\ \textbf{UsePseudoADD}::Bool, \textbf{KeepCycle}::Bool
 	 	%
 	 \end{itemize}
-	 Default values for \textbf{\(\varepsilon\)} and \textbf{LargestMCUSize} are \texttt{0.001} and \texttt{200} if they are not provided.
+	 Default value for \textbf{\(\varepsilon\)} is \texttt{0.001} and \texttt{200} if  not provided.
 	 %
 	 \item \textbf{Output}: Matrix\{UInt32\}
 	 %
@@ -572,9 +566,7 @@ Identical to \hyperref[Fun:DetectAnomaliesSelfConsis]{\texttt{DetectAnomalies\_S
 	 	\item   \textbf{KeepCycle}: If \texttt{true}, the function looks for the fourth column and uses it to calculate the \textit{DV} set.
 	 	%
 	 	\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.001 if not provided among the input arguments.
-	 	%
-	 	\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not any physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
-	 	
+	 	%	 	
 	 \end{itemize}
 	 
 	 The function returns an \(N\times 2\) \texttt{UInt32} matrix. The first column contains anomalies discovered as follows:
@@ -607,12 +599,9 @@ Identical to \hyperref[Fun:DetectAnomaliesTraceRule]{\texttt{DetectAnomalies\_Tr
  	\item \textbf{Input arguments}: 
  	\begin{itemize}
 
- 		\item \textit{Method 1}: \textbf{PrevCandidates}::Array\{UInt32, 1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \\ \textbf{KeepCycle}::Bool, \textbf{\(\varepsilon\)}::AbstractFloat, \textbf{LargestMCUSize}::Int
+ 		\item \textit{Method 1}: \textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \\ \textbf{KeepCycle}::Bool,  \textbf{\(\varepsilon\)}::AbstractFloat
  		%
- 		\item \textit{Method 2}:
- 		\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \\ \textbf{KeepCycle}::Bool,  \textbf{\(\varepsilon\)}::AbstractFloat
- 		%
- 		\item \textit{Method 3}: 			%
+ 		\item \textit{Method 2}: 			%
  		\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool,\\ \textbf{KeepCycle}::Bool
  		%
  	\end{itemize}
@@ -646,8 +635,6 @@ Identical to \hyperref[Fun:DetectAnomaliesTraceRule]{\texttt{DetectAnomalies\_Tr
  		\item   \textbf{KeepCycle}: If \texttt{true}, the function looks for the fourth column and uses it to calculate the \textit{DV} set.
  		%
  		\item   \textbf{\(\varepsilon\)}: A small positive integer number to determine the threshold that defines when a number of repetitions are impossible to occur. Set by default to 0.001 if not provided among the input arguments.
- 		%
- 		\item  \textbf{LargestMCUSize}: This value indicates the largest possible size for MCUs. It has not any physical sense  and is only used to stop the program if unrealistic events occur. Set to 200 if not given as an input.
  		
  	\end{itemize}
  	

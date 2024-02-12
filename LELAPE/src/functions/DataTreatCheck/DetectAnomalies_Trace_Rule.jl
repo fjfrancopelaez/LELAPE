@@ -17,8 +17,7 @@ function DetectAnomalies_Trace_Rule(
                             Operation::String,
                             UsePseudoADD::Bool,
                             KeepCycle::Bool,
-                            ϵ::AbstractFloat=0.001,
-                            LargestMCUSize::Int=200
+                            ϵ::AbstractFloat=0.001
                         )::Array{UInt32, 2}
 
     if UsePseudoADD
