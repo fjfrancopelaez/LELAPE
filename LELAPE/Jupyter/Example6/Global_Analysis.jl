@@ -38,10 +38,15 @@ for size = 1: WordWidth
     NMBUs!=0 ? println("$size   \t", NMBUs) : nothing
 end
 
-NFalse2BitMCUs = NF2BitMCUs(NBitFlips, LA, "MBU", WordWidth, WordWidth);
+NFalse2BitMBUs = NF2BitMCUs(NBitFlips, LA, "MBU", WordWidth, WordWidth);
 
-@printf("\nExpected number of false 2-bit MBUs: %.3f\n", NFalse2BitMCUs)
+@printf("\nExpected number of false 2-bit MBUs: %.3f\n", NFalse2BitMBUs)
 ###############################
+println("\n**********************************\n");
+
+CleanedDATA, Report_of_weird_addresses = SEFI_Detection_Binomial(DATA,WordWidth,LA, UsePseudoAddress,true,true);
+#CleanedDATA, Report_of_weird_cycles = SEFI_Detection_Poisson(DATA,WordWidth,LA, UsePseudoAddress,true,true);
+
 ###############################
 
 println("\n**********************************\n");
@@ -74,8 +79,8 @@ Anomalies =convert.(UInt32,[
     println("\t----\t-----------")
 
     if length(Anomalies) > 0
-        Labeled_addresses = MCU_Indexes(DATA, Operation, Anomalies, UsePseudoAddress, WordWidth)
-        Events = Classify_Addresses_in_MCU(DATA, Labeled_addresses, UsePseudoAddress, WordWidth)
+        Labeled_addresses = MCU_Indexes(CleanedDATA, Operation, Anomalies, UsePseudoAddress, WordWidth)
+        Events = Classify_Addresses_in_MCU(CleanedDATA, Labeled_addresses, UsePseudoAddress, WordWidth)
         
 
         for k = 1:length(Events) 
@@ -88,7 +93,7 @@ Anomalies =convert.(UInt32,[
         println("\t$NBitFlips\t 1")
     end
 
-    NF2BIT = NF2BitMCUs(DATA, LA, Operation, length(Anomalies), WordWidth, KeepCycles, UsePseudoAddress)
+    NF2BIT = NF2BitMCUs(CleanedDATA, LA, Operation, length(Anomalies), WordWidth, KeepCycles, UsePseudoAddress)
 
     @printf("\nExpected number of false 2-bit MCUs: %.3f\n", NF2BIT)
 
@@ -117,8 +122,8 @@ Anomalies =convert.(UInt32,[
     else
         println("Pseudoaddresses involved in SBUs ($NBitFlips events):")
                     
-        for k = 1:length(DATA[:,1])
-            print("0x", string(DATA[k,1]*WordWidth+MBU_bit_pos[k][1], base=16, pad = 6),"\n")
+        for k = 1:length(CleanedDATA[:,1])
+            print("0x", string(CleanedDATA[k,1]*WordWidth+MBU_bit_pos[k][1], base=16, pad = 6),"\n")
             #print(Events[k][row, bit])
         end
     end
