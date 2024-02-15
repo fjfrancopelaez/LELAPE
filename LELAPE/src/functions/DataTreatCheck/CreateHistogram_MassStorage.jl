@@ -49,7 +49,7 @@
 #################################################################################
 ## NEW VERSION OF THE function
 #################################################################################
-function CreateDVSetHistogram_MassStorage(SET::Array{UInt32, 1}, LN::Int)::Array{Int, 2}
+function CreateDVSetHistogram_MassStorage(SET::Array{Integer, 1}, LN::Int)::Array{Int, 2}
 ####     
 # It checks the number of elements present in the DV Histogram and returns the
 #     # number of times that every possible element appear. The first column saves the number, the second the number of occurrences.
@@ -57,7 +57,7 @@ function CreateDVSetHistogram_MassStorage(SET::Array{UInt32, 1}, LN::Int)::Array
 #     # LN is the memory size.
 #     #
 #     # Only are possible elements from 0 to LN-1. Besides, the value at positon X
-#     # is associated with the the value unsigned 32-bit X-1. Thus, the first element
+#     # is associated with the the value unsigned N-bit X-1. Thus, the first element
 #     # is related to 0x00000.
 #     #
     if maximum(SET) > (LN-1)

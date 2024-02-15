@@ -94,3 +94,78 @@ function SEFI_Detection_Poisson( DATA::Matrix{UInt32},
 
     end
 end
+
+###################################################################
+#######                                                     #######
+#######      VERSION OF THE PREVIOUS FUNCTION FOR 64-bits   #######
+#######                                                     #######
+###################################################################
+
+function SEFI_Detection_Poisson( DATA::Matrix{UInt64},
+                                    WordWidth::Int,
+                                    verbose::Bool=false)
+    
+    NCorruptedWords, NColumns = size(DATA);
+
+    ERROR_MESSAGE = "Apparently, no information about reading cycles in provided data."
+
+    if (NColumns <4) 
+        verbose ? println(ERROR_MESSAGE*"\t Only 3 columns.") : nothing
+        return DATA, UInt64[];
+    elseif (length(union(DATA[:,4]))==1)
+        verbose ? println(ERROR_MESSAGE*"\t Only one cycle in 4th column.") : nothing
+        return DATA, UInt64[];
+    else
+        FlippedBits = ConvertToPseudoADD(DATA, WordWidth, true)
+
+        CycleLabels = union(FlippedBits[:,2])
+
+        CycleLabels = reshape([CycleLabels; zeros(UInt64, length(CycleLabels))], :,2)
+
+        for k = 1:length(CycleLabels[:,1])
+
+            CycleLabels[k,2] = sum(FlippedBits[:,2].==CycleLabels[k,1])
+
+        end
+
+        μ = sum(CycleLabels[:,2])/length(CycleLabels[:,2])
+
+        ExpectedUpperBound = floor(Int, μ); # C in the preamble.
+
+        while(true)
+
+            ExpectedOccurrences = exp(-μ)*(μ^ExpectedUpperBound)/factorial(big(ExpectedUpperBound));
+
+            if (ExpectedOccurrences < 1E-10) # This threshold value was chosen by Perez-Celis et al.
+                break;
+            else
+                ExpectedUpperBound += 1;
+            end
+        end
+
+        FreakCycles = CycleLabels[findall(CycleLabels[:,2].>=ExpectedUpperBound), 1] 
+
+        if length(FreakCycles)>=1
+            if (verbose)
+                println("Warning!!!\n---------\nAnomalous cycles:\n")
+                for element in FreakCycles
+                    println("\t0x"*string(element, base=16, pad=5))
+                end
+                println();
+            end
+        else
+            verbose ? println("No hints of SEFIs.") : nothing
+        end
+
+        FreakIndexes =Int[]
+
+        for freakcycle in FreakCycles
+            FreakIndexes=[FreakIndexes; findall(DATA[:,4].==freakcycle)];
+        end
+
+        goodcycle_indexes = setdiff(collect(Int, 1:NCorruptedWords), FreakIndexes)
+
+        return DATA[goodcycle_indexes, :], FreakCycles;
+
+    end
+end

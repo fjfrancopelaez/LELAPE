@@ -93,3 +93,33 @@ function NF2BitMCUs(DATA::Array{UInt32}, LA::Int, METHOD::String, D::Int,
     return NDV*S1/LN
 
 end
+
+function NF2BitMCUs(DATA::Array{UInt64}, LA::Int, METHOD::String, D::Int, 
+    WordWidth::Int, KeepCycle::Bool=false, UsePseudoADD::Bool=false)::Float64
+
+    
+    NDV = NPairs(DATA, UsePseudoADD, WordWidth, KeepCycle)
+    
+    (METHOD in ["XOR", "POS"]) & !UsePseudoADD ? LN = LA : LN = LA*WordWidth
+
+    # Now, the size of the influence area.
+    if METHOD == "MBU" 
+        S1 = (D-1)
+    elseif METHOD == "MHD"
+        S1 = 2*D*(D+1)
+    elseif METHOD == "IND"
+        S1 = 4*D*(D+1)
+    elseif METHOD == "THD"
+        S1 = 2*(D-1)
+    elseif METHOD == "XOR"
+        S1 = D
+    elseif METHOD == "POS"
+        S1 = 2D
+    else
+        error("Unknown operation!!!!")
+
+    end
+
+    return NDV*S1/LN
+
+end

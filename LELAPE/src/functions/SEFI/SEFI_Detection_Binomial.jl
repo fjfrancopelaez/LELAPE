@@ -192,3 +192,167 @@ end
 # P(0) = (1-p)^NC
 # P(M) = NC*(NC-1)*...*(NC-M+1)*p^M*(1-p)^(NC-M)
 #
+###################################################################
+#######                                                     #######
+#######     VERSION OF THE PREVIOUS FUNCTIONS FOR 64-bits   #######
+#######                                                     #######
+###################################################################
+
+function CombinedProbability(   n::Int, 
+                                L::Int, 
+                                ADDRESS::Matrix{UInt64})
+    ## See the end of the file for understanding.
+   
+    CycleLabels = union(ADDRESS[:,2])
+    CycleLabels = reshape([CycleLabels; zeros(UInt64, length(CycleLabels))], :,2)
+
+    NC = length(CycleLabels[:,1]);
+
+    NBitFlips = length(ADDRESS[:,1]);
+
+    μ = NBitFlips/NC; # Number of average bitflips per cycle.
+
+    p = μ/L; # experimental avergage probability of being flipped.
+
+    P = p^n*(1-p)^(NC-n)/factorial(n);
+
+    for k = 1:n
+            
+        P*= (NC-k+1);
+
+    end
+
+    return P
+
+end
+
+    
+function SEFI_Detection_Binomial(   DATA::Matrix{UInt64},
+                                    WordWidth::Int,
+                                    LA::Int,
+                                    UsePseudoAddress::Bool = true,
+                                    ReturnCleanSetAddresses::Bool=true,
+                                    verbose::Bool=false)
+    
+    ϵ = 0.001
+    
+    NCorruptedWords, NColumns = size(DATA);
+
+    ERROR_MESSAGE = "Apparently, no information about reading cycles in provided data."
+
+    if (NColumns <4) 
+        verbose ? println(ERROR_MESSAGE*"\t Only 3 columns.") : nothing
+        return DATA, UInt64[];
+    elseif (length(union(DATA[:,4]))==1)
+        verbose ? println(ERROR_MESSAGE*"\t Only one cycle in 4th column.") : nothing
+        return DATA, UInt64[];
+    else
+
+        if (UsePseudoAddress)
+
+            FlippedBits = ConvertToPseudoADD(DATA, WordWidth, true)
+
+        else
+
+            FlippedBits = reshape([DATA[:, 1];DATA[:,4]], :,2) # A new matrix with Word ADDRESS + Cycles            #FlippedBits = DATA[:, 1]
+
+        end
+        
+        AffectedAddresses = reshape([union(FlippedBits[:,1]); zeros(UInt64, length(union(FlippedBits[:,1])))],:,2)
+
+        for k = 1:length(union(AffectedAddresses[:,1]))
+
+            AffectedAddresses[k,2] = sum(FlippedBits[:,1].==AffectedAddresses[k,1])
+        end
+
+        ncutoff = 1;
+
+        UsePseudoAddress ? L = LA*WordWidth : L = LA;
+
+        while (true)
+
+            ncutoff +=1;
+
+            if CombinedProbability(ncutoff, L, FlippedBits)*L<ϵ
+                break;
+            end
+        end
+
+        FreakAddresses = AffectedAddresses[findall(AffectedAddresses[:,2].>=ncutoff), :]
+
+        if (ReturnCleanSetAddresses)
+           
+            FreakWordAddressIndex=[];
+
+            for element  in FreakAddresses[:,1]
+
+                FreakWordAddressIndex = [   FreakWordAddressIndex;
+                                            findall(DATA[:, 1].==div(element, WordWidth)) ]
+            
+            end
+
+            FreakWordAddressIndex = union(FreakWordAddressIndex)
+
+            if length(FreakAddresses)>=1
+                if (verbose)
+                    println("Warning!!!\n---------\nAnomalous Addresses:\n")
+                    for element in FreakAddresses[:,1]
+                        println("\t0x"*string(element, base=16, pad=7))
+                    end
+                    println();
+                end
+
+            else
+
+                verbose ? println("No hints of SEFIs.") : nothing
+
+            end
+            
+            goodAddressIndexes = setdiff(collect(1:length(DATA[:,1])), FreakWordAddressIndex)
+
+            return DATA[goodAddressIndexes, :], FreakAddresses
+
+        else
+
+            FreakCycles = [];
+
+            for element in FreakAddresses[:, 1]
+
+                FreakCycles=[FreakCycles; FlippedBits[findall(FlippedBits[:,1].==element), 2]]
+
+            end
+
+            FreakCycles = union(FreakCycles);
+
+            if length(FreakCycles)>=1
+                if (verbose)
+                    println("Warning!!!\n---------\nAnomalous cycles:\n")
+                    for element in FreakCycles
+                        println("\t0x"*string(element, base=16, pad=6))
+                    end
+                    println();
+
+                    print("Affected Addresses\n-------------------\n")
+                    for element in FreakAddresses[:,1]
+                        println("\t0x"*string(element, base=16, pad=8))
+                    end
+                    println();
+                end
+
+            else
+                verbose ? println("No hints of SEFIs.") : nothing
+            end
+
+            FreakIndexes =Int[]
+
+            for freakcycle in FreakCycles
+                FreakIndexes=[FreakIndexes; findall(DATA[:,4].==freakcycle)];
+            end
+
+            goodcycle_indexes = setdiff(collect(Int, 1:NCorruptedWords), FreakIndexes)
+
+            return DATA[goodcycle_indexes, :], FreakCycles;
+        end
+
+    end
+end

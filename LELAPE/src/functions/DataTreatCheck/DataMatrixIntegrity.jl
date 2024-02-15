@@ -8,7 +8,7 @@
 # 
 # for further details.
 #
-function DataMatrixIntegrity(DATA::Array{UInt32,2}, LN::Int, WordWidth::Int)::Bool
+function DataMatrixIntegrity(DATA::Array{Integer,2}, LN::Int, WordWidth::Int)::Bool
     # This function verifies that the DATA matrix is:
     #   a) Contains only 3 columns
     #   b) No element in the first colum is higher than LN.
