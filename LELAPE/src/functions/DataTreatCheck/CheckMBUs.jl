@@ -26,7 +26,7 @@ function CheckMBUs(WORDS::Vector{UInt32}, PATTERN::Vector{UInt32}, WordWidth::In
     Bitflips_per_word = zeros(Int, length(WORDS))
     Bitflip_position = []
 
-    for index = 1:length(WORDS)
+    for index in eachindex(WORDS)
         #Signature = ExtractFlippedBits(WORDS[index], PATTERN[index], WordWidth)
         
         Bitflips_per_word[index], Signature = CheckMBUs(WORDS[index], PATTERN[index], WordWidth)
@@ -67,7 +67,7 @@ function CheckMBUs(WORDS::Vector{UInt64}, PATTERN::Vector{UInt64}, WordWidth::In
     Bitflips_per_word = zeros(Int, length(WORDS))
     Bitflip_position = []
 
-    for index = 1:length(WORDS)
+    for index in eachindex(WORDS)
         #Signature = ExtractFlippedBits(WORDS[index], PATTERN[index], WordWidth)
         
         Bitflips_per_word[index], Signature = CheckMBUs(WORDS[index], PATTERN[index], WordWidth)

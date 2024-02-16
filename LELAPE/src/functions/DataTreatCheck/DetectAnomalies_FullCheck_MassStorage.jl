@@ -206,7 +206,7 @@ function DetectAnomalies_FullCheck_MassStorage(   DATA::Array{UInt32, 2},
 
     if length(PossibleCandidates)>0
 
-        Matrix4SHUFFLERULE = convert.(UInt32, reshape([PossibleCandidates; [Histogram[x,2] for x in 1:length(Histogram[:,1]) if Histogram[x, 1] in PossibleCandidates]], :, 2))
+        Matrix4SHUFFLERULE = convert.(UInt32, reshape([PossibleCandidates; [Histogram[x,2] for x in eachindex(Histogram[:,1]) if Histogram[x, 1] in PossibleCandidates]], :, 2))
   
     else
 
@@ -474,7 +474,7 @@ function DetectAnomalies_FullCheck_MassStorage(   DATA::Array{UInt64, 2},
 
     if length(PossibleCandidates)>0
 
-        Matrix4SHUFFLERULE = convert.(UInt64, reshape([PossibleCandidates; [Histogram[x,2] for x in 1:length(Histogram[:,1]) if Histogram[x, 1] in PossibleCandidates]], :, 2))
+        Matrix4SHUFFLERULE = convert.(UInt64, reshape([PossibleCandidates; [Histogram[x,2] for x in eachindex(Histogram[:,1]) if Histogram[x, 1] in PossibleCandidates]], :, 2))
 
     else
 

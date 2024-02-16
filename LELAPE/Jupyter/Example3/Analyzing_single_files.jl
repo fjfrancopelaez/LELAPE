@@ -52,7 +52,7 @@ C1_SCY, C1_MCU, C1_SHF, C1_TRC = DetectAnomalies_FullCheck(DATA, WordWidth, LA, 
 
 if length(C1_SCY[:,1])>0
     println("Elements appearing more than expected and passing the Self-Consistency test:\n")
-        for index in 1:length(C1_SCY[:, 1])
+        for index in eachindex(C1_SCY[:, 1])
             println("\tValue: 0x", string(C1_SCY[index, 1], base=16, pad = 6), "  (", Int(C1_SCY[index, 1]), ") --> ", Int(C1_SCY[index, 2]),".")
         end
     else
@@ -66,7 +66,7 @@ if length(C1_SCY[:,1])>0
     println("New anomalies issued from:\n")
     if length(C1_MCU[:,1])>1
         println("\tMCU rule:\n")
-        for index in 1:length(C1_MCU[:, 1])
+        for index in eachindex(C1_MCU[:, 1])
             if C1_MCU[index, 1] ∉ C1_SCY[:,1]
                 println("\t  Value: 0x", string(C1_MCU[index, 1], base=16, pad = 6), "  (", Int(C1_MCU[index, 1]), ") --> ", Int(C1_MCU[index, 2]),".")
             end
@@ -78,7 +78,7 @@ if length(C1_SCY[:,1])>0
 
     if length(C1_TRC[:,1])>1
         println("\tTrace rule:\n")
-        for index in 1:length(C1_TRC[:, 1])
+        for index in eachindex(C1_TRC[:, 1])
             if C1_TRC[index, 1] ∉ C1_SCY[:,1]
                 println("\t  Value: 0x", string(C1_TRC[index, 1], base=16, pad = 6), "  (", Int(C1_TRC[index, 1]), ") --> ", Int(C1_TRC[index, 2]),".")
             end
@@ -90,7 +90,7 @@ if length(C1_SCY[:,1])>0
 
     if length(C1_SHF[:,1])>1
         println("\tShuffle rule:\n")
-        for index in 1:length(C1_SHF[:, 1])
+        for index in eachindex(C1_SHF[:, 1])
             if C1_SHF[index, 1] ∉ C1_SCY[:,1]
                 println("\t  Value: 0x", string(C1_SHF[index, 1], base=16, pad = 6), "  (", Int(C1_SHF[index, 1]), ") --> ", Int(C1_SHF[index, 2]),".")
             end
@@ -114,7 +114,7 @@ if length(C1_SCY[:,1])>0
         Events = Classify_Addresses_in_MCU(DATA, Labeled_addresses, UsePseudoAddress, WordWidth)
         
 
-        for k = 1:length(Events) 
+        for k in eachindex(Events) 
             NMCUs = length(Events[k][:, 1])
             println("\t$(length(Events)-k+1)\t$NMCUs ")
         end
@@ -135,7 +135,7 @@ if length(C1_SCY[:,1])>0
     println("--------------------------------------------\n");
 
     if length(Anomalies)>0
-        for k = 1:length(Events) 
+        for k in eachindex(Events) 
             NMCUs = length(Events[k][:, 1])
             println("Pseudoaddresses involved in $(length(Events)-k+1)-bit MCUs ($NMCUs events):")
             if NMCUs != 0
@@ -153,7 +153,7 @@ if length(C1_SCY[:,1])>0
     else
         println("Pseudoaddresses involved in SBUs ($NBitFlips events):")
                     
-        for k = 1:length(DATA[:,1])
+        for k in eachindex(DATA[:,1])
             print("0x", string(DATA[k,1]*WordWidth+MBU_bit_pos[k][1], base=16, pad = 6),"\n")
             #print(Events[k][row, bit])
         end

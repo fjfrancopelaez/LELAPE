@@ -87,7 +87,7 @@ Anomalies =[
         Events = Classify_Addresses_in_MCU(DATA, Labeled_addresses, UsePseudoAddress, WordWidth)
         
 
-        for k = 1:length(Events) 
+        for k in eachindex(Events) 
             NMCUs = length(Events[k][:, 1])
             println("\t$(length(Events)-k+1)\t$NMCUs ")
         end
@@ -108,7 +108,7 @@ Anomalies =[
     println("--------------------------------------------\n");
 
     if length(Anomalies)>0
-        for k = 1:length(Events) 
+        for k in eachindex(Events) 
             NMCUs = length(Events[k][:, 1])
             println("Pseudoaddresses involved in $(length(Events)-k+1)-bit MCUs ($NMCUs events):")
             if NMCUs != 0
@@ -126,7 +126,7 @@ Anomalies =[
     else
         println("Pseudoaddresses involved in SBUs ($NBitFlips events):")
                     
-        for k = 1:length(DATA[:,1])
+        for k in eachindex(DATA[:,1])
             print("0x", string(DATA[k,1]*WordWidth+MBU_bit_pos[k][1], base=16, pad = 6),"\n")
             #print(Events[k][row, bit])
         end

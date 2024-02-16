@@ -68,7 +68,7 @@ function DetectAnomalies_Shuffle_Rule_MassStorage(
     
     if length(ConfirmedCandidates)>0
 
-        Matrix4SMCURULE = convert.(UInt32, reshape([ConfirmedCandidates; [Histogram[x,2] for x in 1:length(Histogram[:,1]) if Histogram[x, 1] in ConfirmedCandidates]], :, 2))
+        Matrix4SMCURULE = convert.(UInt32, reshape([ConfirmedCandidates; [Histogram[x,2] for x in eachindex(Histogram[:,1]) if Histogram[x, 1] in ConfirmedCandidates]], :, 2))
   
     else
 
@@ -146,7 +146,7 @@ function DetectAnomalies_Shuffle_Rule_MassStorage(
     
     if length(ConfirmedCandidates)>0
 
-        Matrix4SMCURULE = convert.(UInt64, reshape([ConfirmedCandidates; [Histogram[x,2] for x in 1:length(Histogram[:,1]) if Histogram[x, 1] in ConfirmedCandidates]], :, 2))
+        Matrix4SMCURULE = convert.(UInt64, reshape([ConfirmedCandidates; [Histogram[x,2] for x in eachindex(Histogram[:,1]) if Histogram[x, 1] in ConfirmedCandidates]], :, 2))
   
     else
 

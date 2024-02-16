@@ -32,7 +32,7 @@ function SelfConsistency_index(     ADDRESSES::Vector{UInt32},
 
         Selection = Int[]
 
-        for k = 1:length(Set)
+        for k in eachindex(Set)
 
             if !(Set[k] in Subset)
 
@@ -156,7 +156,7 @@ function SelfConsistency_index(     ADDRESSES::Vector{UInt64},
 
         Selection = Int[]
 
-        for k = 1:length(Set)
+        for k in eachindex(Set)
 
             if !(Set[k] in Subset)
 

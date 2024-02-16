@@ -47,7 +47,7 @@ function SEFI_Detection_Poisson( DATA::Matrix{UInt32},
 
         CycleLabels = reshape([CycleLabels; zeros(UInt32, length(CycleLabels))], :,2)
 
-        for k = 1:length(CycleLabels[:,1])
+        for k in eachindex(CycleLabels[:,1])
 
             CycleLabels[k,2] = sum(FlippedBits[:,2].==CycleLabels[k,1])
 
@@ -122,7 +122,7 @@ function SEFI_Detection_Poisson( DATA::Matrix{UInt64},
 
         CycleLabels = reshape([CycleLabels; zeros(UInt64, length(CycleLabels))], :,2)
 
-        for k = 1:length(CycleLabels[:,1])
+        for k in eachindex(CycleLabels[:,1])
 
             CycleLabels[k,2] = sum(FlippedBits[:,2].==CycleLabels[k,1])
 

@@ -83,7 +83,7 @@ function SEFI_Detection_Binomial(   DATA::Matrix{UInt32},
         
         AffectedAddresses = reshape([union(FlippedBits[:,1]); zeros(UInt32, length(union(FlippedBits[:,1])))],:,2)
 
-        for k = 1:length(union(AffectedAddresses[:,1]))
+        for k in eachindex(union(AffectedAddresses[:,1]))
 
             AffectedAddresses[k,2] = sum(FlippedBits[:,1].==AffectedAddresses[k,1])
         end
@@ -260,7 +260,7 @@ function SEFI_Detection_Binomial(   DATA::Matrix{UInt64},
         
         AffectedAddresses = reshape([union(FlippedBits[:,1]); zeros(UInt64, length(union(FlippedBits[:,1])))],:,2)
 
-        for k = 1:length(union(AffectedAddresses[:,1]))
+        for k in eachindex(union(AffectedAddresses[:,1]))
 
             AffectedAddresses[k,2] = sum(FlippedBits[:,1].==AffectedAddresses[k,1])
         end
