@@ -92,7 +92,7 @@ function DetectAnomalies_FullCheck_MassStorage(   DATA::Array{UInt32, 2},
 
     NThreshold = MaxExpectedRepetitions(length(DVSET), LN, Operation, ϵ)
 
-    Candidates = AddressesInExcess_MassStorage(Histogram, NThreshold)
+    Candidates = UInt32.(AddressesInExcess_MassStorage(Histogram, NThreshold));
 
     PropoCandidatesFromSC = SelfConsistency_index( ADDRESSES[:,1],
                                                 ADDRESSES[:,2],
@@ -159,16 +159,13 @@ function DetectAnomalies_FullCheck_MassStorage(   DATA::Array{UInt32, 2},
 
         PossibleCandidates = union(PossibleCandidates)
 
-        ConfirmPossibleCandidates = union(PossibleCandidates)
-
         PossibleCandidates_Indexes = [findfirst(Histogram[:,1].==x) for x in PossibleCandidates]
 
         ConfirmedCandidates = UInt32[];
 
-        for NewCandidate in PossibleCandidates_Indexes
-
-            if (Histogram[NewCandidate, 2]>NThreshold) & !(Histogram[NewCandidate,1] in PrevCandidates) & !(Histogram[NewCandidate,1] in ConfirmedCandidates[:,1])
-                append!(ConfirmedCandidates, Histogram[NewCandidate,:]')
+        for index_for_new_candidate in PossibleCandidates_Indexes
+            if (Histogram[index_for_new_candidate, 1]>NThreshold) & !(Histogram[index_for_new_candidate,1] in PrevCandidates) & !(Histogram[index_for_new_candidate,1] in ConfirmedCandidates[:,1])
+                append!(ConfirmedCandidates, Histogram[index_for_new_candidate,:]')
             end
 
         end
@@ -196,7 +193,8 @@ function DetectAnomalies_FullCheck_MassStorage(   DATA::Array{UInt32, 2},
         end
 
         if (NewCandidate in Histogram[:,1]) 
-            if (Histogram[findfirst(Histogram[:,1].==NewCandidate),2]>NThreshold) & !(NewCandidate in PrevCandidates) & !(Histogram[NewCandidate,1] in ConfirmedCandidates[:,1])
+            index_for_new_candidate = findfirst(Histogram[:,1].==NewCandidate)
+            if (Histogram[index_for_new_candidate,2]>NThreshold) & !(NewCandidate in PrevCandidates) & !(Histogram[index_for_new_candidate,1] in ConfirmedCandidates[:,1])
                 append!(PossibleCandidates, NewCandidate)
             end
         end
@@ -252,7 +250,8 @@ function DetectAnomalies_FullCheck_MassStorage(   DATA::Array{UInt32, 2},
             # 2023-02-07: Bug fixed. See https://github.com/fjfrancopelaez/LELAPE/issues/2
 
             if (NewCandidate in Histogram[:,1])
-                if (Histogram[findfirst(Histogram[:,1].==NewCandidate),2]>NThreshold) & !(NewCandidate in PrevCandidates)  & !(Histogram[NewCandidate,1] in ConfirmedCandidates[:,1])
+                index_for_new_candidate = findfirst(Histogram[:,1].==NewCandidate)
+                if (Histogram[index_for_new_candidate,2]>NThreshold) & !(NewCandidate in PrevCandidates)  & !(Histogram[index_for_new_candidate,1] in ConfirmedCandidates[:,1])
                     append!(PossibleCandidates, NewCandidate)
                 end
             end
@@ -366,7 +365,7 @@ function DetectAnomalies_FullCheck_MassStorage(   DATA::Array{UInt64, 2},
     PropoCandidatesFromSC = SelfConsistency_index( ADDRESSES[:,1],
                             ADDRESSES[:,2],
                             Operation,
-                            Candidates[:,1],
+                            convert.(UInt64,Candidates[:,1]),
                             convert.(Int, Candidates[:,2]),
                             LargestMCUSize)
 
@@ -427,8 +426,6 @@ function DetectAnomalies_FullCheck_MassStorage(   DATA::Array{UInt64, 2},
 
         PossibleCandidates = union(PossibleCandidates)
 
-    #ConfirmPossibleCandidates = union(PossibleCandidates)
-
         PossibleCandidates_Indexes = [findfirst(Histogram[:,1].==x) for x in PossibleCandidates]
 
         ConfirmedCandidates = UInt64[];
@@ -464,7 +461,8 @@ function DetectAnomalies_FullCheck_MassStorage(   DATA::Array{UInt64, 2},
         end
 
         if (NewCandidate in Histogram[:,1]) 
-            if (Histogram[findfirst(Histogram[:,1].==NewCandidate),2]>NThreshold) & !(NewCandidate in PrevCandidates) & !(Histogram[NewCandidate,1] in ConfirmedCandidates[:,1])
+            index_for_new_candidate = findfirst(Histogram[:,1].==NewCandidate);
+            if (Histogram[index_for_new_candidate,2]>NThreshold) & !(NewCandidate in PrevCandidates) & !(Histogram[index_for_new_candidate,1] in ConfirmedCandidates[:,1])
                 append!(PossibleCandidates, NewCandidate)
             end
         end
@@ -521,7 +519,8 @@ function DetectAnomalies_FullCheck_MassStorage(   DATA::Array{UInt64, 2},
 # 2023-02-07: Bug fixed. See https://github.com/fjfrancopelaez/LELAPE/issues/2
 
             if (NewCandidate in Histogram[:,1])
-                if (Histogram[findfirst(Histogram[:,1].==NewCandidate),2]>NThreshold) & !(NewCandidate in PrevCandidates)  & !(Histogram[NewCandidate,1] in ConfirmedCandidates[:,1])
+                index_for_new_candidate = findfirst(Histogram[:,1].==NewCandidate);
+                if (Histogram[index_for_new_candidate,2]>NThreshold) & !(NewCandidate in PrevCandidates)  & !(Histogram[index_for_new_candidate,1] in ConfirmedCandidates[:,1])
                     append!(PossibleCandidates, NewCandidate)
                 end
             end

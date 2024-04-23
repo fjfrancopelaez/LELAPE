@@ -82,3 +82,49 @@ function CreateDVSetHistogram_MassStorage(SET::Array{Integer, 1}, LN::Int)::Arra
     end
 
 end
+
+#################################################################################
+## NOTE ON 2024/04/23
+#################################################################################
+## When the function is tested with actual data, the script crashes since cannot
+## identify Vector{UInt64} with Vector{Integer}. IDNK why, but the following redefinition
+## should fix this problem.
+### ERROR: MethodError: no method matching CreateDVSetHistogram_MassStorage(::Vector{UInt64}, ::Int64)
+###  Closest candidates are:
+####  CreateDVSetHistogram_MassStorage(::Vector{Integer}, ::Int64)
+
+function CreateDVSetHistogram_MassStorage(SET::Array{UInt64, 1}, LN::Int)::Array{Int, 2}
+    ####     
+    # It checks the number of elements present in the DV Histogram and returns the
+    #     # number of times that every possible element appear. The first column saves the number, the second the number of occurrences.
+    #     #
+    #     # LN is the memory size.
+    #     #
+    #     # Only are possible elements from 0 to LN-1. Besides, the value at positon X
+    #     # is associated with the the value unsigned N-bit X-1. Thus, the first element
+    #     # is related to 0x00000.
+    #     #
+        if maximum(SET) > (LN-1)
+            error("Something wrong... an element of the DV set is larger than the memory size.")
+        else      
+    
+            Histogram = zeros(Int, length(union(SET)), 2);
+            Histogram[:, 1] = sort(union(SET));    
+    
+            for k=1:length(Histogram[:, 1])
+    
+                Histogram[k,2] = length(findall(SET.==Histogram[k,1]))
+    
+            end
+    
+            return Histogram
+    
+        end
+    
+    end
+
+    function CreateDVSetHistogram_MassStorage(SET::Array{UInt32, 1}, LN::Int)::Array{Int, 2}
+
+        return CreateDVSetHistogram_MassStorage(UInt64.(SET), LN)
+
+    end

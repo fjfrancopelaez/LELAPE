@@ -46,8 +46,6 @@ function SelfConsistency_index(     ADDRESSES::Vector{UInt32},
 
     end
 
-    NCandidates = length(Candidates)
-
     SelectedCandidates = UInt32[]
 
     while true
@@ -169,8 +167,6 @@ function SelfConsistency_index(     ADDRESSES::Vector{UInt64},
         return Selection
 
     end
-
-    NCandidates = length(Candidates)
 
     SelectedCandidates = UInt64[]
 
