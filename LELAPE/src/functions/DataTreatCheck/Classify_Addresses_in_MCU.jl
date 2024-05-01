@@ -10,7 +10,7 @@
 #
 function Classify_Addresses_in_MCU(DATA::Matrix{UInt32}, 
     Indexes::Matrix{Int}, 
-    UsePseudoADD::Bool=false, 
+    UsePseudoADD::Bool=true, 
     WordWidth::Int=8)::Vector{Any}
 
     ## The purpose of this function is to classify the addresses (or pseudoaddresses) with bitflips
@@ -90,7 +90,7 @@ end
 
 function Classify_Addresses_in_MCU(DATA::Matrix{UInt64}, 
     Indexes::Matrix{Int}, 
-    UsePseudoADD::Bool=false, 
+    UsePseudoADD::Bool=true, 
     WordWidth::Int=8)::Vector{Any}
 
     ## The purpose of this function is to classify the addresses (or pseudoaddresses) with bitflips

@@ -14,8 +14,8 @@ function DetectAnomalies_Shuffle_Rule_MassStorage(
                             WordWidth::Int,
                             LN0::Int,
                             Operation::String,
-                            UsePseudoADD::Bool,
-                            KeepCycle::Bool,
+                            UsePseudoADD::Bool=true,
+                            KeepCycle::Bool=true,
                             ϵ::AbstractFloat=0.001
                         )::Array{UInt32, 2}
 
@@ -92,8 +92,8 @@ function DetectAnomalies_Shuffle_Rule_MassStorage(
                             WordWidth::Int,
                             LN0::Int,
                             Operation::String,
-                            UsePseudoADD::Bool,
-                            KeepCycle::Bool,
+                            UsePseudoADD::Bool=true,
+                            KeepCycle::Bool=true,
                             ϵ::AbstractFloat=0.001
                         )::Array{UInt64, 2}
 

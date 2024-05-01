@@ -11,7 +11,7 @@
 function MCU_Indexes(   DATA::Matrix{UInt32}, 
     OPERATION::String,
     Markers::Vector{UInt32}, 
-    UsePseudoADD::Bool=false, 
+    UsePseudoADD::Bool=true, 
     WordWidth::Int=8,
     LimitMCUSize::Int=200)::Array{Int, 2}
 
@@ -98,7 +98,7 @@ end
 function MCU_Indexes(   DATA::Matrix{UInt64}, 
     OPERATION::String,
     Markers::Vector{UInt64}, 
-    UsePseudoADD::Bool=false, 
+    UsePseudoADD::Bool=true, 
     WordWidth::Int=8,
     LimitMCUSize::Int=200)::Array{Int, 2}
 

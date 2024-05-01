@@ -8,7 +8,7 @@
 # 
 # for further details.
 #
-function NF2BitMCUs(NSBU::Int, LA::Int, METHOD::String, D::Int, WordWidth::Int, UsePseudoAddress::Bool=false)::Float64
+function NF2BitMCUs(NSBU::Int, LA::Int, METHOD::String, D::Int, WordWidth::Int, UsePseudoAddress::Bool=true)::Float64
     # indicates the expected number of false 2-bit MCUs that will occur 
     # in a memory with LA words with WORDWIDTH bits each in which NSBU SBUs have occurred. In this analysis,
     # MCUS are sought using some grouping method (METHOD) with a generalized distance D.HD
@@ -65,7 +65,7 @@ function NF2BitMCUs(NSBU::Int, LA::Int, METHOD::String, D::Int, WordWidth::Int, 
 end
 
 function NF2BitMCUs(DATA::Array{UInt32}, LA::Int, METHOD::String, D::Int, 
-    WordWidth::Int, KeepCycle::Bool=false, UsePseudoADD::Bool=false)::Float64
+    WordWidth::Int, KeepCycle::Bool=true, UsePseudoADD::Bool=true)::Float64
 
     
     NDV = NPairs(DATA, UsePseudoADD, WordWidth, KeepCycle)
@@ -95,7 +95,7 @@ function NF2BitMCUs(DATA::Array{UInt32}, LA::Int, METHOD::String, D::Int,
 end
 
 function NF2BitMCUs(DATA::Array{UInt64}, LA::Int, METHOD::String, D::Int, 
-    WordWidth::Int, KeepCycle::Bool=false, UsePseudoADD::Bool=false)::Float64
+    WordWidth::Int, KeepCycle::Bool=true, UsePseudoADD::Bool=true)::Float64
 
     
     NDV = NPairs(DATA, UsePseudoADD, WordWidth, KeepCycle)

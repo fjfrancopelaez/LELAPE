@@ -8,7 +8,7 @@
 # 
 # for further details.
 #
-function NPairs(DATA::Array{UInt32}, UsePseudoAdd::Bool=false, WordWidth::Int=1, KeepCycle::Bool=false)::Int
+function NPairs(DATA::Array{UInt32}, UsePseudoAdd::Bool=true, WordWidth::Int=1, KeepCycle::Bool=true)::Int
 
     if UsePseudoAdd
 
@@ -63,7 +63,7 @@ end
 #######                                                     #######
 ###################################################################
 
-function NPairs(DATA::Array{UInt64}, UsePseudoAdd::Bool=false, WordWidth::Int=1, KeepCycle::Bool=false)::Int
+function NPairs(DATA::Array{UInt64}, UsePseudoAdd::Bool=true, WordWidth::Int=1, KeepCycle::Bool=true)::Int
 
     if UsePseudoAdd
 

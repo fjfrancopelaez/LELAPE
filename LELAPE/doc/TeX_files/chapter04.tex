@@ -199,7 +199,7 @@ Before starting the analysis, we must define some additional variables to indica
 		\item \textit{Method 5}: \textbf{N}::Int
 	\end{itemize}
 
-	In Methods 1--4, default values for parameters are \texttt{\textbf{UsePseudoAdd} = false}, \texttt{\textbf{WordWidth} = 1}, \texttt{\textbf{KeepCycle} = false}. 
+	In Methods 1--4, default values for parameters are \texttt{\textbf{UsePseudoAdd} = true}, \texttt{\textbf{WordWidth} = 1}, \texttt{\textbf{KeepCycle} = true}. 
 	
 	\item \textbf{Output}: Int 
 	%
@@ -420,9 +420,20 @@ Last function just calls the previous four.
 		\textbf{Operation}::String,
 		\textbf{UsePseudoADD}::Bool,
 		\textbf{KeepCycle}::Bool
+		%
+		\item  \textit{Method 4: }\textbf{DATA}::Array\{UInt32, 2\}, 
+		\textbf{WordWidth}::Int,
+		\textbf{LN0}::Int,
+		\textbf{Operation}::String,
+		\textbf{UsePseudoADD}::Bool
+		%
+		\item  \textit{Method 5: }\textbf{DATA}::Array\{UInt32, 2\}, 
+		\textbf{WordWidth}::Int,
+		\textbf{LN0}::Int,
+		\textbf{Operation}::String
 	\end{itemize}
 
-	Default values for \textbf{\(\varepsilon\)} \& 	\textbf{LargestMCUSize} are \texttt{0.001} and \texttt{200} respectively.
+	Default values for \textbf{\(\varepsilon\)} \& 	\textbf{LargestMCUSize} are \texttt{0.001} and \texttt{200} respectively. \textbf{UsePseudoADD} and \textbf{KeepCycle} are both \texttt{true} by default since these are the recommended values.
 	%
 	\item \textbf{Output: } Array\{UInt32, 2\}	
 	%
@@ -472,9 +483,16 @@ Identical to \hyperref[Fun:DetectAnomaliesSelfConsis]{\texttt{DetectAnomalies\_S
 			%
 		\item \textit{Method 2}: 			%
 			\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool, \\ \textbf{KeepCycle}::Bool
+			%
+		\item \textit{Method 3}: 			%
+			\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool
+			%
+			%
+			\item \textit{Method 4}: 			%
+			\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String			%
  			%
  		\end{itemize}
- 		Default value for \textbf{\(\varepsilon\)} is \texttt{0.001} if not provided.
+ 		Default value for \textbf{\(\varepsilon\)} is \texttt{0.001} if not provided.  \textbf{UsePseudoADD} and \textbf{KeepCycle} are both \texttt{true} by default since these are the recommended values.
  		%
  		\item \textbf{Output}: Matrix\{UInt32\}
  		%
@@ -539,8 +557,14 @@ Identical to \hyperref[Fun:DetectAnomaliesSelfConsis]{\texttt{DetectAnomalies\_S
 	 	\item \textit{Method 2}: \textbf{TraceRuleLength}::Int,
 	 	\textbf{PrevCandidates}::Array\{UInt32, 1\}, \\ \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \\ \textbf{UsePseudoADD}::Bool, \textbf{KeepCycle}::Bool
 	 	%
+	 	\item \textit{Method 3}: \textbf{TraceRuleLength}::Int,
+	 	\textbf{PrevCandidates}::Array\{UInt32, 1\}, \\ \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \\ \textbf{UsePseudoADD}::Bool
+	 	%
+	 	\item \textit{Method 4}: \textbf{TraceRuleLength}::Int,
+	 	\textbf{PrevCandidates}::Array\{UInt32, 1\}, \\ \textbf{DATA}::Array\{UInt32, 2\}, \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String
+	 	%
 	 \end{itemize}
-	 Default value for \textbf{\(\varepsilon\)} is \texttt{0.001} and \texttt{200} if  not provided.
+	 Default value for \textbf{\(\varepsilon\)} is \texttt{0.001} and \texttt{200} if  not provided.  \textbf{UsePseudoADD} and \textbf{KeepCycle} are both \texttt{true} by default since these are the recommended values.
 	 %
 	 \item \textbf{Output}: Matrix\{UInt32\}
 	 %
@@ -609,8 +633,14 @@ Identical to \hyperref[Fun:DetectAnomaliesTraceRule]{\texttt{DetectAnomalies\_Tr
  		\item \textit{Method 2}: 			%
  		\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool,\\ \textbf{KeepCycle}::Bool
  		%
+ 		\item \textit{Method 3}: 			%
+ 		\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String, \textbf{UsePseudoADD}::Bool
+ 		%
+ 		\item \textit{Method 4}: 			%
+ 		\textbf{PrevCandidates}::Array\{UInt32,1\}, \textbf{DATA}::Array\{UInt32, 2\}, \\ \textbf{WordWidth}::Int, \textbf{LN0}::Int,  \textbf{Operation}::String
+ 		%
  	\end{itemize}
- 	Default values for \textbf{\(\varepsilon\)} and \textbf{LargestMCUSize} are \texttt{0.001} and \texttt{200} if they are not provided.
+ 	Default values for \textbf{\(\varepsilon\)} and \textbf{LargestMCUSize} are \texttt{0.001} and \texttt{200} if they are not provided.  \textbf{UsePseudoADD} and \textbf{KeepCycle} are both true by default since these are the recommended values.
  	%
  	\item \textbf{Output}: Matrix\{UInt32\}
  	%
@@ -698,9 +728,22 @@ Identical to \hyperref[Fun:DetectAnomaliesTraceRule]{\texttt{DetectAnomalies\_Tr
  		\textbf{TraceRuleLength}::Int,
  		\textbf{UsePseudoADD}::Bool,\\
  		\textbf{KeepCycle}::Bool
+ 		%
+ 		\item  \textit{Method 4: }\textbf{DATA}::Array\{UInt32, 2\}, 
+ 		\textbf{WordWidth}::Int,
+ 		\textbf{LN0}::Int, \\
+ 		\textbf{Operation}::String,
+ 		\textbf{TraceRuleLength}::Int,
+ 		\textbf{UsePseudoADD}::Bool
+ 		%
+ 		\item  \textit{Method 5: }\textbf{DATA}::Array\{UInt32, 2\}, 
+ 		\textbf{WordWidth}::Int,
+ 		\textbf{LN0}::Int, \\
+ 		\textbf{Operation}::String,
+ 		\textbf{TraceRuleLength}::Int
  	\end{itemize}
  	
- 	Default values for \textbf{\(\varepsilon\)} \& 	\textbf{LargestMCUSize} are \texttt{0.001} and \texttt{200} respectively.
+ 	Default values for \textbf{\(\varepsilon\)} \& 	\textbf{LargestMCUSize} are \texttt{0.001} and \texttt{200} respectively.   \textbf{UsePseudoADD} and \textbf{KeepCycle} are both \texttt{true} by default since these are the recommended values.
 % 	%
  	\item \textbf{Output: } Tuple\{Array\{UInt32, 2\}, Array\{UInt32, 2\}, Array\{UInt32, 2\}, Array\{UInt32, 2\}\}	
 % 	%
@@ -815,7 +858,7 @@ Identical to \hyperref[Fun:DetectAnomaliesFullCheck]{\texttt{DetectAnomalies\_Fu
 	 	\item \textbf{UsePseudoADD} = \texttt{false}: The index indicates the row in \textbf{DATA} with the address in the MCU.
 	 	\item \textbf{UsePseudoADD} = \texttt{true}: It provides the index in the PSEUDOADDRESS derived SET. If the exact position of
 	 	the bitcell is required, \textbf{DATA} should be treated with \texttt{ConvertToPseudoADD()} and
-	 	the index used in the resulting matrix.
+	 	the index used in the resulting matrix. By default, this parameter is set to \texttt{true}.
 	 \end{enumerate}
  
      In both cases, if the size of the MCU is smaller than LMCU, the row will be filled with zeros until
@@ -847,13 +890,15 @@ Identical to \hyperref[Fun:DetectAnomaliesFullCheck]{\texttt{DetectAnomalies\_Fu
 	%
 	\item \textbf{Output}: Vector::\{Any\}
 	%
-	\item The purpose of this function is to classify the addresses (or pseudoaddresses) with bitflips by transforming the matrix of \textbf{Indexes} got from \texttt{MCU\_Indexes()} into a Vector of matrices, called \texttt{SOLUTION}, which is eventually returned as \textbf{OUTPUT}.
+	\item The purpose of this function is to classify the addresses (or pseudoaddresses) with bitflips by transforming the matrix of \textbf{Indexes} got from \texttt{MCU\_Indexes()} into a Vector of matrices, called \texttt{SOLUTION}, which is eventually returned as \textbf{OUTPUT}. Default values for \textbf{UsePseudoADD} and \textbf{WordWidth} are \texttt{true} and 8.
 	 
 	The length of \texttt{SOLUTION} is the size of the largest observed MCU(s), \texttt{NLMCU}. Thus, \texttt{SOLUTION[1]} is an \texttt{N \(\times\) NLMCU} matrix in which every row contains the addresses or pseudoaddresses of the \texttt{NLMCU} 	bitflips involved in this MCU. \texttt{N} is the number of observed \texttt{NLMCU}-bit MCUs.
 	
 	\texttt{SOLUTION[2]} is devoted to events with \texttt{M = NLMCU-1} bits. As before, it is a matrix with \texttt{NLMCU-1} 	columns and an undetermined number of rows.
 	
 	Finally, \texttt{SOLUTION[NLMCU]} is just a simple vector with the addresses not involved in MCUs. Obviously, these are the SBUs.
+	
+	
 \end{itemize}
 
 \subsection{False events due to accumulation of bitflips}\label{SubSec:FalseEvents}
