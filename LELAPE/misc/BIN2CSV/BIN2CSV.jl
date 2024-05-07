@@ -1,3 +1,13 @@
+# Distributed under the 
+#
+#          European Union Public Licence v. 1.2
+# 
+# See 
+#
+#          https://github.com/fjfrancopelaez/LELAPE/blob/main/LICENSE.md 
+# 
+# for further details.
+#
 using DelimitedFiles;
 
 GOLDEN_FILE = "GOLDEN.raw"; # Change it and point to the file you wish.
