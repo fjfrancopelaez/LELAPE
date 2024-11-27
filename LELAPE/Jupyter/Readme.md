@@ -20,3 +20,15 @@ Notebooks in the subfolders have been tested with Julia 1.7.2. Perhaps you have 
     
 
 Just replace __"1.7.2"__ by the version number you wish, save the file, close and open the notebook on the browser.
+---------------------------
+Alternatively, you can just open the Julia terminal (REPL) and type:
+
+> `using Pkg`
+
+> `Pkg.build("IJulia")`
+
+> `using IJulia`
+
+> `notebook()`
+
+The new kernel is then added to Jupyter. You only need to open the __.pynb__ file and choose the kernel you wish.
