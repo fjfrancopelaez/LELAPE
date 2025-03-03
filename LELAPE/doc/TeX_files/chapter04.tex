@@ -999,6 +999,7 @@ The functions are:
 		\item \textit{Method 2}: \textbf{NSBU}::Int, \textbf{NMU2}::Int, \textbf{LN}::Int, \textbf{METHOD}::String, \textbf{D}::Int, \\ \textbf{WordWidth}::Int
 		\item \textit{Method 3}: \textbf{NSBU}::Int, \textbf{NMU2}::Int, \textbf{LN}::Int, \textbf{METHOD}::String, \textbf{D}::Int
 	\end{itemize}
+	\textbf{NOTE:} Alternatively, \textbf{NSBU} and \textbf{NMU2} can be replaced by two Vector{Int} variables if there were several reading rounds. Thus, the \(l\)-th elements of the vector indicates the number of single bit upsets and 2-bit multiple cell upsets observed during the \(k\)-th round. Both vectors must be of the same size and no negative values are allowed.
 	\item \textbf{Output}: Tuple\{Float64, Float64\}
 	\item     It indicates the expected number of false 3-bit MCUs that will occur 	in a memory with \textbf{LN} bits in which \textbf{NSBU} SBUs and \textbf{NMU2} 2-bit MCUs have occurred. 	In this analysis, MCUs are sought using some grouping method (\textbf{METHOD}) with a generalized 
 	distance \textbf{D}.
