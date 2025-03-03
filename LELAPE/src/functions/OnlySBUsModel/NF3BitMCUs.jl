@@ -8,7 +8,7 @@
 # 
 # for further details.
 #
-function NF3BitMCUs(NSBU::Int, NMU2::Int, LN::Int, METHOD::String, D::Int, WordWidth::Int=1)::Tuple{Float64, Float64}
+function NF3BitMCUs(NSBU::Int, NMU2::Int, LN::Int, METHOD::String, D::Int, WordWidth::Int=1, UsePseudoAddress::Bool=true)::Tuple{Float64, Float64}
     # indicates the expected number of false 3-bit MCUs that will occur 
     # in a memory with LN bits in which NSBU SBUs and NMU2 2-bit MCUs have occurred. 
     # In this analysis, MCUS are sought using some grouping --method (METHOD) with a generalized 
@@ -21,7 +21,7 @@ function NF3BitMCUs(NSBU::Int, NMU2::Int, LN::Int, METHOD::String, D::Int, WordW
     #                        cell in the XY plane. Two cells are related if |x1-x2|+|y1-y2| <= D. This 
     #                        is the Manhattan distance.
     #   3) METHOD: "IND" --> Only possible if the user has been able to place the ExtractFlippedBits
-    #                        cell in the XY mplane. Two cells are related if max(|x1-x2|,|y1-y2|) <= D.
+    #                        cell in the XY plane. Two cells are related if max(|x1-x2|,|y1-y2|) <= D.
     #                        In mathematics, this is the "infinite distance".
     #   4) METHOD: "THD" --> Only valid if pairs of bitflips are located in a linear bitstream and if the
     #                        distace between cells is smaller than D: |x1-x2| <= D.
@@ -41,8 +41,8 @@ function NF3BitMCUs(NSBU::Int, NMU2::Int, LN::Int, METHOD::String, D::Int, WordW
     #   optimistic and pessimistic results are provided.
     #
     #   First, the memory size if corrected in case WORD ADDRESS is used in XOR or POS.  
-    METHOD in ["XOR", "POS"] ? L = div(LN,WordWidth) : L = LN
-
+    ((UsePseudoAddress==false) && (METHOD in ["XOR", "POS"])) ? L = div(LN,WordWidth) : L = LN
+    
     # Now, the size of the SBU influence area and the 2-bit ones.
     if METHOD == "MBU" 
         S1 = (D-1)

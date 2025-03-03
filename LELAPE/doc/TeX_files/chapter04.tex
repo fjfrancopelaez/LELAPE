@@ -995,12 +995,15 @@ The functions are:
 \begin{itemize}
 	\item \textbf{Input arguments}: 
 	\begin{itemize}
-		\item \textit{Method 1}: \textbf{NSBU}::Int, \textbf{NMU2}::Int, \textbf{LN}::Int, \textbf{METHOD}::String, \textbf{D}::Int, \\ \textbf{WordWidth}::Int
-		\item \textit{Method 2}: \textbf{NSBU}::Int, \textbf{NMU2}::Int, \textbf{LN}::Int, \textbf{METHOD}::String, \textbf{D}::Int
+		\item \textit{Method 1}: \textbf{NSBU}::Int, \textbf{NMU2}::Int, \textbf{LN}::Int, \textbf{METHOD}::String, \textbf{D}::Int, \\ \textbf{WordWidth}::Int, \textbf{UsePseudoAddress}::Bool
+		\item \textit{Method 2}: \textbf{NSBU}::Int, \textbf{NMU2}::Int, \textbf{LN}::Int, \textbf{METHOD}::String, \textbf{D}::Int, \\ \textbf{WordWidth}::Int
+		\item \textit{Method 3}: \textbf{NSBU}::Int, \textbf{NMU2}::Int, \textbf{LN}::Int, \textbf{METHOD}::String, \textbf{D}::Int
 	\end{itemize}
 	\item \textbf{Output}: Tuple\{Float64, Float64\}
 	\item     It indicates the expected number of false 3-bit MCUs that will occur 	in a memory with \textbf{LN} bits in which \textbf{NSBU} SBUs and \textbf{NMU2} 2-bit MCUs have occurred. 	In this analysis, MCUs are sought using some grouping method (\textbf{METHOD}) with a generalized 
 	distance \textbf{D}.
+	
+	Dafault values for \textbf{WordWidth} and \textbf{UsePseudoAddress} are \texttt{1} and \texttt{true}. 
 	
 	Admitted values for \textbf{METHOD} and \textbf{D} are the following:
 	
@@ -1012,8 +1015,7 @@ The functions are:
 	distance between cells is smaller than \textbf{D}: \(\left|x_1-x_2\right| \le D\).
 	\item \textbf{METHOD}: \texttt{"XOR"}\(\rightarrow\)  Related pairs are got by means of statistical deviations. Addresses are XORed 
 	and only if the value is one of the \textbf{D} possible critical values. If the WORD Addresses  
-	is used instead of PSEUDOADDRESS, the memory size must be expressed in WORDs, \textbf{LA = LN/WordWidth}.
-	IF SO, THE \textbf{WORDWIDTH} MUST BE PROVIDED.
+	is used instead of PSEUDOADDRESS, the \textbf{WordWidth} must be provided and the \textbf{UsePseudoAddress} parameter explicitly set to FALSE.
 	\item \textbf{METHOD}: \texttt{"POs"}\(\rightarrow\)  Identical to the previous one but with positive subtraction instead of XOR.
 \end{enumerate}
 	
