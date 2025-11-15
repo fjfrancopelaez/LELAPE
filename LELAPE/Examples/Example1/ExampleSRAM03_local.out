@@ -1,0 +1,170 @@
+------------------------------------------
+Starting the LOCAL analysis of C:/Users/Juanan/Dropbox/Investigacion/LELAPE/2025_11_03_LELAPE/LELAPE/Examples/Example1\ExampleSRAM03.csv file.
+------------------------------------------
+
+First of all, let us investigate the presence of MBUs.
+
+**********************************
+--> Number of bitflips: 129
+**********************************
+
+Number of MBUs with different sizes 
+
+Size	Occurrences
+----	-----------
+1   	129
+
+Expected number of false 2-bit MBUs: 0.004
+
+*****************************************************************
+
+Now, we will study the occurrence of MCUs with statistical methods.
+
+
+*****************************************************************
+
+
+Only up to 2 repetitions are explained by randomness.
+
+New anomalies issued from:
+
+	MCU rule issued no candidates!!!
+
+
+	Trace rule issued no candidates!!!
+
+
+	Shuffle rule issued no candidates!!!
+
+
+**********************************
+
+Number of detected MCUs according to their multiplicity:
+
+	Size	Occurrences
+	----	-----------
+	4	3 
+	3	3 
+	2	11 
+	1	86 
+
+
+Expected number of false 2-bit MCUs: 0.000
+
+****************************************************************
+Now, for tracking purposes, the multiple events will be depicted. 
+In this analysis, pseudoaddress is ADDRESS x WordWith + Position. 
+It is easily reversed.
+--------------------------------------------
+
+Pseudoaddresses involved in 4-bit MCUs (3 events):
+0x145a0e1, 0x155a0f0, 0x185b0e1, 0x195b0f0
+0x12dd8a1, 0x13dd8b0, 0x1adc8a1, 0x1bdc8b0
+0x16bcc65, 0x17bcc74, 0x1abdc65, 0x1bbdc74
+
+Pseudoaddresses involved in 3-bit MCUs (3 events):
+0x149b6c5, 0x1c9a6c5, 0x1d9a6d4
+0x20b076, 0xa0a076, 0xb0a066
+0x287ac1, 0x387ad0, 0xa86ac1
+
+Pseudoaddresses involved in 2-bit MCUs (11 events):
+0x424803, 0x925812
+0x1079c74, 0x1179c64
+0x1a042c3, 0x1b042d2
+0x742f93, 0xb43f93
+0xc9cf10, 0xd9cf00
+0x18af917, 0x19af907
+0x12f8577, 0x13f8567
+0xc91353, 0xd91343
+0x7da137, 0xbdb137
+0xa72e91, 0xb72e81
+0x10ebc37, 0x11ebc27
+
+Pseudoaddresses involved in 1-bit MCUs (86 events):
+0x1461071
+0x9cc8a1
+0x186fc31
+0x3c22e5
+0x11a58d2
+0x1e68e45
+0x1ae6cb2
+0xe72c85
+0x2d67b0
+0x628362
+0x1195ff4
+0x14d0f23
+0x8f7453
+0x1e009d6
+0x1ed0fc2
+0x1fd0fd1
+0x49c7c2
+0x12ef930
+0x3c2681
+0xc33af5
+0x14505a6
+0x15505b5
+0x6f4134
+0xbf5124
+0x99e6f3
+0x17e2965
+0x19653a4
+0x1d3bb16
+0x15a7686
+0x1805a62
+0x111c85
+0x9c8bc0
+0xd30dc1
+0x14f6fc6
+0x1aa5567
+0x708c20
+0x1d43907
+0x1959cb1
+0x19a10f6
+0x34e9a3
+0xcfb8a6
+0x1e34835
+0x346217
+0x12abd52
+0x49cbe2
+0x158ca34
+0x0693d3
+0x1c7fc1
+0x1a502b2
+0x277d30
+0xb86ad0
+0x1e600e6
+0x4f1125
+0x6dcaa6
+0x1778da5
+0x1fe8937
+0xae4ee4
+0x147a934
+0x1670df0
+0x1fac695
+0x569240
+0x608d97
+0x1e2a1f0
+0x0d3585
+0x5d2e41
+0x1b22807
+0x63a120
+0x16a19a6
+0x361e53
+0x12b341
+0x1cf4c32
+0xf77e83
+0x1c04be0
+0x10f11d6
+0x1fa0165
+0x5771b3
+0x15b36b5
+0x1b974b0
+0x1c640f7
+0x3303e6
+0x735e60
+0x11d4651
+0x131b461
+0x1a1a471
+0xaa8296
+0xa105e6
+
